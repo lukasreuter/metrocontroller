@@ -1,0 +1,614 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"en",
+				"ensures"
+			],
+			[
+				"VA",
+				"VALA_CC"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "MetroController/Program.cs",
+			"settings":
+			{
+				"buffer_size": 2224,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "SharpDX.PostSettings.targets",
+			"settings":
+			{
+				"buffer_size": 4216,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/C/Users/Luke/Desktop/sharpdx-681a54e26ffb/Samples/XInput/XGamepadApp/Program.cs",
+			"settings":
+			{
+				"buffer_size": 3404,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "SharpDX.XInput/Gamepad.cs",
+			"settings":
+			{
+				"buffer_size": 1707,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "SharpDX.XInput/Controller.cs",
+			"settings":
+			{
+				"buffer_size": 6730,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/C/Program Files (x86)/Windows Kits/8.1/Include/um/Xinput.h",
+			"settings":
+			{
+				"buffer_size": 10984,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"selected_items":
+		[
+			[
+				"xml",
+				"Set Syntax: XML"
+			],
+			[
+				"sid",
+				"View: Toggle Side Bar"
+			],
+			[
+				"va",
+				"Set Syntax: Vala"
+			],
+			[
+				"mer",
+				"Sublimerge: View Diff"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"c",
+				"Set Syntax: C"
+			],
+			[
+				"Package Control: remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"con",
+				"Indentation: Convert to Spaces"
+			],
+			[
+				"sub",
+				"Sublimerge: View Diff"
+			],
+			[
+				"wr",
+				"Word Wrap: Toggle"
+			],
+			[
+				"bas",
+				"Set Syntax: Shell Script (Bash)"
+			],
+			[
+				"ja",
+				"Set Syntax: Java"
+			],
+			[
+				"she",
+				"Set Syntax: Shell Script (Bash)"
+			]
+		],
+		"width": 424.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/Users/Luke/Desktop/sharpdx-681a54e26ffb/MakeSharpDX_localbuild.cmd",
+		"/C/Users/Luke/Documents/MetroController/SharpDX.XInput/Mapping.xml",
+		"/C/Users/Luke/Documents/MetroController/packages/SharpDX.XInput.2.5.0/lib/win8/SharpDX.XInput.xml",
+		"/C/Users/Luke/Documents/metrocontroller/SharpDX/Win32/Variant.cs",
+		"/C/Users/Luke/Documents/metrocontroller/SharpDX/Win32/VariantElementType.cs",
+		"/C/Users/Luke/Documents/metrocontroller/SharpDX/Win32/VariantType.cs",
+		"/C/Users/Luke/Desktop/sharpdx-681a54e26ffb/Source/SharpDX.XInput/SharpDX.XInput.csproj",
+		"/C/Users/Luke/Desktop/sharpdx-681a54e26ffb/README.markdown",
+		"/C/Users/Luke/Desktop/sharpdx-681a54e26ffb/Source/SharpDX.XInput/SharpDX.XInput.nuspec",
+		"/C/Users/Luke/Desktop/sharpdx-681a54e26ffb/Source/SharpDX.XInput/Gamepad.cs",
+		"/C/Program Files (x86)/Microsoft Visual Studio 12.0/VC#/Snippets/1033/Visual C#/if.snippet",
+		"/C/Users/Luke/Desktop/sharpdx-681a54e26ffb/Source/SharpDX.XInput/Controller.cs",
+		"/C/Users/Luke/Desktop/sharpdx-681a54e26ffb/Source/SharpDX.XInput/ResultCode.cs",
+		"/C/Users/Luke/Documents/metrocontroller/MetroController/Form1.cs",
+		"/C/Users/Luke/Documents/metrocontroller/MetroController/bin/Debug/MetroController.exe.CodeAnalysisLog.xml",
+		"/C/Users/Luke/Documents/metrocontroller/.gitattributes",
+		"/C/Users/Luke/AppData/Roaming/Sublime Text 3/Packages/Vala/vala.sublime-build",
+		"/C/Users/Luke/AppData/Roaming/Sublime Text 3/Packages/User/Sublimerge.sublime-settings",
+		"/C/Users/Luke/AppData/Roaming/Sublime Text 3/Packages/Sublimerge/Sublimerge.sublime-settings",
+		"/X/Dropbox/netbomber/Makefile",
+		"/C/cygwin64/home/Luke/install-ffmpeg.sh",
+		"/C/cygwin64/home/Luke/obs-studio/INSTALL",
+		"/C/cygwin64/home/Luke/wxwidgets/.travis.yml",
+		"/C/Users/Luke/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/C/cygwin64/home/Luke/Vala/Snippets/Verbatim string ().tmSnippet",
+		"/C/Users/Luke/AppData/Local/Temp/7zOE6AE.tmp/indentation.py",
+		"/C/Users/Luke/AppData/Roaming/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
+		"/X/Dropbox/netbomber_decrypted/Makefile",
+		"/X/Dropbox/netbomber/netbomber.pas",
+		"/X/Dropbox/netbomber/netbomber.vala",
+		"/X/Dropbox/netbomber_decrypted/netbomber.c",
+		"/C/Program Files (x86)/Android/android-studio/sdk/samples/android-19/legacy/ContactManager/src/com/example/android/contactmanager/ContactManager.java",
+		"/C/Program Files (x86)/Android/android-studio/sdk/samples/android-19/legacy/ContactManager/src/com/example/android/contactmanager/ContactAdder.java",
+		"/C/Program Files (x86)/Android/android-studio/sdk/samples/android-19/legacy/ContactManager/res/layout/contact_adder.xml",
+		"/C/Program Files (x86)/Android/android-studio/sdk/samples/android-19/legacy/ContactManager/res/layout/contact_manager.xml",
+		"/C/Program Files (x86)/Android/android-studio/sdk/samples/android-19/legacy/ContactManager/res/layout/contact_entry.xml",
+		"/C/Program Files (x86)/Android/android-studio/sdk/samples/android-19/legacy/ContactManager/res/layout/account_entry.xml",
+		"/C/Users/Luke/Documents/embraceus/EmbraceUs/src/main/res/layout/account_entry.xml",
+		"/C/Users/Luke/Documents/embraceus/EmbraceUs/src/main/res/layout/contact_entry.xml",
+		"/C/Users/Luke/Documents/embraceus/EmbraceUs/src/main/res/layout/contact_manager.xml",
+		"/C/Users/Luke/Desktop/2.txt",
+		"/C/Users/Luke/Desktop/1.txt",
+		"/D/SC-7514MGR_RIP/reloaded.nfo",
+		"/C/Users/Luke/AppData/Roaming/Sublime Text 3/Packages/TrailingSpaces/trailing_spaces.sublime-settings",
+		"/C/Users/Luke/AppData/Roaming/Sublime Text 3/Packages/User/trailing_spaces.sublime-settings",
+		"/C/Program Files (x86)/Android/android-studio/sdk/samples/android-19/legacy/ContactManager/AndroidManifest.xml",
+		"/C/Program Files (x86)/Android/android-studio/sdk/samples/android-19/legacy/ContactManager/res/values/strings.xml",
+		"/C/Users/Luke/AppData/Local/Temp/7zO1A82.tmp/trim_trailing_white_space.py",
+		"/C/Users/Luke/AppData/Local/Temp/7zOC68.tmp/transpose.py",
+		"/C/Users/Luke/AppData/Local/Temp/7zOF60F.tmp/trailing_spaces.sublime-settings",
+		"/C/Users/Luke/AppData/Local/Temp/Temp1_Packages.zip/User/trailing_spaces.sublime-settings",
+		"/C/Users/Luke/AppData/Local/Temp/7zOE91A.tmp/trailing_spaces.sublime-settings",
+		"/C/Users/Luke/AppData/Roaming/Sublime Text 3/Packages/TrailingSpaces/README.md",
+		"/C/Users/Luke/AppData/Local/Temp/7zOEC1E.tmp/trailing_spaces.py",
+		"/C/Users/Luke/AppData/Local/Temp/7zOE286.tmp/trailing_spaces.sublime-settings",
+		"/C/Users/Luke/AppData/Local/Temp/7zOE2F2.tmp/main.vala",
+		"/C/Users/Luke/AppData/Local/Temp/7zOF4F9.tmp/delete_word.py",
+		"/C/Users/Luke/AppData/Local/Temp/7zO6009.tmp/echo.py",
+		"/C/Users/Luke/AppData/Local/Temp/7zO9C66.tmp/trailing_spaces.py",
+		"/C/Users/Luke/AppData/Local/Temp/7zOCA5D.tmp/trailing_spaces.py",
+		"/C/Users/Luke/Documents/embraceus/EmbraceUs/EmbraceUs.iml",
+		"/C/cygwin64/etc/zsh/zshrc",
+		"/D/Steam/SteamApps/common/Dark Souls Prepare to Die Edition/DATA/DSfix.ini",
+		"/C/cygwin64/home/Luke/Vala-TMBundle/Syntaxes/Vala.tmLanguage",
+		"/X/Dropbox/wikipedia-search-vala/WikipediaSearch.vala",
+		"/X/Dropbox/netbomber/netbomber.c",
+		"/C/cygwin64/home/Luke/easyrpg-win32-libs/README",
+		"/E/Assassins.Creed.II.SKIDROW/Assassins.Creed.II.Fix.Read.Nfo-SKIDROW/skidrow.nfo",
+		"/C/Users/Luke/AppData/Roaming/Sublime Text 3/Packages/User/Pascal.sublime-build",
+		"/X/Dropbox/pdroid 2.5 for 4.1.2/CM10.1_build.patch",
+		"/F/netbomber/netbomber.pas",
+		"/F/netbomber/Makefile",
+		"/F/netbomber/netbomber.c",
+		"/F/netbomber/netbomber.vala",
+		"/F/wikipedia-search-vala/WikipediaSearch.vala",
+		"/C/Users/Luke/AppData/Roaming/Sublime Text 3/Packages/User/pascal-build.sublime-build",
+		"/C/cygwin64/home/Luke/EasyRPG/Readers/src/reader_struct.cpp",
+		"/C/cygwin64/home/Luke/EasyRPG/Readers/src/lsd_reader.cpp",
+		"/C/cygwin64/home/Luke/EasyRPG/Readers/include/reader_struct.h",
+		"/C/cygwin64/home/Luke/EasyRPG/Readers/src/reader_struct2.cpp",
+		"/C/cygwin64/home/Luke/SDL2_mixer-2.0.0/configure.in",
+		"/C/cygwin64/home/Luke/SDL2_mixer-2.0.0/configure",
+		"/C/cygwin64/home/Luke/EasyRPG/Player/lib/readers/Makefile",
+		"/C/cygwin64/home/Luke/EasyRPG/Player/lib/readers/src/reader_struct.cpp",
+		"/C/cygwin64/home/Luke/EasyRPG/Player/lib/readers/builds/cmake/CMakeLists.txt",
+		"/C/cygwin64/home/Luke/EasyRPG/Player/lib/readers/cmake_install.cmake",
+		"/C/cygwin64/home/Luke/EasyRPG/Player/lib/readers/CMakeCache.txt",
+		"/C/cygwin64/home/Luke/SDL2_mixer-2.0.0/Makefile",
+		"/F/netbomber/.sublbb3.tmp",
+		"/C/cygwin64/bin/zcat",
+		"/C/cygwin64/bin/subl",
+		"/C/usr/bin/subl",
+		"/C/home/Luke/.zshrc",
+		"/C/Program Files/Sublime Text 3/Vala-TMBundle/README.md",
+		"/C/Program Files/Sublime Text 3/bla",
+		"/C/Users/Luke/Desktop/etc/zsh/keephack",
+		"/C/Users/Luke/Desktop/etc/zsh/zshrc",
+		"/C/Users/Luke/Desktop/etc/skel/.zshrc",
+		"/E/Appz/Adobe Photoshop CS6 Extended/README.txt",
+		"/C/Windows/System32/drivers/etc/hosts",
+		"/C/cygwin64/etc/zprofile",
+		"/C/cygwin64/home/Luke/.minttyrc",
+		"/C/Users/Luke/AppData/Roaming/Console/console.xml",
+		"/C/cygwin64/home/Luke/.profile",
+		"/C/Program Files (x86)/Console2/console.xml",
+		"/C/cygwin64/home/Luke/.inputrc",
+		"/C/cygwin64/home/Luke/.bashrc",
+		"/C/cygwin64/home/Luke/.bash_profile",
+		"/C/cygwin64/etc/passwd"
+	],
+	"find":
+	{
+		"height": 27.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"FFmpegPath",
+			"PROJECT",
+			"netbomber",
+			"PROJECT",
+			"netbomber",
+			"PROJECT",
+			"netbomber",
+			"valac",
+			"false",
+			"netbomber",
+			"gcc",
+			"prepare",
+			"netbomber",
+			"g_free",
+			"regexp",
+			"trailing_spaces_regexp",
+			"EASYDEV_MSVC",
+			"cmd",
+			"-mno-cygwin",
+			"cygwin",
+			"mno-cygwin",
+			"cy",
+			"stack",
+			"compinit",
+			"keephack",
+			"keephac",
+			"/etc/skel",
+			"is4",
+			"keephac",
+			"import",
+			"scroll",
+			"true",
+			"scroll",
+			"bash",
+			"false",
+			"directwrite",
+			"GDI",
+			"subpixel_antialias",
+			"system"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"folders":
+	[
+		{
+			"follow_symlinks": true,
+			"path": "C:\\Users\\Luke\\Documents\\metrocontroller"
+		}
+	],
+	"groups":
+	[
+		{
+			"selected": 5,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "MetroController/Program.cs",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2224,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								501,
+								501
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C#/C#.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "SharpDX.PostSettings.targets",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4216,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/XML/XML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/C/Users/Luke/Desktop/sharpdx-681a54e26ffb/Samples/XInput/XGamepadApp/Program.cs",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3404,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1843,
+								1843
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C#/C#.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 228.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "SharpDX.XInput/Gamepad.cs",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1707,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C#/C#.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": -0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "SharpDX.XInput/Controller.cs",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6730,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1166,
+								1166
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C#/C#.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 342.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "/C/Program Files (x86)/Windows Kits/8.1/Include/um/Xinput.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 10984,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 27.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 124.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"project": "",
+	"replace":
+	{
+		"height": 50.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				".cs",
+				"MetroController\\Program.cs"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+			[
+				"",
+				"C:\\Users\\Luke\\Desktop\\temp.sublime-workspace"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
