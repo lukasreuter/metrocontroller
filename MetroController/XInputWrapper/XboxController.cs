@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace J2i.Net.XInputWrapper
+namespace MetroController.XInputWrapper
 {
     public class XboxController
     {
@@ -288,11 +288,11 @@ namespace J2i.Net.XInputWrapper
         void UpdateState()
         {
             // XInputCapabilities X = new XInputCapabilities();
-            int result = XInput.XInputGetState(_playerIndex, ref gamepadStateCurrent);
+            int result = XInput.XInputGetStateEx(_playerIndex, ref gamepadStateCurrent);
             IsConnected = (result == 0);
 
             UpdateBatteryState();
-            if (gamepadStateCurrent.PacketNumber!=gamepadStatePrev.PacketNumber) {
+            if (gamepadStateCurrent.PacketNumber != gamepadStatePrev.PacketNumber) {
                 OnStateChanged();
             }
             gamepadStatePrev.Copy(gamepadStateCurrent);
@@ -301,6 +301,7 @@ namespace J2i.Net.XInputWrapper
                 XInputVibration stopStrength = new XInputVibration() { LeftMotorSpeed = 0, RightMotorSpeed = 0 };
                 XInput.XInputSetState(_playerIndex, ref stopStrength);
             }
+            //TODO: return this so we can chain another method call after updating
         }
         #endregion
 

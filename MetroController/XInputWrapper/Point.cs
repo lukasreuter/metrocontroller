@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace J2i.Net.XInputWrapper
+namespace MetroController.XInputWrapper
 {
     public class Point
     {

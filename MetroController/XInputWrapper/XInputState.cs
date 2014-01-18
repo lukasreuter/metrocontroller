@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace J2i.Net.XInputWrapper
+namespace MetroController.XInputWrapper
 {
     [StructLayout(LayoutKind.Explicit)]
     public struct XInputState
@@ -41,7 +41,7 @@ namespace J2i.Net.XInputWrapper
             if (System.Object.ReferenceEquals(a, b)) {
                 return true;
             }
-            
+
             // If one is null, but not both, return false.
             if (((object) a == null) || ((object) b == null)) {
                 return false;
@@ -53,7 +53,7 @@ namespace J2i.Net.XInputWrapper
         }
 
         public static
-        bool operator !=(XInputState a, XInputState b) 
+        bool operator !=(XInputState a, XInputState b)
         {
             return !(a == b);
         }
