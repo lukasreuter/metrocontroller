@@ -7,15 +7,14 @@ using System.Windows.Data;
 
 using MetroController.XInputWrapper;
 
-namespace MetroController.Converters
-{
-    class BatteryTypeValueToBatteryTypeString:IValueConverter 
-    {
+namespace MetroController.Converters {
+ 
+    class BatteryTypeValueToBatteryTypeString : IValueConverter {
+    
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            byte v = (byte)value;
-            switch ((BatteryTypes)v)
-            {
+            byte v = (byte) value;
+            switch ((BatteryTypes) v) {
                 case BatteryTypes.BATTERY_TYPE_ALKALINE:
                     return "alkaline";
                 case BatteryTypes.BATTERY_TYPE_DISCONNECTED:
