@@ -116,7 +116,7 @@ namespace MetroController.XInputWrapper
         (
             int dwUserIndex         // [in] Index of the gamer associated with the device
         );
-        
+
         // special hack for xinput1_4.dll - @103 is a function to turn off a controller
         [DllImport("xinput1_4.dll", EntryPoint = "#103")]
         public static extern int XInputControllerOff
