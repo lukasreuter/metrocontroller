@@ -7,26 +7,30 @@ using System.Threading.Tasks;
 
 namespace MetroController.XInputWrapper {
 
+    /// <summary>
+    /// Provides access to the XInput methods
+    /// </summary>
     public class XboxController {
+        
+        private static bool     keepRunning;
+        private static int      updateFrequency;
+        private static int      waitTime;
+        private static bool     isRunning;
+        private static object   SyncLock;
+        private static Thread   pollingThread;
+        private static XboxController[] Controllers;
 
-        static bool     keepRunning;
-        static int      updateFrequency;
-        static int      waitTime;
-        static bool     isRunning;
-        static object   SyncLock;
-        static Thread   pollingThread;
+        private int             _playerIndex;
+        private bool            _stopMotorTimerActive;
+        private DateTime        _stopMotorTime;
 
-        int                      _playerIndex;
-        bool                     _stopMotorTimerActive;
-        DateTime                 _stopMotorTime;
-        XInputBatteryInformation _batteryInformationGamepad;
-        XInputBatteryInformation _batteryInformationHeadset;
+        private XInputState gamepadStatePrev    = new XInputState();
+        private XInputState gamepadStateCurrent = new XInputState();
 
-        XInputState gamepadStatePrev    = new XInputState();
-        XInputState gamepadStateCurrent = new XInputState();
-
-        public static 
-        int UpdateFrequency {
+        /// <summary>
+        /// The frequency with which updates for the controllers are fetched
+        /// </summary>
+        public static int UpdateFrequency {
             get { return updateFrequency; }
             set {
                 updateFrequency = value;
@@ -34,81 +38,101 @@ namespace MetroController.XInputWrapper {
             }
         }
 
-        public 
-        XInputBatteryInformation BatteryInformationGamepad {
-            get { return _batteryInformationGamepad; }
-            internal set  {  _batteryInformationGamepad = value; }
-        }
+        public bool IsConnected { get; internal set; }
 
-        public 
-        XInputBatteryInformation BatteryInformationHeadset {
-            get { return _batteryInformationHeadset; }
-            internal set  {  _batteryInformationHeadset = value; }
-        }
+        /// <summary>
+        /// General Information about the controller battery (type and charge level)
+        /// </summary>
+        public XInputBatteryInformation BatteryInformationGamepad { get; internal set; }
 
+        /// <summary>
+        /// General information about the controller-connected Headset battery (type and charge level)
+        /// </summary>
+        public XInputBatteryInformation BatteryInformationHeadset { get; internal set; }
+
+        /// <summary>
+        /// Maximum number of controllers that are supported
+        /// </summary>
         public const int MAX_CONTROLLER_COUNT   = 4;
+        /// <summary>
+        /// First index of the Controllers[] array
+        /// </summary>
         public const int FIRST_CONTROLLER_INDEX = 0;
+        /// <summary>
+        /// Last index of the Controller[] array
+        /// </summary>
         public const int LAST_CONTROLLER_INDEX  = MAX_CONTROLLER_COUNT - 1;
 
-        static XboxController[] Controllers;
 
 
-        static
-        XboxController()
+        static XboxController()
         {
             Controllers = new XboxController[MAX_CONTROLLER_COUNT];
             SyncLock = new object();
-            for (int i = FIRST_CONTROLLER_INDEX; i <= LAST_CONTROLLER_INDEX; ++i)
+            for (var i = FIRST_CONTROLLER_INDEX; i <= LAST_CONTROLLER_INDEX; ++i)
             {
                 Controllers[i] = new XboxController(i);
             }
             UpdateFrequency = 25;
         }
 
-        public event EventHandler<XboxControllerStateChangedEventArgs> StateChanged = null;
-
-        public static
-        XboxController RetrieveController(int index)
-        {
-            return Controllers[index];
-        }
-
-        private
-        XboxController(int playerIndex)
+        private XboxController(int playerIndex)
         {
             _playerIndex = playerIndex;
             gamepadStatePrev.Copy(gamepadStateCurrent);
         }
 
-        public
-        void UpdateBatteryState()
-        {
-            XInputBatteryInformation headset = new XInputBatteryInformation(),
-            gamepad = new XInputBatteryInformation();
+        /// <summary>
+        /// Contains the method that is called when a controller has changed its state
+        /// </summary>
+        public event EventHandler<XboxControllerStateChangedEventArgs> StateChanged = null;
 
-            XInput.XInputGetBatteryInformation(_playerIndex, (byte)BatteryDeviceType.BATTERY_DEVTYPE_GAMEPAD, ref gamepad);
-            XInput.XInputGetBatteryInformation(_playerIndex, (byte)BatteryDeviceType.BATTERY_DEVTYPE_HEADSET, ref headset);
+        /// <summary>
+        /// Retrieves a reference to the Controller instance with the given index from Controllers[]
+        /// </summary>
+        /// <param name="index">The index of the controller from 0 to 3</param>
+        /// <returns>A reference to the XboxController object</returns>
+        public static XboxController RetrieveController(int index)
+        {
+            return Controllers[index];
+        }
+
+        /// <summary>
+        /// Updates the state of the controller and headset battery
+        /// </summary>
+        public void UpdateBatteryState()
+        {
+            var headset = new XInputBatteryInformation();
+            var gamepad = new XInputBatteryInformation();
+
+            XInput.XInputGetBatteryInformation(_playerIndex, (byte)BatteryDeviceTypes.BATTERY_DEVTYPE_GAMEPAD, ref gamepad);
+            XInput.XInputGetBatteryInformation(_playerIndex, (byte)BatteryDeviceTypes.BATTERY_DEVTYPE_HEADSET, ref headset);
 
             BatteryInformationHeadset = headset;
             BatteryInformationGamepad = gamepad;
         }
 
-        protected
-        void OnStateChanged()
+        /// <summary>
+        /// Called from UpdateState when a controller has differing packetnumbers
+        /// </summary>
+        protected void OnStateChanged()
         {
             if (StateChanged != null) {
                 StateChanged(this, new XboxControllerStateChangedEventArgs() { CurrentInputState = gamepadStateCurrent, PreviousInputState = gamepadStatePrev });
             }
         }
 
-        public
-        XInputCapabilities GetCapabilities()
+        /// <summary>
+        /// Retrieves the capabilities of a controller (e.g. which controller type is it, can it vibrate etc.)
+        /// <seealso cref="XInputCapabilities"/>
+        /// </summary>
+        /// <returns>A reference to an XInputCapabilities object</returns>
+        public XInputCapabilities GetCapabilities()
         {
             XInputCapabilities capabilities = new XInputCapabilities();
             XInput.XInputGetCapabilities(_playerIndex, XInputConstants.XINPUT_FLAG_GAMEPAD, ref capabilities);
             return capabilities;
         }
-
 
         #region Digital Button States
         public
@@ -221,13 +245,6 @@ namespace MetroController.XInputWrapper {
         }
         #endregion
 
-        public 
-        bool IsConnected {
-            get { return _isConnected; }
-            internal set { _isConnected = value; }
-        }
-        private bool _isConnected;
-
         #region Polling
         public static
         void StartPolling()
@@ -257,7 +274,7 @@ namespace MetroController.XInputWrapper {
             }
             keepRunning = true;
             while (keepRunning) {
-                for (int i = FIRST_CONTROLLER_INDEX; i < LAST_CONTROLLER_INDEX; i++) {
+                for (var i = FIRST_CONTROLLER_INDEX; i < LAST_CONTROLLER_INDEX; i++) {
                     Controllers[i].UpdateState();
                 }
                 Thread.Sleep(updateFrequency);
@@ -273,6 +290,7 @@ namespace MetroController.XInputWrapper {
             int result = XInput.XInputGetStateEx(_playerIndex, ref gamepadStateCurrent);
             IsConnected = (result == 0);
 
+            //TODO: maybe only check for battery updates every x cycles to save some performance
             UpdateBatteryState();
             if (gamepadStateCurrent.PacketNumber != gamepadStatePrev.PacketNumber) {
                 OnStateChanged();

@@ -44,7 +44,7 @@ namespace MetroController.XInputWrapper
     // Flags for battery status level
     public enum BatteryTypes:byte
     {
-        BATTERY_TYPE_DISCONNECTED   =    0x00,    // This device is not connected
+        BATTERY_TYPE_DISCONNECTED  =     0x00,    // This device is not connected
         BATTERY_TYPE_WIRED         =     0x01,    // Wired device, no battery
         BATTERY_TYPE_ALKALINE      =     0x02,    // Alkaline battery source
         BATTERY_TYPE_NIMH          =     0x03,    // Nickel Metal Hydride battery source
@@ -53,7 +53,7 @@ namespace MetroController.XInputWrapper
 
     // These are only valid for wireless, connected devices, with known battery types
     // The amount of use time remaining depends on the type of device.
-    public enum BatteryLevel:byte
+    public enum BatteryLevels:byte
     {
         BATTERY_LEVEL_EMPTY  = 0x00,
         BATTERY_LEVEL_LOW    = 0x01,
@@ -61,7 +61,7 @@ namespace MetroController.XInputWrapper
         BATTERY_LEVEL_FULL   = 0x03
     };
 
-    public enum BatteryDeviceType:byte
+    public enum BatteryDeviceTypes:byte
     {
         BATTERY_DEVTYPE_GAMEPAD = 0x00,
         BATTERY_DEVTYPE_HEADSET = 0x01,
