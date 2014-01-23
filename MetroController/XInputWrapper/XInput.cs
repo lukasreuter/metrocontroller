@@ -5,13 +5,9 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MetroController.XInputWrapper
-{
-    /// <summary>
-    /// Contains the imported methods from the xinput dynamic library
-    /// </summary>
-    public static class XInput
-    {
+namespace MetroController.XInputWrapper {
+    /// <summary>Contains the imported methods from the xinput dynamic library</summary>
+    public static class XInput {
 #if WINDOWS7
         [DllImport("xinput9_1_0.dll")]
         public static extern int XInputGetState

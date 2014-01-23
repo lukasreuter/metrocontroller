@@ -7,9 +7,7 @@ using System.Threading.Tasks;
 
 namespace MetroController.XInputWrapper
 {
-    /// <summary>
-    /// Provides the data structure for the battery information of the controller itself and its attached headset
-    /// </summary>
+    /// <summary>Provides the data structure for the battery information of the controller itself and its attached headset</summary>
     [StructLayout(LayoutKind.Explicit)]
     public struct  XInputBatteryInformation
     {
