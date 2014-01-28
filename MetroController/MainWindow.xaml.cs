@@ -1,27 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using MetroController.XInputWrapper;
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-
 using Windows.Data.Xml.Dom;
 using Windows.UI.Notifications;
-
-using MetroController.XInputWrapper;
 using WindowsInput;
 
 namespace MetroController {
@@ -30,7 +18,6 @@ namespace MetroController {
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged, IDisposable {
-
         //Fields---------------------------------------------------------------
 
         /// <summary>
@@ -46,15 +33,19 @@ namespace MetroController {
         /// <summary>
         /// Represents the current index of the currently polled controller
         /// </summary>
-        public int ActiveController {
+        public int ActiveController
+        {
             get { return _ActiveController; }
             private set { _ActiveController = Math.Min(4, Math.Max(0, value)); }
         }
+
         private int _ActiveController;
 
-        private bool IdlePolling {
+        private bool IdlePolling
+        {
             get { return IdlePolling; }
-            set {
+            set
+            {
                 IdlePolling = value;
                 //TODO: Call the desired method here
             }
@@ -63,6 +54,7 @@ namespace MetroController {
         private const string APP_ID = "org.XInput.MetroController";
 
         #region Virtual Key Codes Constants
+
         private const WindowsInput.Native.VirtualKeyCode RWIN = WindowsInput.Native.VirtualKeyCode.RWIN;
         private const WindowsInput.Native.VirtualKeyCode LWIN = WindowsInput.Native.VirtualKeyCode.LWIN;
         private const WindowsInput.Native.VirtualKeyCode CONTROL = WindowsInput.Native.VirtualKeyCode.CONTROL;
@@ -73,7 +65,8 @@ namespace MetroController {
         private const WindowsInput.Native.VirtualKeyCode UP = WindowsInput.Native.VirtualKeyCode.UP;
         private const WindowsInput.Native.VirtualKeyCode TAB = WindowsInput.Native.VirtualKeyCode.TAB;
         private const WindowsInput.Native.VirtualKeyCode SHIFT = WindowsInput.Native.VirtualKeyCode.SHIFT;
-        #endregion
+
+        #endregion Virtual Key Codes Constants
 
         private bool IsHidden;
 
@@ -82,7 +75,6 @@ namespace MetroController {
         private System.Windows.Forms.NotifyIcon Ni;
 
         private WindowsInput.InputSimulator Simulator;
-
 
         //Methods--------------------------------------------------------------
 
@@ -107,10 +99,11 @@ namespace MetroController {
             Ni.Icon = new System.Drawing.Icon(GetResource("MetroController.ico"));
             Ni.DoubleClick += delegate(object sender, EventArgs args) { Maximize(); };
             Ni.ContextMenu = new System.Windows.Forms.ContextMenu();
-            Ni.ContextMenu.Popup += delegate(object sender, EventArgs args) {
-                                        XboxController.StopPolling();
-                                        Application.Current.Shutdown();
-                                    };
+            Ni.ContextMenu.Popup += delegate(object sender, EventArgs args)
+            {
+                XboxController.StopPolling();
+                Application.Current.Shutdown();
+            };
             Ni.Visible = false;
             dbg("Ni setup complete");
 #if DEBUG
@@ -128,8 +121,6 @@ namespace MetroController {
                 WaitForNewControllers();
             }
 
-
-
             SelectedController = XboxController.RetrieveController(ActiveController);
             SelectedController.StateChanged += _selectedController_StateChanged;
             XboxController.StartPolling();
@@ -140,14 +131,13 @@ namespace MetroController {
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void _selectedController_StateChanged(object sender, XboxControllerStateChangedEventArgs e)
+        private void _selectedController_StateChanged(object sender, XboxControllerStateChangedEventArgs e)
         {
             //Main Window is being displayed so dont simulate keypresses
             if (!IsHidden) { goto Finish; }
 
             //special controller shortcut Guide+LS+RS
             if (SelectedController.IsGuidePressed && SelectedController.IsLeftShoulderPressed && SelectedController.IsRightShoulderPressed) {
-
             }
 
             //call metro themed startmenu
@@ -162,7 +152,6 @@ namespace MetroController {
             //IntPtr bla = FindWindow("ImmersiveLauncher", null);
 
             if (true) { //check here if in metro ui
-
                 // D-Pad: Cardinal directions or forward/backward during WIN+TAB
                 // D-Pad Down
                 if (SelectedController.IsDPadDownPressed) {
@@ -176,7 +165,7 @@ namespace MetroController {
                             Simulator.Keyboard.KeyDown(DOWN);
                         }
                         //EmitKeyPress("{DOWN}");
-	                }
+                    }
                 } else if (Simulator.InputDeviceState.IsKeyDown(RWIN) && Simulator.InputDeviceState.IsKeyDown(TAB)) {
                     Simulator.Keyboard.KeyUp(TAB);
                 } else if (Simulator.InputDeviceState.IsKeyDown(DOWN)) {
@@ -186,7 +175,7 @@ namespace MetroController {
                 if (SelectedController.IsDPadUpPressed) {
                     if (Simulator.InputDeviceState.IsKeyDown(RWIN)) {
                         if (Simulator.InputDeviceState.IsKeyUp(TAB)) {
-                            Simulator.Keyboard.KeyDown(SHIFT).KeyDown(TAB);
+                            Simulator.Keyboard.KeyDown(SHIFT).KeyDown(TAB).KeyUp(SHIFT);
                         }
                         //EmitKeyPress("+({TAB})");
                     } else {
@@ -196,9 +185,9 @@ namespace MetroController {
                         //EmitKeyPress("{UP}");
                     }
                 } else if (Simulator.InputDeviceState.IsKeyDown(RWIN) && Simulator.InputDeviceState.IsKeyDown(TAB)) {
-                    Simulator.Keyboard.KeyUp(TAB).KeyUp(SHIFT).Sleep(50);
+                    Simulator.Keyboard.KeyUp(TAB).KeyUp(SHIFT).Sleep(100);
                 } else if (Simulator.InputDeviceState.IsKeyDown(UP)) {
-                    Simulator.Keyboard.KeyUp(UP);
+                    Simulator.Keyboard.KeyUp(UP).KeyUp(SHIFT);
                 }
                 // D-Pad Left
                 if (SelectedController.IsDPadLeftPressed && Simulator.InputDeviceState.IsKeyUp(LEFT)) {
@@ -227,15 +216,15 @@ namespace MetroController {
 
                 // A Button: ENTER
                 if (SelectedController.IsAPressed) {
-		            Simulator.Keyboard.KeyPress(RETURN).Sleep(100);
+                    Simulator.Keyboard.KeyPress(RETURN).Sleep(100);
                 }
 
                 // B Button: WIN+TAB
                 if (SelectedController.IsBPressed && Simulator.InputDeviceState.IsKeyUp(RWIN)) {
                     Simulator.Keyboard.KeyDown(RWIN).KeyPress(TAB).Sleep(100);
                 } else if (!SelectedController.IsBPressed && Simulator.InputDeviceState.IsKeyDown(RWIN)) {
-		            Simulator.Keyboard.KeyUp(RWIN);
-	            }
+                    Simulator.Keyboard.KeyUp(RWIN);
+                }
 
                 // Y Button: CTRL+TAB
                 if (SelectedController.IsYPressed) {
@@ -258,6 +247,7 @@ namespace MetroController {
         }
 
         #region Helper Methods
+
         /// <summary>
         /// Gets the matching Resource from MetroController/Resources/.
         /// </summary>
@@ -267,9 +257,9 @@ namespace MetroController {
         {
             try {
                 return System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("MetroController.Resources." + name);
-            } catch (Exception e) {
+            } catch {
                 dbg("An error occurred while loading the Resource: " + name);
-                throw e;
+                throw;
             }
         }
 
@@ -298,7 +288,7 @@ namespace MetroController {
             // Fill in the text elements
             XmlNodeList stringElements = toastXml.GetElementsByTagName("text");
             //for (var i = 0; i < stringElements.Length; i++) {
-                //stringElements[i].AppendChild(toastXml.CreateTextNode("Line " + i));
+            //stringElements[i].AppendChild(toastXml.CreateTextNode("Line " + i));
             //}
             stringElements[0].AppendChild(toastXml.CreateTextNode(title));
             stringElements[1].AppendChild(toastXml.CreateTextNode(cont));
@@ -323,7 +313,6 @@ namespace MetroController {
 
         private void WaitForNewControllers()
         {
-
         }
 
         /// <summary>
@@ -356,9 +345,11 @@ namespace MetroController {
                 IsHidden = false;
             }
         }
-        #endregion
+
+        #endregion Helper Methods
 
         #region Debugging
+
         /// <summary>
         /// A simple method to ouput Debugging string to stdout
         /// </summary>
@@ -370,9 +361,11 @@ namespace MetroController {
         {
             Console.WriteLine(str + "; in member: " + name + " #" + line);
         }
-        #endregion
+
+        #endregion Debugging
 
         #region Form callbacks
+
         /// <summary>
         /// Is overridden to stop polling the controller states
         /// </summary>
@@ -411,9 +404,11 @@ namespace MetroController {
             SelectedController = XboxController.RetrieveController(((ComboBox) sender).SelectedIndex);
             OnPropertyChanged("SelectedController");
         }
-        #endregion
+
+        #endregion Form callbacks
 
         #region INotifyInterface callbacks
+
         /// <summary>
         /// Invokes PropertyChanged through Dispatcher.BeginInvoke
         /// </summary>
@@ -425,9 +420,11 @@ namespace MetroController {
                 Dispatcher.BeginInvoke(a, null);
             }
         }
-        #endregion
+
+        #endregion INotifyInterface callbacks
 
         #region IDisposable callbacks
+
         void System.IDisposable.Dispose()
         {
             Dispose(true);
@@ -441,7 +438,7 @@ namespace MetroController {
                 Ni.Dispose();
             }
         }
-        #endregion
 
+        #endregion IDisposable callbacks
     }
 }

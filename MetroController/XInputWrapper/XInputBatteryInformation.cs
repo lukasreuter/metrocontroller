@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MetroController.XInputWrapper
-{
+namespace MetroController.XInputWrapper {
+
     /// <summary>Provides the data structure for the battery information of the controller itself and its attached headset</summary>
     [StructLayout(LayoutKind.Explicit)]
-    public struct  XInputBatteryInformation
-    {
+    public struct XInputBatteryInformation {
+
         /// <summary>
         /// Battery type can be 0x00, 0x01, 0x02, 0x03 or 0xFF.
         /// See XInputConstants for further info

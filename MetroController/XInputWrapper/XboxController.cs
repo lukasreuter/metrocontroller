@@ -1,41 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace MetroController.XInputWrapper {
 
     /// <summary>Provides access to the XInput methods</summary>
     public class XboxController {
-
-        private static bool     keepRunning;
-        private static int      waitTime;
-        private static bool     isRunning;
-        private static object   SyncLock;
-        private static Thread   pollingThread;
+        private static bool keepRunning;
+        private static int waitTime;
+        private static bool isRunning;
+        private static object SyncLock;
+        private static Thread pollingThread;
         private static XboxController[] Controllers;
 
-        private int             _playerIndex;
-        private bool            _stopMotorTimerActive;
-        private DateTime        _stopMotorTime;
+        private int _playerIndex;
+        private bool _stopMotorTimerActive;
+        private DateTime _stopMotorTime;
 
-        private XInputState gamepadStatePrev    = new XInputState();
+        private XInputState gamepadStatePrev = new XInputState();
         private XInputState gamepadStateCurrent = new XInputState();
 
         /// <summary>Contains the method that is called when a controller has changed its state</summary>
         public event EventHandler<XboxControllerStateChangedEventArgs> StateChanged = null;
 
         /// <summary>The frequency (updates per second) with which updates for the controllers are fetched</summary>
-        public static int UpdateFrequency {
+        public static int UpdateFrequency
+        {
             get { return updateFrequency; }
-            set {
+            set
+            {
                 updateFrequency = value;
                 waitTime = 1000 / Math.Max(1, Math.Min(1000, updateFrequency));
             }
         }
-        private static int      updateFrequency;
+
+        private static int updateFrequency;
 
         /// <summary>Indicates if the controller is powered on and connected</summary>
         public bool IsConnected { get; internal set; }
@@ -47,13 +45,13 @@ namespace MetroController.XInputWrapper {
         public XInputBatteryInformation BatteryInformationHeadset { get; internal set; }
 
         /// <summary>Maximum number of controllers that are supported</summary>
-        public const int MAX_CONTROLLER_COUNT   = 4;
+        public const int MAX_CONTROLLER_COUNT = 4;
+
         /// <summary>First index of the Controllers[] array</summary>
         public const int FIRST_CONTROLLER_INDEX = 0;
+
         /// <summary>Last index of the Controller[] array</summary>
-        public const int LAST_CONTROLLER_INDEX  = MAX_CONTROLLER_COUNT - 1;
-
-
+        public const int LAST_CONTROLLER_INDEX = MAX_CONTROLLER_COUNT - 1;
 
         static XboxController()
         {
@@ -106,118 +104,107 @@ namespace MetroController.XInputWrapper {
         }
 
         #region Digital Button States
-        /// <summary>
-        /// Checks if Up is pressed
-        /// </summary>
-        public bool IsDPadUpPressed {
+
+        /// <summary>Checks if Up is pressed</summary>
+        public bool IsDPadUpPressed
+        {
             get { return gamepadStateCurrent.Gamepad.IsButtonPressed((int) ButtonFlags.XINPUT_GAMEPAD_DPAD_UP); }
         }
 
-        /// <summary>
-        /// Checks if Down is pressed
-        /// </summary>
-        public bool IsDPadDownPressed {
+        /// <summary>Checks if Down is pressed</summary>
+        public bool IsDPadDownPressed
+        {
             get { return gamepadStateCurrent.Gamepad.IsButtonPressed((int) ButtonFlags.XINPUT_GAMEPAD_DPAD_DOWN); }
         }
 
-        /// <summary>
-        /// Checks if Left is pressed
-        /// </summary>
-        public bool IsDPadLeftPressed {
+        /// <summary>Checks if Left is pressed</summary>
+        public bool IsDPadLeftPressed
+        {
             get { return gamepadStateCurrent.Gamepad.IsButtonPressed((int) ButtonFlags.XINPUT_GAMEPAD_DPAD_LEFT); }
         }
 
-        /// <summary>
-        /// Checks if right is pressed
-        /// </summary>
-        public bool IsDPadRightPressed {
+        /// <summary>Checks if right is pressed</summary>
+        public bool IsDPadRightPressed
+        {
             get { return gamepadStateCurrent.Gamepad.IsButtonPressed((int) ButtonFlags.XINPUT_GAMEPAD_DPAD_RIGHT); }
         }
 
-        /// <summary>
-        /// Checks if A is pressed
-        /// </summary>
-        public bool IsAPressed {
+        /// <summary>Checks if A is pressed</summary>
+        public bool IsAPressed
+        {
             get { return gamepadStateCurrent.Gamepad.IsButtonPressed((int) ButtonFlags.XINPUT_GAMEPAD_A); }
         }
 
-        /// <summary>
-        /// Checks if B is pressed
-        /// </summary>
-        public bool IsBPressed {
+        /// <summary>Checks if B is pressed</summary>
+        public bool IsBPressed
+        {
             get { return gamepadStateCurrent.Gamepad.IsButtonPressed((int) ButtonFlags.XINPUT_GAMEPAD_B); }
         }
 
-        /// <summary>
-        /// Checks if X is pressed
-        /// </summary>
-        public bool IsXPressed {
+        /// <summary>Checks if X is pressed</summary>
+        public bool IsXPressed
+        {
             get { return gamepadStateCurrent.Gamepad.IsButtonPressed((int) ButtonFlags.XINPUT_GAMEPAD_X); }
         }
 
-        /// <summary>
-        /// Checks if Y is pressed
-        /// </summary>
-        public bool IsYPressed {
+        /// <summary>Checks if Y is pressed</summary>
+        public bool IsYPressed
+        {
             get { return gamepadStateCurrent.Gamepad.IsButtonPressed((int) ButtonFlags.XINPUT_GAMEPAD_Y); }
         }
 
-        /// <summary>
-        /// Checks if Back is pressed
-        /// </summary>
-        public bool IsBackPressed {
+        /// <summary>Checks if Back is pressed</summary>
+        public bool IsBackPressed
+        {
             get { return gamepadStateCurrent.Gamepad.IsButtonPressed((int) ButtonFlags.XINPUT_GAMEPAD_BACK); }
         }
 
-        /// <summary>
-        /// Checks if Start is pressed
-        /// </summary>
-        public bool IsStartPressed {
+        /// <summary>Checks if Start is pressed</summary>
+        public bool IsStartPressed
+        {
             get { return gamepadStateCurrent.Gamepad.IsButtonPressed((int) ButtonFlags.XINPUT_GAMEPAD_START); }
         }
 
-        /// <summary>
-        /// Checks if Guide is pressed
-        /// </summary>
-        public bool IsGuidePressed {
+        /// <summary>Checks if Guide is pressed</summary>
+        public bool IsGuidePressed
+        {
             get { return gamepadStateCurrent.Gamepad.IsButtonPressed((int) ButtonFlags.XINPUT_GAMEPAD_GUIDE); }
         }
 
-        /// <summary>
-        /// Checks if Left shoulder button is pressed
-        /// </summary>
-        public bool IsLeftShoulderPressed {
+        /// <summary>Checks if Left shoulder button is pressed</summary>
+        public bool IsLeftShoulderPressed
+        {
             get { return gamepadStateCurrent.Gamepad.IsButtonPressed((int) ButtonFlags.XINPUT_GAMEPAD_LEFT_SHOULDER); }
         }
 
-        /// <summary>
-        /// Checks if Right shoulder button is pressed
-        /// </summary>
-        public bool IsRightShoulderPressed {
+        /// <summary>Checks if Right shoulder button is pressed</summary>
+        public bool IsRightShoulderPressed
+        {
             get { return gamepadStateCurrent.Gamepad.IsButtonPressed((int) ButtonFlags.XINPUT_GAMEPAD_RIGHT_SHOULDER); }
         }
 
-        /// <summary>
-        /// Checks if Left Stick is pressed
-        /// </summary>
-        public bool IsLeftStickPressed {
+        /// <summary>Checks if Left Stick is pressed</summary>
+        public bool IsLeftStickPressed
+        {
             get { return gamepadStateCurrent.Gamepad.IsButtonPressed((int) ButtonFlags.XINPUT_GAMEPAD_LEFT_THUMB); }
         }
 
-        /// <summary>
-        /// Checks if Right Stick is pressed
-        /// </summary>
-        public bool IsRightStickPressed {
+        /// <summary>Checks if Right Stick is pressed</summary>
+        public bool IsRightStickPressed
+        {
             get { return gamepadStateCurrent.Gamepad.IsButtonPressed((int) ButtonFlags.XINPUT_GAMEPAD_RIGHT_THUMB); }
         }
-        #endregion
+
+        #endregion Digital Button States
 
         #region Analogue Input States
+
         /// <summary>
         /// Returns the state of the left trigger as integer
         /// Minimum: 0  Maximum: 255
         /// </summary>
-        public int LeftTrigger {
+        public int LeftTrigger
+        {
             get { return (int) gamepadStateCurrent.Gamepad.bLeftTrigger; }
         }
 
@@ -225,7 +212,8 @@ namespace MetroController.XInputWrapper {
         /// Returns the state of the right trigger as integer
         /// Minimum: 0  Maximum: 255
         /// </summary>
-        public int RightTrigger {
+        public int RightTrigger
+        {
             get { return (int) gamepadStateCurrent.Gamepad.bRightTrigger; }
         }
 
@@ -233,8 +221,10 @@ namespace MetroController.XInputWrapper {
         /// Returns the current Coordinates of the left thumb stick as a Point.
         /// Minimum: -32768  Maximum: 32767
         /// </summary>
-        public Point LeftThumbStick {
-            get {
+        public Point LeftThumbStick
+        {
+            get
+            {
                 return new Point() {
                     X = gamepadStateCurrent.Gamepad.sThumbLX,
                     Y = gamepadStateCurrent.Gamepad.sThumbLY
@@ -246,17 +236,21 @@ namespace MetroController.XInputWrapper {
         /// Returns the current Coordinates of the right thumb stick as a Point
         /// Minimum: -32768  Maximum: 32767
         /// </summary>
-        public Point RightThumbStick {
-            get {
+        public Point RightThumbStick
+        {
+            get
+            {
                 return new Point() {
                     X = gamepadStateCurrent.Gamepad.sThumbRX,
                     Y = gamepadStateCurrent.Gamepad.sThumbRY
                 };
             }
         }
-        #endregion
+
+        #endregion Analogue Input States
 
         #region Polling
+
         /// <summary>
         /// Starts polling the controller state every <see cref="waitTime"/>
         /// </summary>
@@ -299,7 +293,7 @@ namespace MetroController.XInputWrapper {
         }
 
         /// <summary>
-        /// Gets the current input state of the controller instance through <see cref="XInput.XInputGetStateEx"/> and
+        /// Gets the current input state of the controller instance through <see cref="XInputNativeMethods.XInputGetStateEx"/> and
         /// updates the state depending on differing packetnumbers
         /// </summary>
         /// <returns>A reference of the current <see cref="XboxController"/> </returns>
@@ -341,9 +335,11 @@ namespace MetroController.XInputWrapper {
             BatteryInformationHeadset = headset;
             BatteryInformationGamepad = gamepad;
         }
-        #endregion
+
+        #endregion Polling
 
         #region Motor Functions
+
         /// <summary>
         /// Initiates a controller vibration with the shortest amount of time possible.
         /// Needs enabled polling to work correctly
@@ -386,7 +382,8 @@ namespace MetroController.XInputWrapper {
                 _stopMotorTimerActive = true;
             }
         }
-        #endregion
+
+        #endregion Motor Functions
 
         /// <summary>
         /// Returns a string with the controller number and the current input state
@@ -396,6 +393,5 @@ namespace MetroController.XInputWrapper {
         {
             return ("Controller: " + _playerIndex.ToString() + " " + gamepadStateCurrent.ToString());
         }
-
     }
 }

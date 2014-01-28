@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MetroController.XInputWrapper {
+
     /// <summary>Contains the data for the Packtenumber and the <see cref="XInputGamepad"/></summary>
     [StructLayout(LayoutKind.Sequential)]
     public struct XInputState {
+
         /// <summary>The consecutive number of sent packets</summary>
         public int PacketNumber;
+
         /// <summary>The <see cref="XInputGamepad"/> structure holding the input information</summary>
         public XInputGamepad Gamepad;
 

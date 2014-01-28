@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MetroController.XInputWrapper {
+
     /// <summary>Contains the imported methods from the xinput dynamic library</summary>
     public static class XInputNativeMethods {
 #if WINDOWS7
@@ -31,7 +28,6 @@ namespace MetroController.XInputWrapper {
             ref XInputCapabilities pCapabilities  // [out] Receives the capabilities
         );
 
-
         //this function is not available prior to Windows 8
         public static int XInputGetBatteryInformation
         (
@@ -52,6 +48,7 @@ namespace MetroController.XInputWrapper {
             return 0;
         }
 #else
+
         /// <summary>
         /// Gets the state of the connected controllers
         /// </summary>
@@ -125,7 +122,6 @@ namespace MetroController.XInputWrapper {
             ref XInputKeystroke pKeystroke
         );
 
-
         //Hint: The following methods are not part of the officical API and are not documented but still accessible
 
         /// <summary>
@@ -154,7 +150,7 @@ namespace MetroController.XInputWrapper {
             int dwUserIndex,
             int dwFlag
             //,unKnown *pUnKnown    // currently not known what type this is supposed
-                                    // to be, maybe an EventCallback
+            // to be, maybe an EventCallback
         );
 
         /// <summary>
@@ -178,7 +174,7 @@ namespace MetroController.XInputWrapper {
         (
             int dwUserIndex
         );
+
 #endif
     }
-
 }

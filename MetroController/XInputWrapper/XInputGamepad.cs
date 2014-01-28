@@ -1,38 +1,42 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MetroController.XInputWrapper {
+
     /// <summary>Structure holding all controller input specific informations</summary>
     [StructLayout(LayoutKind.Explicit)]
     public struct XInputGamepad {
+
         /// <summary>Contains which buttons are currently pressed <seealso cref="IsButtonPressed"/></summary>
         [MarshalAs(UnmanagedType.I2)]
         [FieldOffset(0)]
         public short wButtons;
+
         /// <summary>Amount of pressure applied onto the left trigger [0, 255]</summary>
         [MarshalAs(UnmanagedType.I1)]
         [FieldOffset(2)]
         public byte bLeftTrigger;
+
         /// <summary>Amount of pressure applied onto the right trigger [0, 255]</summary>
         [MarshalAs(UnmanagedType.I1)]
         [FieldOffset(3)]
         public byte bRightTrigger;
+
         /// <summary>Current position of the left thumb stick on the x axis</summary>
         [MarshalAs(UnmanagedType.I2)]
         [FieldOffset(4)]
         public short sThumbLX;
+
         /// <summary>Current position of the left thumb stick on the y axis</summary>
         [MarshalAs(UnmanagedType.I2)]
         [FieldOffset(6)]
         public short sThumbLY;
+
         /// <summary>Current position of the right thumb stick on the x axis</summary>
         [MarshalAs(UnmanagedType.I2)]
         [FieldOffset(8)]
         public short sThumbRX;
+
         /// <summary>Current position of the right thumb stick on the y axis</summary>
         [MarshalAs(UnmanagedType.I2)]
         [FieldOffset(10)]
@@ -149,7 +153,7 @@ namespace MetroController.XInputWrapper {
         public override string ToString()
         {
             string str;
-            str  = wButtons.ToString();
+            str = wButtons.ToString();
             str += bLeftTrigger.ToString();
 
             return str;
