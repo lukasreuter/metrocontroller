@@ -7,13 +7,11 @@ using System.Threading.Tasks;
 
 namespace MetroController.XInputWrapper {
     /// <summary>Contains the data for the Packtenumber and the <see cref="XInputGamepad"/></summary>
-    [StructLayout(LayoutKind.Explicit)]
+    [StructLayout(LayoutKind.Sequential)]
     public struct XInputState {
         /// <summary>The consecutive number of sent packets</summary>
-        [FieldOffset(0)]
         public int PacketNumber;
         /// <summary>The <see cref="XInputGamepad"/> structure holding the input information</summary>
-        [FieldOffset(4)]
         public XInputGamepad Gamepad;
 
         /// <summary>
