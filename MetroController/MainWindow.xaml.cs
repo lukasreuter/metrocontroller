@@ -430,7 +430,16 @@ namespace MetroController {
         #region IDisposable callbacks
         void System.IDisposable.Dispose()
         {
-            Ni.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+            return;
+        }
+
+        protected virtual void Dispose(bool native)
+        {
+            if (native) {
+                Ni.Dispose();
+            }
         }
         #endregion
 
