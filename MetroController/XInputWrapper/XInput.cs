@@ -59,7 +59,7 @@ namespace MetroController.XInputWrapper {
         /// <param name="pState">[out] Receives the current state</param>
         /// <returns>Returns error code "0" on success</returns>
         [DllImport("xinput1_4.dll")]
-        public static extern int XInputGetState
+        internal static extern int XInputGetState
         (
             int dwUserIndex,
             ref XInputState pState
@@ -72,7 +72,7 @@ namespace MetroController.XInputWrapper {
         /// <param name="pVibration">[in, out] The vibration information to send to the controller</param>
         /// <returns>Returns error code "0" on success</returns>
         [DllImport("xinput1_4.dll")]
-        public static extern int XInputSetState
+        internal static extern int XInputSetState
         (
             int dwUserIndex,
             ref XInputVibration pVibration
@@ -87,7 +87,7 @@ namespace MetroController.XInputWrapper {
         /// <param name="pCapabilities">[out] Receives the capabilities</param>
         /// <returns></returns>
         [DllImport("xinput1_4.dll")]
-        public static extern int XInputGetCapabilities
+        internal static extern int XInputGetCapabilities
         (
             int dwUserIndex,
             int dwFlags,
@@ -102,7 +102,7 @@ namespace MetroController.XInputWrapper {
         /// <param name="pBatteryInformation">[out] Contains the level and types of batteries</param>
         /// <returns>An error code</returns>
         [DllImport("xinput1_4.dll")]
-        public static extern int XInputGetBatteryInformation
+        internal static extern int XInputGetBatteryInformation
         (
             int dwUserIndex,
             byte devType,
@@ -118,7 +118,7 @@ namespace MetroController.XInputWrapper {
         /// <param name="pKeystroke">Pointer to an XINPUT_KEYSTROKE structure that receives an input event</param>
         /// <returns>An error code</returns>
         [DllImport("xinput1_4.dll")]
-        public static extern int XInputGetKeystroke
+        internal static extern int XInputGetKeystroke
         (
             int dwUserIndex,
             int dwReserved,
@@ -136,7 +136,7 @@ namespace MetroController.XInputWrapper {
         /// <param name="pState">[out] Receives the current state</param>
         /// <returns>Returns error code "0" on success</returns>
         [DllImport("xinput1_4.dll", EntryPoint = "#100")]
-        public static extern int XInputGetStateEx
+        internal static extern int XInputGetStateEx
         (
             int dwUserIndex,
             ref XInputState pState
@@ -149,7 +149,7 @@ namespace MetroController.XInputWrapper {
         /// <param name="dwFlag">[in] Input flags that identify the device type</param>
         /// <returns>An error code</returns>
         [DllImport("xinput1_4.dll", EntryPoint = "#101")]
-        public static extern int XInputWaitForGuideButton
+        internal static extern int XInputWaitForGuideButton
         (
             int dwUserIndex,
             int dwFlag
@@ -163,7 +163,7 @@ namespace MetroController.XInputWrapper {
         /// <param name="dwUserIndex">[in] Index of the gamer associated with the device</param>
         /// <returns>An error code</returns>
         [DllImport("xinput1_4.dll", EntryPoint = "#102")]
-        public static extern int XInputCancelGuideButtonWait
+        internal static extern int XInputCancelGuideButtonWait
         (
             int dwUserIndex
         );
@@ -174,7 +174,7 @@ namespace MetroController.XInputWrapper {
         /// <param name="dwUserIndex">[in] Index of the gamer associated with the device</param>
         /// <returns>Returns error code "0" on success</returns>
         [DllImport("xinput1_4.dll", EntryPoint = "#103")]
-        public static extern int XInputControllerOff
+        internal static extern int XInputControllerOff
         (
             int dwUserIndex
         );
