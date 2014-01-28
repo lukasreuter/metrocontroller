@@ -101,7 +101,7 @@ namespace MetroController.XInputWrapper {
         public XInputCapabilities GetCapabilities()
         {
             XInputCapabilities capabilities = new XInputCapabilities();
-            XInput.XInputGetCapabilities(_playerIndex, XInputConstants.XINPUT_FLAG_GAMEPAD, ref capabilities);
+            XInputNativeMethods.XInputGetCapabilities(_playerIndex, XInputConstants.XINPUT_FLAG_GAMEPAD, ref capabilities);
             return capabilities;
         }
 
@@ -305,7 +305,7 @@ namespace MetroController.XInputWrapper {
         /// <returns>A reference of the current <see cref="XboxController"/> </returns>
         public XboxController UpdateState()
         {
-            int result = XInput.XInputGetStateEx(_playerIndex, ref gamepadStateCurrent);
+            int result = XInputNativeMethods.XInputGetStateEx(_playerIndex, ref gamepadStateCurrent);
             IsConnected = (result == 0);
 
             //TODO: maybe only check for battery updates every x cycles to save some performance
@@ -320,7 +320,7 @@ namespace MetroController.XInputWrapper {
 
             if (_stopMotorTimerActive && (DateTime.Now >= _stopMotorTime)) {
                 XInputVibration stopStrength = new XInputVibration() { LeftMotorSpeed = 0, RightMotorSpeed = 0 };
-                XInput.XInputSetState(_playerIndex, ref stopStrength);
+                XInputNativeMethods.XInputSetState(_playerIndex, ref stopStrength);
             }
 
             //we return a reference of this, so we can chain another method call
@@ -335,8 +335,8 @@ namespace MetroController.XInputWrapper {
             var headset = new XInputBatteryInformation();
             var gamepad = new XInputBatteryInformation();
 
-            XInput.XInputGetBatteryInformation(_playerIndex, (byte) BatteryDeviceTypes.BATTERY_DEVTYPE_GAMEPAD, ref gamepad);
-            XInput.XInputGetBatteryInformation(_playerIndex, (byte) BatteryDeviceTypes.BATTERY_DEVTYPE_HEADSET, ref headset);
+            XInputNativeMethods.XInputGetBatteryInformation(_playerIndex, (byte) BatteryDeviceTypes.BATTERY_DEVTYPE_GAMEPAD, ref gamepad);
+            XInputNativeMethods.XInputGetBatteryInformation(_playerIndex, (byte) BatteryDeviceTypes.BATTERY_DEVTYPE_HEADSET, ref headset);
 
             BatteryInformationHeadset = headset;
             BatteryInformationGamepad = gamepad;
@@ -380,7 +380,7 @@ namespace MetroController.XInputWrapper {
         public void Vibrate(XInputVibration strength, TimeSpan length)
         {
             _stopMotorTimerActive = false;
-            XInput.XInputSetState(_playerIndex, ref strength);
+            XInputNativeMethods.XInputSetState(_playerIndex, ref strength);
             if (length != TimeSpan.MinValue) {
                 _stopMotorTime = DateTime.Now.Add(length);
                 _stopMotorTimerActive = true;
