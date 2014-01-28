@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,11 +18,11 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using Windows.UI.Notifications;
 using Windows.Data.Xml.Dom;
+using Windows.UI.Notifications;
 
-using WindowsInput;
 using MetroController.XInputWrapper;
+using WindowsInput;
 
 namespace MetroController {
 
@@ -30,28 +32,56 @@ namespace MetroController {
     public partial class MainWindow : Window, INotifyPropertyChanged, IDisposable {
 
         //Fields---------------------------------------------------------------
-        private const string APP_ID = "org.XInput.MetroController";
 
-        private static bool IsHidden;
-
-        private System.Windows.Forms.NotifyIcon Ni;
-
+        /// <summary>
+        /// Contains the EventHandler that is called when a property changes
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public
-        XboxController SelectedController {
-            get { return _selectedController; }
-            private set { _selectedController = value; }
-        }
-        private XboxController _selectedController;
+        /// <summary>
+        /// Represents the current reference to XboxController that we take inputs from
+        /// </summary>
+        public XboxController SelectedController { get; private set; }
 
-        public
-        int ActiveController {
+        /// <summary>
+        /// Represents the current index of the currently polled controller
+        /// </summary>
+        public int ActiveController {
             get { return _ActiveController; }
-            private set { _ActiveController = value; }
+            private set { _ActiveController = Math.Min(4, Math.Max(0, value)); }
         }
         private int _ActiveController;
 
+        private bool IdlePolling {
+            get { return IdlePolling; }
+            set {
+                IdlePolling = value;
+                //TODO: Call the desired method here
+            }
+        }
+
+        private const string APP_ID = "org.XInput.MetroController";
+
+        #region Virtual Key Codes Constants
+        private const WindowsInput.Native.VirtualKeyCode RWIN = WindowsInput.Native.VirtualKeyCode.RWIN;
+        private const WindowsInput.Native.VirtualKeyCode LWIN = WindowsInput.Native.VirtualKeyCode.LWIN;
+        private const WindowsInput.Native.VirtualKeyCode CONTROL = WindowsInput.Native.VirtualKeyCode.CONTROL;
+        private const WindowsInput.Native.VirtualKeyCode RETURN = WindowsInput.Native.VirtualKeyCode.RETURN;
+        private const WindowsInput.Native.VirtualKeyCode LEFT = WindowsInput.Native.VirtualKeyCode.LEFT;
+        private const WindowsInput.Native.VirtualKeyCode RIGHT = WindowsInput.Native.VirtualKeyCode.RIGHT;
+        private const WindowsInput.Native.VirtualKeyCode DOWN = WindowsInput.Native.VirtualKeyCode.DOWN;
+        private const WindowsInput.Native.VirtualKeyCode UP = WindowsInput.Native.VirtualKeyCode.UP;
+        private const WindowsInput.Native.VirtualKeyCode TAB = WindowsInput.Native.VirtualKeyCode.TAB;
+        private const WindowsInput.Native.VirtualKeyCode SHIFT = WindowsInput.Native.VirtualKeyCode.SHIFT;
+        #endregion
+
+        private bool IsHidden;
+
+        private bool ControllersConnected;
+
+        private System.Windows.Forms.NotifyIcon Ni;
+
+        private WindowsInput.InputSimulator Simulator;
 
 
         //Methods--------------------------------------------------------------
@@ -69,31 +99,29 @@ namespace MetroController {
             this.CommandBindings.Add(new CommandBinding(SystemCommands.MinimizeWindowCommand, this.OnMinimizeWindow, this.OnCanMinimizeWindow));
             IsHidden = false; //if minimize on start is not set to true
 
+            //Initialize the global InputSimulator for this program
+            Simulator = new InputSimulator();
+
             //Initialize the System Tray Notification icon
             Ni = new System.Windows.Forms.NotifyIcon();
             Ni.Icon = new System.Drawing.Icon(GetResource("MetroController.ico"));
+            Ni.DoubleClick += delegate(object sender, EventArgs args) { Maximize(); };
             Ni.ContextMenu = new System.Windows.Forms.ContextMenu();
             Ni.ContextMenu.Popup += delegate(object sender, EventArgs args) {
                                         XboxController.StopPolling();
                                         Application.Current.Shutdown();
                                     };
-            Ni.DoubleClick += delegate(object sender, EventArgs args) { Maximize(); };
             Ni.Visible = false;
             dbg("Ni setup complete");
+#if DEBUG
+            Minimize();
+#endif
+            DispatchNotification("Hello", "World");
 
             //Initialize Shortcut so we can send Notifications
 
-            //Prepare Notification toast
-            //DispatchNotification("")
-            //TODO: change layout
-            //XmlDocument toastXml = ToastNotificationManager.GetTemplateContent(ToastTemplateType.ToastText02);
-            //XmlNodeList stringElements;
-            //XmlNodeList imageElements = toasXml.GetElementsByTagName("image");
-            //imageElements[0].Attributes.GetNamedItem("src").NodeValue =
-
-
-
-            if (GetFirstConnectedController() == -1) {
+            ControllersConnected = SetFirstConnectedController();
+            if (!ControllersConnected) {
                 dbg("No connected controllers found, idleling and waiting for user to connect one");
                 //dispatch notification here, then jump to loop where we check cont. for new controllers
                 DispatchNotification("No Controllers detected", "Please connect a wired or wireless Xbox360 Controller.");
@@ -102,8 +130,8 @@ namespace MetroController {
 
 
 
-            _selectedController = XboxController.RetrieveController(ActiveController);
-            _selectedController.StateChanged += _selectedController_StateChanged;
+            SelectedController = XboxController.RetrieveController(ActiveController);
+            SelectedController.StateChanged += _selectedController_StateChanged;
             XboxController.StartPolling();
         }
 
@@ -117,61 +145,108 @@ namespace MetroController {
             //Main Window is being displayed so dont simulate keypresses
             if (!IsHidden) { goto Finish; }
 
+            //special controller shortcut Guide+LS+RS
+            if (SelectedController.IsGuidePressed && SelectedController.IsLeftShoulderPressed && SelectedController.IsRightShoulderPressed) {
 
-            //TODO: add the keysend events here
-            var controller = XboxController.RetrieveController(ActiveController);
-            var sim = new InputSimulator();
+            }
 
-            if (controller.IsGuidePressed// &&
-                /*sim.In*/) {
-                //Play sounds here
-                EmitKeyPress("^({ESC})");
-                //EmitKeyPress("#({TAB})");
+            //call metro themed startmenu
+            if (SelectedController.IsGuidePressed && Simulator.InputDeviceState.IsKeyUp(LWIN)) {
+                Simulator.Keyboard.KeyDown(LWIN);
+            } else if (!SelectedController.IsGuidePressed && Simulator.InputDeviceState.IsKeyDown(LWIN)) {
+                //Play sound here
+                Simulator.Keyboard.KeyUp(LWIN);
                 goto Finish;
             }
 
+            //IntPtr bla = FindWindow("ImmersiveLauncher", null);
+
             if (true) { //check here if in metro ui
 
-
-                if (controller.IsDPadDownPressed) {
-                    if (sim.InputDeviceState.IsKeyDown(WindowsInput.Native.VirtualKeyCode.LWIN)) {
-                        EmitKeyPress("{TAB}");
+                // D-Pad: Cardinal directions or forward/backward during WIN+TAB
+                // D-Pad Down
+                if (SelectedController.IsDPadDownPressed) {
+                    if (Simulator.InputDeviceState.IsKeyDown(RWIN)) {
+                        if (Simulator.InputDeviceState.IsKeyUp(TAB)) {
+                            Simulator.Keyboard.KeyDown(TAB);
+                        }
+                        //EmitKeyPress("{TAB}");
                     } else {
-                        EmitKeyPress("{DOWN}");
+                        if (Simulator.InputDeviceState.IsKeyUp(DOWN)) {
+                            Simulator.Keyboard.KeyDown(DOWN);
+                        }
+                        //EmitKeyPress("{DOWN}");
 	                }
-                } else if (controller.IsDPadUpPressed) {
-                    if (sim.InputDeviceState.IsKeyDown(WindowsInput.Native.VirtualKeyCode.LWIN)) {
+                } else if (Simulator.InputDeviceState.IsKeyDown(RWIN) && Simulator.InputDeviceState.IsKeyDown(TAB)) {
+                    Simulator.Keyboard.KeyUp(TAB);
+                } else if (Simulator.InputDeviceState.IsKeyDown(DOWN)) {
+                    Simulator.Keyboard.KeyUp(DOWN);
+                }
+                // D-Pad Up
+                if (SelectedController.IsDPadUpPressed) {
+                    if (Simulator.InputDeviceState.IsKeyDown(RWIN)) {
+                        if (Simulator.InputDeviceState.IsKeyUp(TAB)) {
+                            Simulator.Keyboard.KeyDown(SHIFT).KeyDown(TAB);
+                        }
+                        //EmitKeyPress("+({TAB})");
+                    } else {
+                        if (Simulator.InputDeviceState.IsKeyUp(UP)) {
+                            Simulator.Keyboard.KeyDown(UP);
+                        }
+                        //EmitKeyPress("{UP}");
+                    }
+                } else if (Simulator.InputDeviceState.IsKeyDown(RWIN) && Simulator.InputDeviceState.IsKeyDown(TAB)) {
+                    Simulator.Keyboard.KeyUp(TAB).KeyUp(SHIFT).Sleep(50);
+                } else if (Simulator.InputDeviceState.IsKeyDown(UP)) {
+                    Simulator.Keyboard.KeyUp(UP);
+                }
+                // D-Pad Left
+                if (SelectedController.IsDPadLeftPressed && Simulator.InputDeviceState.IsKeyUp(LEFT)) {
+                    Simulator.Keyboard.KeyDown(LEFT);
+                } else if (!SelectedController.IsDPadLeftPressed && Simulator.InputDeviceState.IsKeyDown(LEFT)) {
+                    Simulator.Keyboard.KeyUp(LEFT);
+                }
+                // D-Pad Right
+                if (SelectedController.IsDPadRightPressed && Simulator.InputDeviceState.IsKeyUp(RIGHT)) {
+                    Simulator.Keyboard.KeyDown(RIGHT);
+                } else if (!SelectedController.IsDPadRightPressed && Simulator.InputDeviceState.IsKeyDown(RIGHT)) {
+                    Simulator.Keyboard.KeyUp(RIGHT);
+                }
+
+                /*if (SelectedController.IsDPadUpPressed) {
+                    if (Simulator.InputDeviceState.IsKeyDown(RWIN)) {
                         EmitKeyPress("+({TAB})");
                     } else {
                         EmitKeyPress("{UP}");
 	                }
-                } else if (controller.IsDPadLeftPressed) {
+                } else if (SelectedController.IsDPadLeftPressed) {
                     EmitKeyPress("{LEFT}");
-                } else if (controller.IsDPadRightPressed) {
+                } else if (SelectedController.IsDPadRightPressed) {
                     EmitKeyPress("{RIGHT}");
+                }*/
+
+                // A Button: ENTER
+                if (SelectedController.IsAPressed) {
+		            Simulator.Keyboard.KeyPress(RETURN).Sleep(100);
                 }
 
+                // B Button: WIN+TAB
+                if (SelectedController.IsBPressed && Simulator.InputDeviceState.IsKeyUp(RWIN)) {
+                    Simulator.Keyboard.KeyDown(RWIN).KeyPress(TAB).Sleep(100);
+                } else if (!SelectedController.IsBPressed && Simulator.InputDeviceState.IsKeyDown(RWIN)) {
+		            Simulator.Keyboard.KeyUp(RWIN);
+	            }
 
-
-                if (controller.IsAPressed) {
-                    EmitKeyPress("{ENTER}");
+                // Y Button: CTRL+TAB
+                if (SelectedController.IsYPressed) {
+                    EmitKeyPress("^({TAB})");
+                    //INVESTIGATE: For some weird/unknown reason these two lines do not work in the ImmersiveLauncher, they do though work in every thing else
+                    //sim.Keyboard.KeyDown(WindowsInput.Native.VirtualKeyCode.CONTROL).KeyPress(WindowsInput.Native.VirtualKeyCode.TAB).KeyUp(WindowsInput.Native.VirtualKeyCode.CONTROL).Sleep(100);
+                    //sim.Keyboard.ModifiedKeyStroke(WindowsInput.Native.VirtualKeyCode.CONTROL, WindowsInput.Native.VirtualKeyCode.TAB);
                 }
-
-                if (controller.IsBPressed) {
-                //    EmitKeyPress("^({ESC})({TAB})");
-                    sim.Keyboard.Sleep(100).KeyDown(WindowsInput.Native.VirtualKeyCode.LWIN).KeyPress(WindowsInput.Native.VirtualKeyCode.TAB);
-
-                    //dbg(Key.LWin);
-                }
-
-                if (controller.IsYPressed) {
-                    EmitKeyPress("^{TAB}");
-                }
-
-                //dbg(Key.Escape.ToString());
-
             }
 
+            //Main window is hidden so we dont have to waste resources to update the layout
             if (IsHidden) {
                 goto Exit;
             }
@@ -182,22 +257,19 @@ namespace MetroController {
             return;
         }
 
-
         #region Helper Methods
         /// <summary>
         /// Gets the matching Resource from MetroController/Resources/.
         /// </summary>
         /// <param name="name">The name of the file in the project</param>
         /// <returns>A generic System.IO.Stream</returns>
-        private static
-        Stream GetResource(string name)
+        private Stream GetResource(string name)
         {
             try {
                 return System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("MetroController.Resources." + name);
-            } catch /*(Exception e)*/ {
-                MessageBox.Show("An error occurred while loading the Resource.");
-                //throw e;
-                return null;
+            } catch (Exception e) {
+                dbg("An error occurred while loading the Resource: " + name);
+                throw e;
             }
         }
 
@@ -205,28 +277,27 @@ namespace MetroController {
         /// Gets the first controller that is connected and available (max four controller are supported)
         /// </summary>
         /// <returns>The index of the controller starting from 0</returns>
-        private
-        int GetFirstConnectedController()
+        private bool SetFirstConnectedController()
         {
-            _ActiveController = -1;
-            for (int i = XboxController.FIRST_CONTROLLER_INDEX; i <= XboxController.LAST_CONTROLLER_INDEX; i++) {
+            for (var i = XboxController.FIRST_CONTROLLER_INDEX; i <= XboxController.LAST_CONTROLLER_INDEX; i++) {
                 if (XboxController.RetrieveController(i).UpdateState().IsConnected) {
-                    _ActiveController = i;
                     dbg("Found connected controller: " + (i + 1));
-                    break;
+                    ActiveController = i;
+                    return true;
                 }
             }
-            return ActiveController;
+            dbg("No connected controller found!");
+            return false;
         }
 
-        private
-        void DispatchNotification(string title, string cont)
+        private void DispatchNotification(string title, string cont)
         {
+            //XmlDocument toastXml = ToastNotificationManager.GetTemplateContent(ToastTemplateType.ToastText02);
             XmlDocument toastXml = ToastNotificationManager.GetTemplateContent(ToastTemplateType.ToastText02);
 
             // Fill in the text elements
-            Windows.Data.Xml.Dom.XmlNodeList stringElements = toastXml.GetElementsByTagName("text");
-            //for (int i = 0; i < stringElements.Length; i++) {
+            XmlNodeList stringElements = toastXml.GetElementsByTagName("text");
+            //for (var i = 0; i < stringElements.Length; i++) {
                 //stringElements[i].AppendChild(toastXml.CreateTextNode("Line " + i));
             //}
             stringElements[0].AppendChild(toastXml.CreateTextNode(title));
@@ -236,9 +307,9 @@ namespace MetroController {
             //String imagePath = "file:///" + Path.GetFullPath("toastImageAndText.png");
             //String imagePath = "file:///" + Path.GetFullPath("toastImageAndText.png");
 
-            XmlNodeList imageAttributes= toastXml.GetElementsByTagName("image");
-            ((XmlElement) imageAttributes[0]).SetAttribute("src", "ms-appx:///Resources/MetroController.ico");
-            ((XmlElement) imageAttributes[0]).SetAttribute("alt", "Icon Graphic");
+            //XmlNodeList imageAttributes= toastXml.GetElementsByTagName("image");
+            //((XmlElement) imageAttributes[0]).SetAttribute("src", "ms-appx:///Resources/MetroController.ico");
+            //((XmlElement) imageAttributes[0]).SetAttribute("alt", "Icon Graphic");
 
             // Create the toast and attach event listeners
             ToastNotification toast = new ToastNotification(toastXml);
@@ -250,26 +321,23 @@ namespace MetroController {
             ToastNotificationManager.CreateToastNotifier(APP_ID).Show(toast);
         }
 
-        private
-        void WaitForNewControllers()
+        private void WaitForNewControllers()
         {
 
         }
 
         /// <summary>
-        /// Emits the given key and then sleeps for some milliseconds
+        /// Emits the given key through SendKeys and then sleeps for some milliseconds
         /// </summary>
         /// <param name="key">The key that should be pressed in an String representation</param>
         /// <param name="time">The time that the Thread should sleep in (ushort) milliseconds</param>
-        private
-        void EmitKeyPress(string key, ushort time = 100)
+        private void EmitKeyPress(string key, ushort time = 100)
         {
             System.Windows.Forms.SendKeys.SendWait(key);
             Thread.Sleep(time);
         }
 
-        private
-        void Minimize()
+        private void Minimize()
         {
             if (!IsHidden) {
                 this.Hide();
@@ -279,8 +347,7 @@ namespace MetroController {
             }
         }
 
-        private
-        void Maximize()
+        private void Maximize()
         {
             if (IsHidden) {
                 this.Show();
@@ -292,51 +359,35 @@ namespace MetroController {
         #endregion
 
         #region Debugging
-#if DEBUG
         /// <summary>
         /// A simple method to ouput Debugging string to stdout
         /// </summary>
         /// <param name="str">The string that should be printed</param>
-        private static
-        void dbg(string str)
+        /// <param name="name">The name of the calling method</param>
+        /// <param name="line">The line number of the calling code</param>
+        [Conditional("DEBUG")]
+        static private void dbg(string str, [CallerMemberName] string name = "", [CallerLineNumber] int line = 0)
         {
-            Console.WriteLine(str);
+            Console.WriteLine(str + "; in member: " + name + " #" + line);
         }
-#else
-        private static void dbg(string str) {}
-#endif
         #endregion
 
-        #region Event handlers
-        protected override
-        void OnClosing(CancelEventArgs e)
+        #region Form callbacks
+        /// <summary>
+        /// Is overridden to stop polling the controller states
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnClosing(CancelEventArgs e)
         {
             XboxController.StopPolling();
             base.OnClosing(e);
         }
 
-        public
-        void OnPropertyChanged(string name)
-        {
-            if (PropertyChanged != null) {
-                Action a = () => { PropertyChanged(this, new PropertyChangedEventArgs(name)); };
-                Dispatcher.BeginInvoke(a, null);
-            }
-        }
-
-        private
-        void SelectedControllerChanged(object sender, SelectionChangedEventArgs e)
-        {
-            _selectedController = XboxController.RetrieveController(((ComboBox) sender).SelectedIndex);
-            OnPropertyChanged("SelectedController");
-        }
-
-        private
-        void SendVibration_Click(object sender, RoutedEventArgs e)
+        private void SendVibration_Click(object sender, RoutedEventArgs e)
         {
             double leftMotorSpeed = LeftMotorSpeed.Value;
             double rightMotorSpeed = RightMotorSpeed.Value;
-            _selectedController.Vibrate(leftMotorSpeed, rightMotorSpeed, TimeSpan.FromSeconds(2));
+            SelectedController.Vibrate(leftMotorSpeed, rightMotorSpeed, TimeSpan.FromSeconds(2));
         }
 
         private void OnCanMinimizeWindow(object sender, CanExecuteRoutedEventArgs e)
@@ -354,12 +405,34 @@ namespace MetroController {
             Minimize();
             //SystemCommands.MinimizeWindow(this);
         }
+
+        private void SelectedControllerChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SelectedController = XboxController.RetrieveController(((ComboBox) sender).SelectedIndex);
+            OnPropertyChanged("SelectedController");
+        }
         #endregion
 
+        #region INotifyInterface callbacks
+        /// <summary>
+        /// Invokes PropertyChanged through Dispatcher.BeginInvoke
+        /// </summary>
+        /// <param name="name">The name of the property that has changed</param>
+        public void OnPropertyChanged(string name)
+        {
+            if (PropertyChanged != null) {
+                Action a = () => { PropertyChanged(this, new PropertyChangedEventArgs(name)); };
+                Dispatcher.BeginInvoke(a, null);
+            }
+        }
+        #endregion
+
+        #region IDisposable callbacks
         void System.IDisposable.Dispose()
         {
             Ni.Dispose();
         }
+        #endregion
 
     }
 }
