@@ -54,3 +54,4 @@ This project uses the *** License
  - use XInputCapabilties for the correct result of IsButtonPresent
  - make left and right during RWIN+TAB snap the currently highlighted/seleted window to the left/right
  - make dpad inputs repeated presses (e.g. when holding left on the keyboard your cursor moves until keyup, but on the controler it currently does not)
+ - make the toast notification work
