@@ -69,6 +69,8 @@ namespace MetroController.XInputWrapper {
         {
             _playerIndex = playerIndex;
             gamepadStatePrev.Copy(gamepadStateCurrent);
+            // Update here to get the battery information for the controller
+            UpdateBatteryState();
         }
 
         /// <summary>
@@ -286,7 +288,7 @@ namespace MetroController.XInputWrapper {
             }
             keepRunning = true;
             while (keepRunning) {
-                for (var i = FIRST_CONTROLLER_INDEX; i < LAST_CONTROLLER_INDEX; i++) {
+                for (var i = FIRST_CONTROLLER_INDEX; i <= LAST_CONTROLLER_INDEX; i++) {
                     Controllers[i].UpdateState();
                 }
                 Thread.Sleep(waitTime);
@@ -307,7 +309,7 @@ namespace MetroController.XInputWrapper {
             IsConnected = (result == 0);
 
             //TODO: maybe only check for battery updates every x cycles to save some performance
-            if (this.BatteryInformationGamepad.BatteryType != (byte) BatteryTypes.BATTERY_TYPE_WIRED) {
+            if ((byte) this.BatteryInformationGamepad.BatteryType > (byte) BatteryTypes.BATTERY_TYPE_WIRED) {
                 UpdateBatteryState();
             }
 
