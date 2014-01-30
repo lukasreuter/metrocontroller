@@ -44,7 +44,7 @@ namespace WindowsInput.Native {
         /// These left- and right-distinguishing constants are only available when you call the GetKeyboardState, SetKeyboardState, GetAsyncKeyState, GetKeyState, and MapVirtualKey functions.
         /// </remarks>
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern short GetAsyncKeyState(int virtualKeyCode);
+        internal static extern short GetAsyncKeyState(int virtualKeyCode);
 
         /// <summary>
         /// The GetKeyState function retrieves the status of the specified virtual key. The status specifies whether the key is up, down, or toggled (on, off alternating each time the key is pressed). (See: http://msdn.microsoft.com/en-us/library/ms646301(VS.85).aspx)
@@ -73,7 +73,7 @@ namespace WindowsInput.Native {
         /// These left- and right-distinguishing constants are available to an application only through the GetKeyboardState, SetKeyboardState, GetAsyncKeyState, GetKeyState, and MapVirtualKey functions.
         /// </remarks>
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern short GetKeyState(int virtualKeyCode);
+        internal static extern short GetKeyState(int virtualKeyCode);
 
         /// <summary>
         /// The SendInput function synthesizes keystrokes, mouse motions, and button clicks.
@@ -88,7 +88,7 @@ namespace WindowsInput.Native {
         /// This function does not reset the keyboard's current state. Any keys that are already pressed when the function is called might interfere with the events that this function generates. To avoid this problem, check the keyboard's state with the GetAsyncKeyState function and correct as necessary.
         /// </remarks>
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern UInt32 SendInput(UInt32 numberOfInputs, INPUT[] inputs, Int32 sizeOfInputStructure);
+        internal static extern uint SendInput(uint numberOfInputs, INPUT[] inputs, int sizeOfInputStructure);
 
         /// <summary>
         /// The GetMessageExtraInfo function retrieves the extra message information for the current thread. Extra message information is an application- or driver-defined value associated with the current thread's message queue.
@@ -96,6 +96,6 @@ namespace WindowsInput.Native {
         /// <returns></returns>
         /// <remarks>To set a thread's extra message information, use the SetMessageExtraInfo function. </remarks>
         [DllImport("user32.dll")]
-        public static extern IntPtr GetMessageExtraInfo();
+        internal static extern IntPtr GetMessageExtraInfo();
     }
 }

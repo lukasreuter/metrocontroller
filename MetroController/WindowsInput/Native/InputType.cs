@@ -1,10 +1,10 @@
-﻿namespace WindowsInput.Native
-{
+﻿namespace WindowsInput.Native {
+
     /// <summary>
-    /// Specifies the type of the input event. This member can be one of the following values. 
+    /// Specifies the type of the input event. This member can be one of the following values.
     /// </summary>
-    internal enum InputType : uint // UInt32
-    {
+    internal enum InputType : uint {
+
         /// <summary>
         /// INPUT_MOUSE = 0x00 (The event is a mouse event. Use the mi structure of the union.)
         /// </summary>

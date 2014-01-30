@@ -1,10 +1,10 @@
-﻿namespace WindowsInput.Native
-{
+﻿namespace WindowsInput.Native {
+
     /// <summary>
-    /// The list of VirtualKeyCodes (see: http://msdn.microsoft.com/en-us/library/ms645540(VS.85).aspx)
+    /// The list of VirtualKeyCodes (see: http://msdn.microsoft.com/en-us/library/dd375731(VS.85).aspx)
     /// </summary>
-    public enum VirtualKeyCode //: UInt16
-    {
+    internal enum VirtualKeyCode : ushort {
+
         /// <summary>
         /// Left mouse button
         /// </summary>
