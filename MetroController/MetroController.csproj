@@ -106,11 +106,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
-    <Compile Include="WindowsInput\IInputDeviceStateAdaptor.cs" />
-    <Compile Include="WindowsInput\IInputMessageDispatcher.cs" />
-    <Compile Include="WindowsInput\IInputSimulator.cs" />
-    <Compile Include="WindowsInput\IKeyboardSimulator.cs" />
-    <Compile Include="WindowsInput\IMouseSimulator.cs" />
     <Compile Include="WindowsInput\InputBuilder.cs" />
     <Compile Include="WindowsInput\InputSimulator.cs" />
     <Compile Include="WindowsInput\KeyboardSimulator.cs" />
