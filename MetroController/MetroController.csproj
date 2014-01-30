@@ -122,12 +122,12 @@
     <Compile Include="WindowsInput\Native\NativeMethods.cs" />
     <Compile Include="WindowsInput\Native\VirtualKeyCode.cs" />
     <Compile Include="WindowsInput\Native\XButton.cs" />
-    <Compile Include="WindowsInput\WindowsInputDeviceStateAdaptor.cs" />
-    <Compile Include="WindowsInput\WindowsInputMessageDispatcher.cs" />
+    <Compile Include="WindowsInput\InputDeviceStateAdaptor.cs" />
+    <Compile Include="WindowsInput\InputMessageDispatcher.cs" />
     <Compile Include="XInputWrapper\Point.cs" />
     <Compile Include="XInputWrapper\XboxController.cs" />
     <Compile Include="XInputWrapper\XboxControllerStateChangedEventArgs.cs" />
-    <Compile Include="XInputWrapper\XInput.cs" />
+    <Compile Include="XInputWrapper\XInputNativeMethods.cs" />
     <Compile Include="XInputWrapper\XInputBatteryInformation.cs" />
     <Compile Include="XInputWrapper\XInputCapabilities.cs" />
     <Compile Include="XInputWrapper\XInputConstants.cs" />
