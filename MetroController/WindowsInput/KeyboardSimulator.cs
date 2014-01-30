@@ -3,56 +3,57 @@ using System.Collections.Generic;
 using System.Threading;
 using WindowsInput.Native;
 
-namespace WindowsInput
-{
+namespace WindowsInput {
+
     /// <summary>
-    /// Implements the <see cref="IKeyboardSimulator"/> interface by calling the an <see cref="IInputMessageDispatcher"/> to simulate Keyboard gestures.
+    /// Implements the KeyboardSimulator interface by calling the an <see cref="InputMessageDispatcher"/> to simulate Keyboard gestures.
     /// </summary>
-    public class KeyboardSimulator : IKeyboardSimulator
-    {
-        private readonly IInputSimulator _inputSimulator;
+    internal class KeyboardSimulator {
+
+        //
+        private readonly InputSimulator _inputSimulator;
 
         /// <summary>
-        /// The instance of the <see cref="IInputMessageDispatcher"/> to use for dispatching <see cref="INPUT"/> messages.
+        /// The instance of the <see cref="InputMessageDispatcher"/> to use for dispatching <see cref="INPUT"/> messages.
         /// </summary>
-        private readonly IInputMessageDispatcher _messageDispatcher;
+        private readonly InputMessageDispatcher _messageDispatcher;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="KeyboardSimulator"/> class using an instance of a <see cref="WindowsInputMessageDispatcher"/> for dispatching <see cref="INPUT"/> messages.
+        /// Initializes a new instance of the <see cref="KeyboardSimulator"/> class using an instance of a <see cref="InputMessageDispatcher"/> for dispatching <see cref="INPUT"/> messages.
         /// </summary>
-        /// <param name="inputSimulator">The <see cref="IInputSimulator"/> that owns this instance.</param>
-        public KeyboardSimulator(IInputSimulator inputSimulator)
+        /// <param name="inputSimulator">The <see cref="InputSimulator"/> that owns this instance.</param>
+        internal KeyboardSimulator(InputSimulator inputSimulator)
         {
             if (inputSimulator == null) throw new ArgumentNullException("inputSimulator");
 
             _inputSimulator = inputSimulator;
-            _messageDispatcher = new WindowsInputMessageDispatcher();
+            _messageDispatcher = new InputMessageDispatcher();
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="KeyboardSimulator"/> class using the specified <see cref="IInputMessageDispatcher"/> for dispatching <see cref="INPUT"/> messages.
+        /// Initializes a new instance of the <see cref="KeyboardSimulator"/> class using the specified <see cref="InputMessageDispatcher"/> for dispatching <see cref="INPUT"/> messages.
         /// </summary>
-        /// <param name="inputSimulator">The <see cref="IInputSimulator"/> that owns this instance.</param>
-        /// <param name="messageDispatcher">The <see cref="IInputMessageDispatcher"/> to use for dispatching <see cref="INPUT"/> messages.</param>
+        /// <param name="inputSimulator">The <see cref="InputSimulator"/> that owns this instance.</param>
+        /// <param name="messageDispatcher">The <see cref="InputMessageDispatcher"/> to use for dispatching <see cref="INPUT"/> messages.</param>
         /// <exception cref="InvalidOperationException">If null is passed as the <paramref name="messageDispatcher"/>.</exception>
-        internal KeyboardSimulator(IInputSimulator inputSimulator, IInputMessageDispatcher messageDispatcher)
+        internal KeyboardSimulator(InputSimulator inputSimulator, InputMessageDispatcher messageDispatcher)
         {
             if (inputSimulator == null) throw new ArgumentNullException("inputSimulator");
 
             if (messageDispatcher == null)
                 throw new InvalidOperationException(
                     string.Format("The {0} cannot operate with a null {1}. Please provide a valid {1} instance to use for dispatching {2} messages.",
-                    typeof(KeyboardSimulator).Name, typeof(IInputMessageDispatcher).Name, typeof(INPUT).Name));
+                    typeof(KeyboardSimulator).Name, typeof(InputMessageDispatcher).Name, typeof(INPUT).Name));
 
             _inputSimulator = inputSimulator;
             _messageDispatcher = messageDispatcher;
         }
 
         /// <summary>
-        /// Gets the <see cref="IMouseSimulator"/> instance for simulating Mouse input.
+        /// Gets the <see cref="MouseSimulator"/> instance for simulating Mouse input.
         /// </summary>
-        /// <value>The <see cref="IMouseSimulator"/> instance.</value>
-        public IMouseSimulator Mouse { get { return _inputSimulator.Mouse; } }
+        /// <value>The <see cref="MouseSimulator"/> instance.</value>
+        internal MouseSimulator Mouse { get { return _inputSimulator.Mouse; } }
 
         private void ModifiersDown(InputBuilder builder, IEnumerable<VirtualKeyCode> modifierKeyCodes)
         {
@@ -76,7 +77,7 @@ namespace WindowsInput
         }
 
         /// <summary>
-        /// Sends the list of <see cref="INPUT"/> messages using the <see cref="IInputMessageDispatcher"/> instance.
+        /// Sends the list of <see cref="INPUT"/> messages using the <see cref="InputMessageDispatcher"/> instance.
         /// </summary>
         /// <param name="inputList">The <see cref="System.Array"/> of <see cref="INPUT"/> messages to send.</param>
         private void SendSimulatedInput(INPUT[] inputList)
@@ -88,7 +89,7 @@ namespace WindowsInput
         /// Calls the Win32 SendInput method to simulate a KeyDown.
         /// </summary>
         /// <param name="keyCode">The <see cref="VirtualKeyCode"/> to press</param>
-        public IKeyboardSimulator KeyDown(VirtualKeyCode keyCode)
+        internal KeyboardSimulator KeyDown(VirtualKeyCode keyCode)
         {
             var inputList = new InputBuilder().AddKeyDown(keyCode).ToArray();
             SendSimulatedInput(inputList);
@@ -99,7 +100,7 @@ namespace WindowsInput
         /// Calls the Win32 SendInput method to simulate a KeyUp.
         /// </summary>
         /// <param name="keyCode">The <see cref="VirtualKeyCode"/> to lift up</param>
-        public IKeyboardSimulator KeyUp(VirtualKeyCode keyCode)
+        internal KeyboardSimulator KeyUp(VirtualKeyCode keyCode)
         {
             var inputList = new InputBuilder().AddKeyUp(keyCode).ToArray();
             SendSimulatedInput(inputList);
@@ -110,7 +111,7 @@ namespace WindowsInput
         /// Calls the Win32 SendInput method with a KeyDown and KeyUp message in the same input sequence in order to simulate a Key PRESS.
         /// </summary>
         /// <param name="keyCode">The <see cref="VirtualKeyCode"/> to press</param>
-        public IKeyboardSimulator KeyPress(VirtualKeyCode keyCode)
+        internal KeyboardSimulator KeyPress(VirtualKeyCode keyCode)
         {
             var inputList = new InputBuilder().AddKeyPress(keyCode).ToArray();
             SendSimulatedInput(inputList);
@@ -121,7 +122,7 @@ namespace WindowsInput
         /// Simulates a key press for each of the specified key codes in the order they are specified.
         /// </summary>
         /// <param name="keyCodes"></param>
-        public IKeyboardSimulator KeyPress(params VirtualKeyCode[] keyCodes)
+        internal KeyboardSimulator KeyPress(params VirtualKeyCode[] keyCodes)
         {
             var builder = new InputBuilder();
             KeysPress(builder, keyCodes);
@@ -135,7 +136,7 @@ namespace WindowsInput
         /// </summary>
         /// <param name="modifierKeyCode">The modifier key</param>
         /// <param name="keyCode">The key to simulate</param>
-        public IKeyboardSimulator ModifiedKeyStroke(VirtualKeyCode modifierKeyCode, VirtualKeyCode keyCode)
+        internal KeyboardSimulator ModifiedKeyStroke(VirtualKeyCode modifierKeyCode, VirtualKeyCode keyCode)
         {
             ModifiedKeyStroke(new[] { modifierKeyCode }, new[] { keyCode });
             return this;
@@ -147,9 +148,9 @@ namespace WindowsInput
         /// </summary>
         /// <param name="modifierKeyCodes">The list of modifier keys</param>
         /// <param name="keyCode">The key to simulate</param>
-        public IKeyboardSimulator ModifiedKeyStroke(IEnumerable<VirtualKeyCode> modifierKeyCodes, VirtualKeyCode keyCode)
+        internal KeyboardSimulator ModifiedKeyStroke(IEnumerable<VirtualKeyCode> modifierKeyCodes, VirtualKeyCode keyCode)
         {
-            ModifiedKeyStroke(modifierKeyCodes, new[] {keyCode});
+            ModifiedKeyStroke(modifierKeyCodes, new[] { keyCode });
             return this;
         }
 
@@ -159,9 +160,9 @@ namespace WindowsInput
         /// </summary>
         /// <param name="modifierKey">The modifier key</param>
         /// <param name="keyCodes">The list of keys to simulate</param>
-        public IKeyboardSimulator ModifiedKeyStroke(VirtualKeyCode modifierKey, IEnumerable<VirtualKeyCode> keyCodes)
+        internal KeyboardSimulator ModifiedKeyStroke(VirtualKeyCode modifierKey, IEnumerable<VirtualKeyCode> keyCodes)
         {
-            ModifiedKeyStroke(new [] {modifierKey}, keyCodes);
+            ModifiedKeyStroke(new[] { modifierKey }, keyCodes);
             return this;
         }
 
@@ -171,7 +172,7 @@ namespace WindowsInput
         /// </summary>
         /// <param name="modifierKeyCodes">The list of modifier keys</param>
         /// <param name="keyCodes">The list of keys to simulate</param>
-        public IKeyboardSimulator ModifiedKeyStroke(IEnumerable<VirtualKeyCode> modifierKeyCodes, IEnumerable<VirtualKeyCode> keyCodes)
+        internal KeyboardSimulator ModifiedKeyStroke(IEnumerable<VirtualKeyCode> modifierKeyCodes, IEnumerable<VirtualKeyCode> keyCodes)
         {
             var builder = new InputBuilder();
             ModifiersDown(builder, modifierKeyCodes);
@@ -186,9 +187,9 @@ namespace WindowsInput
         /// Calls the Win32 SendInput method with a stream of KeyDown and KeyUp messages in order to simulate uninterrupted text entry via the keyboard.
         /// </summary>
         /// <param name="text">The text to be simulated.</param>
-        public IKeyboardSimulator TextEntry(string text)
+        internal KeyboardSimulator TextEntry(string text)
         {
-            if (text.Length > UInt32.MaxValue / 2) throw new ArgumentException(string.Format("The text parameter is too long. It must be less than {0} characters.", UInt32.MaxValue / 2), "text");
+            if (text.Length > uint.MaxValue / 2) throw new ArgumentException(string.Format("The text parameter is too long. It must be less than {0} characters.", uint.MaxValue / 2), "text");
             var inputList = new InputBuilder().AddCharacters(text).ToArray();
             SendSimulatedInput(inputList);
             return this;
@@ -198,7 +199,7 @@ namespace WindowsInput
         /// Simulates a single character text entry via the keyboard.
         /// </summary>
         /// <param name="character">The unicode character to be simulated.</param>
-        public IKeyboardSimulator TextEntry(char character)
+        internal KeyboardSimulator TextEntry(char character)
         {
             var inputList = new InputBuilder().AddCharacter(character).ToArray();
             SendSimulatedInput(inputList);
@@ -209,7 +210,7 @@ namespace WindowsInput
         /// Sleeps the executing thread to create a pause between simulated inputs.
         /// </summary>
         /// <param name="millsecondsTimeout">The number of milliseconds to wait.</param>
-        public IKeyboardSimulator Sleep(int millsecondsTimeout)
+        internal KeyboardSimulator Sleep(int millsecondsTimeout)
         {
             Thread.Sleep(millsecondsTimeout);
             return this;
@@ -219,7 +220,7 @@ namespace WindowsInput
         /// Sleeps the executing thread to create a pause between simulated inputs.
         /// </summary>
         /// <param name="timeout">The time to wait.</param>
-        public IKeyboardSimulator Sleep(TimeSpan timeout)
+        internal KeyboardSimulator Sleep(TimeSpan timeout)
         {
             Thread.Sleep(timeout);
             return this;

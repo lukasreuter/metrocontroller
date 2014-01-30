@@ -1,10 +1,10 @@
-﻿namespace WindowsInput
-{
+﻿namespace WindowsInput {
+
     /// <summary>
     /// The mouse button
     /// </summary>
-    public enum MouseButton
-    {
+    internal enum MouseButton {
+
         /// <summary>
         /// Left mouse button
         /// </summary>
