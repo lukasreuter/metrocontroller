@@ -74,8 +74,8 @@
                                                 <RowDefinition Height="*" />
                                                 <RowDefinition Height="15" />
                                             </Grid.RowDefinitions>
-                                            <ContentPresenter Grid.Row="1" Grid.RowSpan="2" Margin="7"/>
-                                            <Rectangle x:Name="HeaderBackground" Height="25" Fill="{DynamicResource BlueColorBrush}" VerticalAlignment="Top" Grid.Row="0"/>
+                                            <ContentPresenter Grid.Row="1" Grid.RowSpan="2" Margin="7" />
+                                            <Rectangle x:Name="HeaderBackground" Height="25" Fill="{DynamicResource BlueColorBrush}" VerticalAlignment="Top" Grid.Row="0" />
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" WindowChrome.IsHitTestVisibleInChrome="True" Grid.Row="0">
                                                 <Button Command="{Binding Source={x:Static SystemCommands.MinimizeWindowCommand}}" ToolTip="minimize" Style="{StaticResource WindowButtonStyle}">
                                                     <Button.Content>
@@ -87,14 +87,14 @@
                                                 <Button Command="{Binding Source={x:Static SystemCommands.CloseWindowCommand}}" ToolTip="close"  Style="{StaticResource WindowButtonStyle}">
                                                     <Button.Content>
                                                         <Grid Width="30" Height="25" RenderTransform="1,0,0,1,0,1">
-                                                            <Path Data="M0,0 L8,7 M8,0 L0,7 Z" Width="8" Height="7" VerticalAlignment="Center" HorizontalAlignment="Center" Stroke="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" StrokeThickness="1.5"  />
+                                                            <Path Data="M0,0 L8,7 M8,0 L0,7 Z" Width="8" Height="7" VerticalAlignment="Center" HorizontalAlignment="Center" Stroke="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" StrokeThickness="1.5" />
                                                         </Grid>
                                                     </Button.Content>
                                                 </Button>
                                             </StackPanel>
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="0">
                                                 <Image Name="Logo" Source="Resources/IconTransparent.png" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" Height="18" Width="18" />
-                                                <TextBlock x:Name="WindowTitleTextBlock" Grid.Row="0" Text="{TemplateBinding Title}" HorizontalAlignment="Left" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"  Margin="8,-1,0,0"  FontSize="16"  Foreground="{TemplateBinding Foreground}" FontWeight="SemiBold"/>
+                                                <TextBlock x:Name="WindowTitleTextBlock" Grid.Row="0" Text="{TemplateBinding Title}" HorizontalAlignment="Left" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"  Margin="8,-1,0,0"  FontSize="16"  Foreground="{TemplateBinding Foreground}" FontWeight="SemiBold" />
                                             </StackPanel>
                                             <Grid Grid.Row="2">
                                                 <Path x:Name="ResizeGrip" Visibility="Collapsed" Width="12" Height="12" Margin="1" HorizontalAlignment="Right" Stroke="{StaticResource BlueColorBrush}" StrokeThickness="1" Stretch="None" Data="F1 M1,10 L3,10 M5,10 L7,10 M9,10 L11,10 M2,9 L2,11 M6,9 L6,11 M10,9 L10,11 M5,6 L7,6 M9,6 L11,6 M6,5 L6,7 M10,5 L10,7 M9,2 L11,2 M10,1 L10,3" />
@@ -129,7 +129,7 @@
 
             <StackPanel Orientation="Horizontal" Margin="5,0,2,0">
                 <TextBlock Margin="5">Controller Index:</TextBlock>
-                <ComboBox Width="35" SelectionChanged="SelectedControllerChanged" Height="25" >
+                <ComboBox Width="35" SelectionChanged="SelectedControllerChanged" Height="25">
                     <ComboBoxItem IsSelected="True">0</ComboBoxItem>
                     <ComboBoxItem>1</ComboBoxItem>
                     <ComboBoxItem>2</ComboBoxItem>
@@ -144,7 +144,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="auto" MinHeight="200"/>
+                    <RowDefinition Height="auto" MinHeight="200" />
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="*" />
@@ -168,18 +168,18 @@
                     </Grid.RowDefinitions>
 
                     <CheckBox x:Name="CheckboxAButton" Grid.Row="0" IsChecked="{Binding SelectedController.IsAPressed, Mode=OneWay}" />
-                    <TextBlock Text="A Button" Grid.Row="0" Grid.Column="1"  />
+                    <TextBlock Text="A Button" Grid.Row="0" Grid.Column="1" />
                     <CheckBox x:Name="CheckboxBButton"  Grid.Row="1" IsChecked="{Binding SelectedController.IsBPressed, Mode=OneWay}" />
                     <TextBlock Text="B Button" Grid.Row="1" Grid.Column="1" />
-                    <CheckBox x:Name="CheckboxXButton"  Grid.Row="2"  IsChecked="{Binding SelectedController.IsXPressed, Mode=OneWay}"  />
+                    <CheckBox x:Name="CheckboxXButton"  Grid.Row="2"  IsChecked="{Binding SelectedController.IsXPressed, Mode=OneWay}" />
                     <TextBlock Text="X Button" Grid.Row="2" Grid.Column="1" />
                     <CheckBox x:Name="CheckboxYButton"  Grid.Row="3"  IsChecked="{Binding SelectedController.IsYPressed, Mode=OneWay}" />
                     <TextBlock Text="Y Button" Grid.Row="3" Grid.Column="1" />
-                    <CheckBox x:Name="CheckboxLeftShoulderButton"  Grid.Row="4"  IsChecked="{Binding SelectedController.IsLeftShoulderPressed, Mode=OneWay}"  />
+                    <CheckBox x:Name="CheckboxLeftShoulderButton"  Grid.Row="4"  IsChecked="{Binding SelectedController.IsLeftShoulderPressed, Mode=OneWay}" />
                     <TextBlock Text="Left Shoulder Button" Grid.Row="4" Grid.Column="1" />
-                    <CheckBox x:Name="CheckboxRightShoulderButton"  Grid.Row="5"  IsChecked="{Binding SelectedController.IsRightShoulderPressed, Mode=OneWay}"  />
+                    <CheckBox x:Name="CheckboxRightShoulderButton"  Grid.Row="5"  IsChecked="{Binding SelectedController.IsRightShoulderPressed, Mode=OneWay}" />
                     <TextBlock Text="Right Shoulder Button" Grid.Row="5" Grid.Column="1" />
-                    <CheckBox x:Name="CheckboxLeftStickButton"  Grid.Row="6"  IsChecked="{Binding SelectedController.IsLeftStickPressed, Mode=OneWay}"  />
+                    <CheckBox x:Name="CheckboxLeftStickButton"  Grid.Row="6"  IsChecked="{Binding SelectedController.IsLeftStickPressed, Mode=OneWay}" />
                     <TextBlock Text="Left Stick Button" Grid.Row="6" Grid.Column="1" />
                     <CheckBox x:Name="CheckboxRightStickButton"  Grid.Row="7"   IsChecked="{Binding SelectedController.IsRightStickPressed, Mode=OneWay}" />
                     <TextBlock Text="Right Stick Button" Grid.Row="7" Grid.Column="1" />
@@ -211,13 +211,13 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Text="Left X Axis " Grid.Row="0" />
-                    <ProgressBar Grid.Row="1" Minimum="-32768" Maximum="32767"  Value="{Binding SelectedController.LeftThumbStick.X, Mode=OneWay}"  />
+                    <ProgressBar Grid.Row="1" Minimum="-32768" Maximum="32767"  Value="{Binding SelectedController.LeftThumbStick.X, Mode=OneWay}" />
                     <TextBlock Text="Left Y Axis" Grid.Row="2" />
                     <ProgressBar Grid.Row="3"  Minimum="-32768" Maximum="32767"  Value="{Binding SelectedController.LeftThumbStick.Y, Mode=OneWay}" />
                     <TextBlock Text="Right X Axis" Grid.Row="4" />
-                    <ProgressBar Grid.Row="5"  Minimum="-32768" Maximum="32767"  Value="{Binding SelectedController.RightThumbStick.X, Mode=OneWay}"  />
+                    <ProgressBar Grid.Row="5"  Minimum="-32768" Maximum="32767"  Value="{Binding SelectedController.RightThumbStick.X, Mode=OneWay}" />
                     <TextBlock Text="Right Y Axis" Grid.Row="6" />
-                    <ProgressBar Grid.Row="7" Minimum="-32768" Maximum="32767"  Value="{Binding SelectedController.RightThumbStick.Y, Mode=OneWay}"  />
+                    <ProgressBar Grid.Row="7" Minimum="-32768" Maximum="32767"  Value="{Binding SelectedController.RightThumbStick.Y, Mode=OneWay}" />
                     <TextBlock Text="Left Trigger" Grid.Row="8" />
                     <ProgressBar Grid.Row="9"  Minimum="0" Maximum="255"   Value="{Binding SelectedController.LeftTrigger, Mode=OneWay}" />
                     <TextBlock Text="Right Trigger" Grid.Row="10" />
@@ -240,7 +240,7 @@
                     <TextBlock Grid.Column="1">Left Motor</TextBlock>
                     <TextBlock Grid.Column="2">Right Motor</TextBlock>
                     <Button Style="{StaticResource WindowButtonStyle}" BorderBrush="Transparent" Grid.Column="3" Grid.Row="1" Content="Send" Click="SendVibration_Click" />
-                    <Slider Margin="2" Grid.Column="1"  Grid.Row="1" VerticalAlignment="Center" Minimum="0" Maximum="1"  x:Name="LeftMotorSpeed"/>
+                    <Slider Margin="2" Grid.Column="1"  Grid.Row="1" VerticalAlignment="Center" Minimum="0" Maximum="1"  x:Name="LeftMotorSpeed" />
                     <Slider Margin="2" Grid.Column="2"  Grid.Row="1" VerticalAlignment="Center" Minimum="0" Maximum="1" x:Name="RightMotorSpeed" />
                 </Grid>
 
