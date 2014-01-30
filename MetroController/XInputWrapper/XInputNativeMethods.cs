@@ -6,47 +6,80 @@ namespace MetroController.XInputWrapper {
     /// <summary>Contains the imported methods from the xinput dynamic library</summary>
     public static class XInputNativeMethods {
 #if WINDOWS7
+        /// <summary>
+        /// Gets the state of the connected controllers
+        /// </summary>
+        /// <param name="dwUserIndex">[in] Index of the gamer associated with the device</param>
+        /// <param name="pState">[out] Receives the current state</param>
+        /// <returns>Returns error code "0" on success</returns>
         [DllImport("xinput9_1_0.dll")]
-        public static extern int XInputGetState
+        internal static extern int XInputGetState
         (
-            int dwUserIndex,            // [in] Index of the gamer associated with the device
-            ref XInputState pState      // [out] Receives the current state
+            int dwUserIndex,
+            ref XInputState pState
         );
 
+        /// <summary>
+        /// Sets the state of a specified controller
+        /// </summary>
+        /// <param name="dwUserIndex">[in] Index of the gamer associated with the device</param>
+        /// <param name="pVibration">[in, out] The vibration information to send to the controller</param>
+        /// <returns>Returns error code "0" on success</returns>
         [DllImport("xinput9_1_0.dll")]
-        public static extern int XInputSetState
+        internal static extern int XInputSetState
         (
-            int dwUserIndex,                  // [in] Index of the gamer associated with the device
-            ref XInputVibration pVibration    // [in, out] The vibration information to send to the controller
+            int dwUserIndex,
+            ref XInputVibration pVibration
         );
 
+        /// <summary>
+        /// Gets the capabilities of a certain controller
+        /// <seealso cref="XInputCapabilities"/>
+        /// </summary>
+        /// <param name="dwUserIndex">[in] Index of the gamer associated with the device</param>
+        /// <param name="dwFlags">[in] Input flags that identify the device type</param>
+        /// <param name="pCapabilities">[out] Receives the capabilities</param>
+        /// <returns></returns>
         [DllImport("xinput9_1_0.dll")]
-        public static extern int XInputGetCapabilities
+        internal static extern int XInputGetCapabilities
         (
-            int dwUserIndex,   // [in] Index of the gamer associated with the device
-            int dwFlags,       // [in] Input flags that identify the device type
-            ref XInputCapabilities pCapabilities  // [out] Receives the capabilities
+            int dwUserIndex,
+            int dwFlags,
+            ref XInputCapabilities pCapabilities
         );
 
-        //this function is not available prior to Windows 8
-        public static int XInputGetBatteryInformation
+        /// <summary>
+        /// this function is not available prior to Windows 8
+        /// </summary>
+        /// <param name="dwUserIndex">Index of the gamer associated with the device</param>
+        /// <param name="devType">Which device on this user index</param>
+        /// <param name="pBatteryInformation">Contains the level and types of batteries</param>
+        /// <returns>Returns 0</returns>
+        internal static int XInputGetBatteryInformation
         (
-            int dwUserIndex,        // Index of the gamer associated with the device
-            byte devType,            // Which device on this user index
-            ref XInputBatteryInformation pBatteryInformation // Contains the level and types of batteries
+            int dwUserIndex,
+            byte devType,
+            ref XInputBatteryInformation pBatteryInformation
         ) {
            return 0;
         }
 
-        //this function is not available prior to Windows 8
-        public static int XInputGetKeystroke
+        /// <summary>
+        /// this function is not available prior to Windows 8
+        /// </summary>
+        /// <param name="dwUserIndex">Index of the gamer associated with the device</param>
+        /// <param name="dwReserved">Reserved for future use</param>
+        /// <param name="pKeystroke">Pointer to an XINPUT_KEYSTROKE structure that receives an input event.</param>
+        /// <returns>Returns 0</returns>
+        internal static int XInputGetKeystroke
         (
-            int dwUserIndex,              // Index of the gamer associated with the device
-            int dwReserved,               // Reserved for future use
-            ref      XInputKeystroke pKeystroke    // Pointer to an XINPUT_KEYSTROKE structure that receives an input event.
+            int dwUserIndex,
+            int dwReserved,
+            ref XInputKeystroke pKeystroke
         ) {
             return 0;
         }
+
 #else
 
         /// <summary>
@@ -149,8 +182,7 @@ namespace MetroController.XInputWrapper {
         (
             int dwUserIndex,
             int dwFlag
-            //,unKnown *pUnKnown    // currently not known what type this is supposed
-            // to be, maybe an EventCallback
+            //,unKnown *pUnKnown    // currently not known what type this is supposed to be, maybe an EventCallback
         );
 
         /// <summary>
