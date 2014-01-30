@@ -425,20 +425,37 @@ namespace MetroController {
 
         #region IDisposable callbacks
 
-        void System.IDisposable.Dispose()
+        /// <summary>Standard IDisposable implementation</summary>
+        public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
-            return;
         }
 
+        /// <summary>
+        /// Used to release the system tray notification icon
+        /// </summary>
+        /// <param name="native">True if native (managed) resources should be releases</param>
         protected virtual void Dispose(bool native)
         {
             if (native) {
-                Ni.Dispose();
+                // Release managed resources
+                if (Ni != null) {
+                    Ni.Dispose();
+                }
+            } else {
+                // Release umanaged resources
             }
+            // Release umanaged resources
         }
 
         #endregion IDisposable callbacks
+
+        /// <summary>Destructor of MainWindow</summary>
+        ~MainWindow()
+        {
+            dbg("Finalizer called");
+            Dispose(false);
+        }
     }
 }
