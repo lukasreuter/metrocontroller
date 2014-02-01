@@ -1,5 +1,7 @@
 # MetroController
 
+## Introduction
+
 When i first tried out Windows 8.1 i was a little bit dissapointed that it didn't support the Xbox360 controller for PC to navigating the new "Metro UI".
 This little programm tries to remedy that and provides an easy way to control your PC with a XInput capable controller.
 While it is not intended to be used to input text, the most likely scenario would be an gameing rig or an multimedia inhouse box.
@@ -18,7 +20,7 @@ git clone https://github.com/Luxxuor/metrocontroller.git
 ## Building
 
 Requires .NET 4.5 or above.
-Open the solution file in Visual Studio [Express] 2013 and build (press F7) the release configuration.
+Open the solution file in Visual Studio [Express] 2013 and build the release configuration.
 You will find the the output in "{pathtotheclonedfolder}/MetroController/bin/Release".
 
 
@@ -35,10 +37,7 @@ J2i.Net.XInputWrapper.dll (1.0.0.0) - XInput Wrapper by Joel Ivory Johnson (http
 
 ## Licenses
 
-This project uses the *** License
-
-
-
+This project uses the MIT License
 
 
 ## Todo:
