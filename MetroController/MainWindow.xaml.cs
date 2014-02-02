@@ -1,9 +1,9 @@
-﻿using MetroController.XInputWrapper;
+﻿using MetroController.WindowsInput;
+using MetroController.XInputWrapper;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
@@ -11,14 +11,13 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Windows.Data.Xml.Dom;
 using Windows.UI.Notifications;
-using WindowsInput;
 
 namespace MetroController {
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window, INotifyPropertyChanged, IDisposable {
+    public sealed partial class MainWindow : INotifyPropertyChanged, IDisposable {
         //Fields---------------------------------------------------------------
 
         /// <summary>
@@ -29,28 +28,32 @@ namespace MetroController {
         /// <summary>
         /// Represents the current reference to XboxController that we take inputs from
         /// </summary>
+        // ReSharper disable once MemberCanBePrivate.Global
         public XboxController SelectedController { get; private set; }
 
         /// <summary>
         /// Represents the current index of the currently polled controller
         /// </summary>
-        public int ActiveController
+        private int ActiveController
         {
-            get { return _ActiveController; }
-            private set { _ActiveController = Math.Min(4, Math.Max(0, value)); }
+            get { return _activeController; }
+            set { _activeController = Math.Min(4, Math.Max(0, value)); }
         }
 
-        private int _ActiveController;
+        private int _activeController;
 
+        // ReSharper disable once UnusedMember.Local
         private bool IdlePolling
         {
-            get { return IdlePolling; }
+            get { return _idlePolling; }
             set
             {
-                IdlePolling = value;
+                _idlePolling = value;
                 //TODO: Call the desired method here
             }
         }
+
+        private bool _idlePolling;
 
         private const string APP_ID = "org.XInput.MetroController";
 
@@ -58,7 +61,6 @@ namespace MetroController {
 
         private const WindowsInput.Native.VirtualKeyCode RWIN = WindowsInput.Native.VirtualKeyCode.RWIN;
         private const WindowsInput.Native.VirtualKeyCode LWIN = WindowsInput.Native.VirtualKeyCode.LWIN;
-        private const WindowsInput.Native.VirtualKeyCode CONTROL = WindowsInput.Native.VirtualKeyCode.CONTROL;
         private const WindowsInput.Native.VirtualKeyCode RETURN = WindowsInput.Native.VirtualKeyCode.RETURN;
         private const WindowsInput.Native.VirtualKeyCode LEFT = WindowsInput.Native.VirtualKeyCode.LEFT;
         private const WindowsInput.Native.VirtualKeyCode RIGHT = WindowsInput.Native.VirtualKeyCode.RIGHT;
@@ -69,13 +71,14 @@ namespace MetroController {
 
         #endregion Virtual Key Codes Constants
 
-        private bool IsHidden;
+        private bool _isHidden;
 
+        // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
         private bool ControllersConnected;
 
         private System.Windows.Forms.NotifyIcon Ni;
 
-        private WindowsInput.InputSimulator Simulator;
+        private InputSimulator Simulator;
 
         //Methods--------------------------------------------------------------
 
@@ -88,9 +91,9 @@ namespace MetroController {
             InitializeComponent();
             DataContext = this;
             //TitleBar.MouseLeftButtonDown += (o, e) => DragMove();
-            this.CommandBindings.Add(new CommandBinding(SystemCommands.CloseWindowCommand, this.OnCloseWindow));
-            this.CommandBindings.Add(new CommandBinding(SystemCommands.MinimizeWindowCommand, this.OnMinimizeWindow, this.OnCanMinimizeWindow));
-            IsHidden = false; //if minimize on start is not set to true
+            CommandBindings.Add(new CommandBinding(SystemCommands.CloseWindowCommand, OnCloseWindow));
+            CommandBindings.Add(new CommandBinding(SystemCommands.MinimizeWindowCommand, OnMinimizeWindow, OnCanMinimizeWindow));
+            _isHidden = false; //if minimize on start is not set to true
 
             //Initialize the global InputSimulator for this program
             Simulator = new InputSimulator();
@@ -98,10 +101,9 @@ namespace MetroController {
             //Initialize the System Tray Notification icon
             Ni = new System.Windows.Forms.NotifyIcon();
             Ni.Icon = new System.Drawing.Icon(GetResource("MetroController.ico"));
-            Ni.DoubleClick += delegate(object sender, EventArgs args) { Maximize(); };
+            Ni.DoubleClick += (sender, args) => Maximize();
             Ni.ContextMenu = new System.Windows.Forms.ContextMenu();
-            Ni.ContextMenu.Popup += delegate(object sender, EventArgs args)
-            {
+            Ni.ContextMenu.Popup += (sender, args) => {
                 XboxController.StopPolling();
                 Application.Current.Shutdown();
             };
@@ -135,7 +137,7 @@ namespace MetroController {
         private void _selectedController_StateChanged(object sender, XboxControllerStateChangedEventArgs e)
         {
             //Main Window is being displayed so dont simulate keypresses
-            if (!IsHidden) { goto Finish; }
+            if (!_isHidden) { goto Finish; }
 
             //special controller shortcut Guide+LS+RS
             if (SelectedController.IsGuidePressed && SelectedController.IsLeftShoulderPressed && SelectedController.IsRightShoulderPressed) {
@@ -239,14 +241,14 @@ namespace MetroController {
             }
 
             //Main window is hidden so we dont have to waste resources to update the layout
-            if (IsHidden) {
+            if (_isHidden) {
                 goto Exit;
             }
 
         Finish:
             OnPropertyChanged("SelectedController");
         Exit:
-            return;
+            ;
         }
 
         #region Helper Methods
@@ -282,7 +284,7 @@ namespace MetroController {
             return false;
         }
 
-        private void DispatchNotification(string title, string cont)
+        private static void DispatchNotification(string title, string cont)
         {
             //XmlDocument toastXml = ToastNotificationManager.GetTemplateContent(ToastTemplateType.ToastText02);
             XmlDocument toastXml = ToastNotificationManager.GetTemplateContent(ToastTemplateType.ToastText02);
@@ -304,7 +306,7 @@ namespace MetroController {
             //((XmlElement) imageAttributes[0]).SetAttribute("alt", "Icon Graphic");
 
             // Create the toast and attach event listeners
-            ToastNotification toast = new ToastNotification(toastXml);
+            var toast = new ToastNotification(toastXml);
             //toast.Activated += ToastActivated;
             //toast.Dismissed += ToastDismissed;
             //toast.Failed += ToastFailed;
@@ -313,7 +315,7 @@ namespace MetroController {
             ToastNotificationManager.CreateToastNotifier(APP_ID).Show(toast);
         }
 
-        private void WaitForNewControllers()
+        private static void WaitForNewControllers()
         {
         }
 
@@ -322,7 +324,7 @@ namespace MetroController {
         /// </summary>
         /// <param name="key">The key that should be pressed in an String representation</param>
         /// <param name="time">The time that the Thread should sleep in (ushort) milliseconds</param>
-        private void EmitKeyPress(string key, ushort time = 100)
+        private static void EmitKeyPress(string key, ushort time = 100)
         {
             System.Windows.Forms.SendKeys.SendWait(key);
             Thread.Sleep(time);
@@ -330,23 +332,21 @@ namespace MetroController {
 
         private void Minimize()
         {
-            if (!IsHidden) {
-                this.Hide();
-                this.ShowInTaskbar = false;
-                Ni.Visible = true;
-                IsHidden = true;
-                MinimizeFootprint();
-            }
+            if (_isHidden) return;
+            Hide();
+            ShowInTaskbar = false;
+            Ni.Visible = true;
+            _isHidden = true;
+            MinimizeFootprint();
         }
 
         private void Maximize()
         {
-            if (IsHidden) {
-                this.Show();
-                this.ShowInTaskbar = true;
-                Ni.Visible = false;
-                IsHidden = false;
-            }
+            if (!_isHidden) return;
+            Show();
+            ShowInTaskbar = true;
+            Ni.Visible = false;
+            _isHidden = false;
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass"), DllImport("psapi.dll")]
@@ -355,7 +355,7 @@ namespace MetroController {
         [Conditional("RELEASE")]
         private static void MinimizeFootprint()
         {
-            int err = EmptyWorkingSet(Process.GetCurrentProcess().Handle);
+            var err = EmptyWorkingSet(Process.GetCurrentProcess().Handle);
             Tools.TestReturnValue(err);
             if (err != 0) {
                 Tools.Dbg("Emptying the working set was not successful!");
@@ -378,14 +378,14 @@ namespace MetroController {
 
         private void SendVibration_Click(object sender, RoutedEventArgs e)
         {
-            double leftMotorSpeed = LeftMotorSpeed.Value;
-            double rightMotorSpeed = RightMotorSpeed.Value;
+            var leftMotorSpeed = LeftMotorSpeed.Value;
+            var rightMotorSpeed = RightMotorSpeed.Value;
             SelectedController.Vibrate(leftMotorSpeed, rightMotorSpeed, TimeSpan.FromSeconds(2));
         }
 
         private void OnCanMinimizeWindow(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = this.ResizeMode != ResizeMode.NoResize;
+            e.CanExecute = ResizeMode != ResizeMode.NoResize;
         }
 
         private void OnCloseWindow(object target, ExecutedRoutedEventArgs e)
@@ -415,10 +415,9 @@ namespace MetroController {
         /// <param name="name">The name of the property that has changed</param>
         public void OnPropertyChanged(string name)
         {
-            if (PropertyChanged != null) {
-                Action a = () => { PropertyChanged(this, new PropertyChangedEventArgs(name)); };
-                Dispatcher.BeginInvoke(a, null);
-            }
+            if (PropertyChanged == null) return;
+            Action a = () => PropertyChanged(this, new PropertyChangedEventArgs(name));
+            Dispatcher.BeginInvoke(a, null);
         }
 
         #endregion INotifyInterface callbacks
@@ -436,15 +435,13 @@ namespace MetroController {
         /// Used to release the system tray notification icon
         /// </summary>
         /// <param name="native">True if native (managed) resources should be releases</param>
-        protected virtual void Dispose(bool native)
+        private void Dispose(bool native)
         {
             if (native) {
                 // Release managed resources
                 if (Ni != null) {
                     Ni.Dispose();
                 }
-            } else {
-                // Release umanaged resources
             }
             // Release umanaged resources
         }
