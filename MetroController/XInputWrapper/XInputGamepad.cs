@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Globalization;
 using System.Runtime.InteropServices;
 
 namespace MetroController.XInputWrapper {
@@ -10,37 +10,37 @@ namespace MetroController.XInputWrapper {
         /// <summary>Contains which buttons are currently pressed <seealso cref="IsButtonPressed"/></summary>
         [MarshalAs(UnmanagedType.I2)]
         [FieldOffset(0)]
-        public short wButtons;
+        private short wButtons;
 
         /// <summary>Amount of pressure applied onto the left trigger [0, 255]</summary>
         [MarshalAs(UnmanagedType.I1)]
         [FieldOffset(2)]
-        public byte bLeftTrigger;
+        internal byte bLeftTrigger;
 
         /// <summary>Amount of pressure applied onto the right trigger [0, 255]</summary>
         [MarshalAs(UnmanagedType.I1)]
         [FieldOffset(3)]
-        public byte bRightTrigger;
+        internal byte bRightTrigger;
 
         /// <summary>Current position of the left thumb stick on the x axis</summary>
         [MarshalAs(UnmanagedType.I2)]
         [FieldOffset(4)]
-        public short sThumbLX;
+        internal short sThumbLX;
 
         /// <summary>Current position of the left thumb stick on the y axis</summary>
         [MarshalAs(UnmanagedType.I2)]
         [FieldOffset(6)]
-        public short sThumbLY;
+        internal short sThumbLY;
 
         /// <summary>Current position of the right thumb stick on the x axis</summary>
         [MarshalAs(UnmanagedType.I2)]
         [FieldOffset(8)]
-        public short sThumbRX;
+        internal short sThumbRX;
 
         /// <summary>Current position of the right thumb stick on the y axis</summary>
         [MarshalAs(UnmanagedType.I2)]
         [FieldOffset(10)]
-        public short sThumbRY;
+        internal short sThumbRY;
 
         /// <summary>
         /// Checks if a certain button is pressed
@@ -86,7 +86,7 @@ namespace MetroController.XInputWrapper {
         public override bool Equals(object obj)
         {
             if (!(obj is XInputGamepad)) return false;
-            XInputGamepad source = (XInputGamepad) obj;
+            var source = (XInputGamepad) obj;
             return ((sThumbLX == source.sThumbLX) &&
                     (sThumbLY == source.sThumbLY) &&
                     (sThumbRX == source.sThumbRX) &&
@@ -105,23 +105,7 @@ namespace MetroController.XInputWrapper {
         public static bool operator ==(XInputGamepad a, XInputGamepad b)
         {
             // If both are null, or both are same instance, return true.
-            if (System.Object.ReferenceEquals(a, b)) {
-                return true;
-            }
-
-            // If one is null, but not both, return false.
-            if (((object) a == null) || ((object) b == null)) {
-                return false;
-            }
-
-            // Return true if the fields match:
-            return ((a.wButtons == b.wButtons) &&
-                    (a.bLeftTrigger == b.bLeftTrigger) &&
-                    (a.bRightTrigger == b.bRightTrigger) &&
-                    (a.sThumbLX == b.sThumbLX) &&
-                    (a.sThumbLY == b.sThumbLY) &&
-                    (a.sThumbRX == b.sThumbRX) &&
-                    (a.sThumbRY == b.sThumbRY));
+            return Equals(a, b) || a.Equals(b);
         }
 
         /// <summary>
@@ -142,7 +126,8 @@ namespace MetroController.XInputWrapper {
         /// <returns>A hash code</returns>
         public override int GetHashCode()
         {
-            return (base.GetHashCode() + this.wButtons);
+            // ReSharper disable once NonReadonlyFieldInGetHashCode
+            return (base.GetHashCode() + wButtons);
         }
 
         //TODO: implement this
@@ -152,9 +137,8 @@ namespace MetroController.XInputWrapper {
         /// <returns>A string describing the instance</returns>
         public override string ToString()
         {
-            string str;
-            str = wButtons.ToString();
-            str += bLeftTrigger.ToString();
+            var str = wButtons.ToString(CultureInfo.InvariantCulture);
+            str += bLeftTrigger.ToString(CultureInfo.InvariantCulture);
 
             return str;
         }
