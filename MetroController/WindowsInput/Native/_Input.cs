@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace WindowsInput.Native {
+﻿namespace MetroController.WindowsInput.Native {
 #pragma warning disable 649
 
     /// <summary>
@@ -11,7 +9,7 @@ namespace WindowsInput.Native {
     /// This structure contains information identical to that used in the parameter list of the keybd_event or mouse_event function.
     /// Windows 2000/XP: INPUT_KEYBOARD supports nonkeyboard input methods, such as handwriting recognition or voice recognition, as if it were text input by using the KEYEVENTF_UNICODE flag. For more information, see the remarks section of KEYBDINPUT.
     /// </remarks>
-    internal struct INPUT {
+    internal struct Input {
 
         /// <summary>
         /// Specifies the type of the input event. This member can be one of the following values.
@@ -24,7 +22,7 @@ namespace WindowsInput.Native {
         /// <summary>
         /// The data structure that contains information about the simulated Mouse, Keyboard or Hardware event.
         /// </summary>
-        internal MOUSEKEYBDHARDWAREINPUT Data;
+        internal Mousekeybdhardwareinput Data;
     }
 
 #pragma warning restore 649

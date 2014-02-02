@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WindowsInput.Native {
+namespace MetroController.WindowsInput.Native {
 #pragma warning disable 649
 
     /// <summary>
@@ -15,7 +15,7 @@ namespace WindowsInput.Native {
     /// Relative mouse motion is subject to the effects of the mouse speed and the two-mouse threshold values. A user sets these three values with the Pointer Speed slider of the Control Panel's Mouse Properties sheet. You can obtain and set these values using the SystemParametersInfo function.
     /// The system applies two tests to the specified relative mouse movement. If the specified distance along either the x or y axis is greater than the first mouse threshold value, and the mouse speed is not zero, the system doubles the distance. If the specified distance along either the x or y axis is greater than the second mouse threshold value, and the mouse speed is equal to two, the system doubles the distance that resulted from applying the first threshold test. It is thus possible for the system to multiply specified relative mouse movement along the x or y axis by up to four times.
     /// </remarks>
-    internal struct MOUSEINPUT {
+    internal struct Mouseinput {
 
         /// <summary>
         /// Specifies the absolute position of the mouse, or the amount of motion since the last mouse event was generated, depending on the value of the dwFlags member. Absolute data is specified as the x coordinate of the mouse; relative data is specified as the number of pixels moved.
@@ -45,12 +45,15 @@ namespace WindowsInput.Native {
         /// <summary>
         /// Time stamp for the event, in milliseconds. If this parameter is 0, the system will provide its own time stamp.
         /// </summary>
+#pragma warning disable 169
         internal uint Time;
 
         /// <summary>
         /// Specifies an additional value associated with the mouse event. An application calls GetMessageExtraInfo to obtain this extra information.
         /// </summary>
         internal IntPtr ExtraInfo;
+
+#pragma warning restore 169
     }
 
 #pragma warning restore 649
