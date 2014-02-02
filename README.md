@@ -46,7 +46,6 @@ This project uses the MIT License
  - Make buttons/shortcuts customizable
  - make the layout prettier
  - Wireless: query batteryinfo only every odd/x cycles of updating when polling is started, to save some performance (battery info arent changing that often)
- - Wired: dont query batterinfo on wired controllers as their info is not going to change
  - Add mouse controls
  - write a new Tostring method for XInputState
  - write more comments/add summaries for private methods/fields
