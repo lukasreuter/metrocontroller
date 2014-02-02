@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
+using System.Resources;
 using System.Runtime.InteropServices;
 using System.Windows;
 
@@ -49,3 +51,5 @@ using System.Windows;
 [assembly: AssemblyVersion("0.5.*")]
 [assembly: AssemblyFileVersion("0.5.0.0")]
 [assembly: GuidAttribute("EC27282E-DC87-485D-B55E-0CF37497CB79")]
+[assembly: NeutralResourcesLanguageAttribute("en")]
+[assembly: CLSCompliant(true)]
