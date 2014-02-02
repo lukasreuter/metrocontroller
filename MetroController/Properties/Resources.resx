@@ -270,4 +270,16 @@
         QmCC
 </value>
   </data>
+  <data name="returned_non_zero_error_code" xml:space="preserve">
+    <value> returned non zero erro code</value>
+  </data>
+  <data name="line_number" xml:space="preserve">
+    <value>, line #</value>
+  </data>
+  <data name="Tools_Dbg___in_member__" xml:space="preserve">
+    <value>; in member: </value>
+  </data>
+  <data name="Tools_Dbg___" xml:space="preserve">
+    <value> #</value>
+  </data>
 </root>

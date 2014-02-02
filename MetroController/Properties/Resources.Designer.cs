@@ -10,8 +10,8 @@
 
 namespace MetroController.Properties {
     using System;
-    
-    
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -23,15 +23,15 @@ namespace MetroController.Properties {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
-        
+
         private static global::System.Resources.ResourceManager resourceMan;
-        
+
         private static global::System.Globalization.CultureInfo resourceCulture;
-        
+
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         internal Resources() {
         }
-        
+
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
@@ -45,7 +45,7 @@ namespace MetroController.Properties {
                 return resourceMan;
             }
         }
-        
+
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
@@ -59,7 +59,7 @@ namespace MetroController.Properties {
                 resourceCulture = value;
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
@@ -69,7 +69,16 @@ namespace MetroController.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to , line #.
+        /// </summary>
+        internal static string line_number {
+            get {
+                return ResourceManager.GetString("line_number", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
@@ -77,6 +86,33 @@ namespace MetroController.Properties {
             get {
                 object obj = ResourceManager.GetObject("MetroController", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to  returned non zero erro code.
+        /// </summary>
+        internal static string returned_non_zero_error_code {
+            get {
+                return ResourceManager.GetString("returned_non_zero_error_code", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to  #.
+        /// </summary>
+        internal static string Tools_Dbg___ {
+            get {
+                return ResourceManager.GetString("Tools_Dbg___", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to ; in member: .
+        /// </summary>
+        internal static string Tools_Dbg___in_member__ {
+            get {
+                return ResourceManager.GetString("Tools_Dbg___in_member__", resourceCulture);
             }
         }
     }
