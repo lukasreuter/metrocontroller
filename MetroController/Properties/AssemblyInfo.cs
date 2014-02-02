@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Resources;
 using System.Runtime.InteropServices;
@@ -53,3 +54,4 @@ using System.Windows;
 [assembly: GuidAttribute("EC27282E-DC87-485D-B55E-0CF37497CB79")]
 [assembly: NeutralResourcesLanguageAttribute("en")]
 [assembly: CLSCompliant(true)]
+[assembly: SuppressMessage("Microsoft.Design", "CA2210:AssembliesShouldHaveValidStrongNames")]
