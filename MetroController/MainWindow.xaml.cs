@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -335,6 +336,7 @@ namespace MetroController {
                 this.ShowInTaskbar = false;
                 Ni.Visible = true;
                 IsHidden = true;
+                MinimizeFootprint();
             }
         }
 
@@ -345,6 +347,18 @@ namespace MetroController {
                 this.ShowInTaskbar = true;
                 Ni.Visible = false;
                 IsHidden = false;
+            }
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass"), DllImport("psapi.dll")]
+        private static extern int EmptyWorkingSet(IntPtr hwProc);
+
+        [Conditional("RELEASE")]
+        private static void MinimizeFootprint()
+        {
+            int err = EmptyWorkingSet(Process.GetCurrentProcess().Handle);
+            if (err != 0) {
+                dbg("Emptying the working set was not successful!");
             }
         }
 
@@ -359,7 +373,7 @@ namespace MetroController {
         /// <param name="name">The name of the calling method</param>
         /// <param name="line">The line number of the calling code</param>
         [Conditional("DEBUG")]
-        static private void dbg(string str, [CallerMemberName] string name = "", [CallerLineNumber] int line = 0)
+        private static void dbg(string str, [CallerMemberName] string name = "", [CallerLineNumber] int line = 0)
         {
             Console.WriteLine(str + "; in member: " + name + " #" + line);
         }
