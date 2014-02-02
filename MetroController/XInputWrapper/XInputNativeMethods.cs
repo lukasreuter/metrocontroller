@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
 namespace MetroController.XInputWrapper {
@@ -88,6 +88,7 @@ namespace MetroController.XInputWrapper {
         /// <param name="dwUserIndex">[in] Index of the gamer associated with the device</param>
         /// <param name="pState">[out] Receives the current state</param>
         /// <returns>Returns error code "0" on success</returns>
+        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DllImport("xinput1_4.dll")]
         internal static extern int XInputGetState
         (
@@ -147,6 +148,7 @@ namespace MetroController.XInputWrapper {
         /// <param name="dwReserved">Reserved for future use</param>
         /// <param name="pKeystroke">Pointer to an XINPUT_KEYSTROKE structure that receives an input event</param>
         /// <returns>An error code</returns>
+        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DllImport("xinput1_4.dll")]
         internal static extern int XInputGetKeystroke
         (
@@ -177,6 +179,7 @@ namespace MetroController.XInputWrapper {
         /// <param name="dwUserIndex">[in] Index of the gamer associated with the device</param>
         /// <param name="dwFlag">[in] Input flags that identify the device type</param>
         /// <returns>An error code</returns>
+        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DllImport("xinput1_4.dll", EntryPoint = "#101")]
         internal static extern int XInputWaitForGuideButton
         (
@@ -190,6 +193,7 @@ namespace MetroController.XInputWrapper {
         /// </summary>
         /// <param name="dwUserIndex">[in] Index of the gamer associated with the device</param>
         /// <returns>An error code</returns>
+        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DllImport("xinput1_4.dll", EntryPoint = "#102")]
         internal static extern int XInputCancelGuideButtonWait
         (
@@ -201,6 +205,7 @@ namespace MetroController.XInputWrapper {
         /// </summary>
         /// <param name="dwUserIndex">[in] Index of the gamer associated with the device</param>
         /// <returns>Returns error code "0" on success</returns>
+        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DllImport("xinput1_4.dll", EntryPoint = "#103")]
         internal static extern int XInputControllerOff
         (

@@ -1,18 +1,15 @@
 ﻿using MetroController.XInputWrapper;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 
 namespace MetroController.Converters {
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses")]
     internal class BatteryTypeValueToBatteryTypeString : IValueConverter {
 
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            byte v = (byte) value;
+            var v = (byte) value;
             switch ((BatteryTypes) v) {
                 case BatteryTypes.BATTERY_TYPE_ALKALINE:
                     return "alkaline";
