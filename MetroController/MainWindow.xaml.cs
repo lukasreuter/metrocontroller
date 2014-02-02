@@ -215,8 +215,10 @@ namespace MetroController {
                 }*/
 
                 // A Button: ENTER
-                if (SelectedController.IsAPressed) {
-                    Simulator.Keyboard.KeyPress(RETURN).Sleep(100);
+                if (SelectedController.IsAPressed && Simulator.InputDeviceState.IsKeyUp(RETURN)) {
+                    Simulator.Keyboard.KeyDown(RETURN);
+                } else if (!SelectedController.IsAPressed && Simulator.InputDeviceState.IsKeyDown(RETURN)) {
+                    Simulator.Keyboard.KeyUp(RETURN);
                 }
 
                 // B Button: WIN+TAB
