@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace WindowsInput {
+﻿namespace MetroController.WindowsInput {
 
     /// <summary>
     /// Implements the InputSimulator interface to simulate Keyboard and Mouse input and provide the state of those input devices.
@@ -22,21 +20,23 @@ namespace WindowsInput {
         /// </summary>
         private readonly InputDeviceStateAdaptor _inputDeviceState;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="InputSimulator"/> class using the specified <see cref="KeyboardSimulator"/>
-        /// , <see cref="MouseSimulator"/> and <see cref="InputDeviceStateAdaptor"/> instances.
-        /// </summary>
-        /// <param name="keyboardSimulator">The <see cref="KeyboardSimulator"/> instance to use for simulating keyboard input.</param>
-        /// <param name="mouseSimulator">The <see cref="MouseSimulator"/> instance to use for simulating mouse input.</param>
-        /// <param name="inputDeviceStateAdaptor">The <see cref="InputDeviceStateAdaptor"/> instance to use for interpreting the state of input devices.</param>
-        internal InputSimulator(KeyboardSimulator keyboardSimulator,
-                                MouseSimulator mouseSimulator,
-                                InputDeviceStateAdaptor inputDeviceStateAdaptor)
-        {
-            _keyboardSimulator = keyboardSimulator;
-            _mouseSimulator = mouseSimulator;
-            _inputDeviceState = inputDeviceStateAdaptor;
-        }
+        /*
+                /// <summary>
+                /// Initializes a new instance of the <see cref="InputSimulator"/> class using the specified <see cref="KeyboardSimulator"/>
+                /// , <see cref="MouseSimulator"/> and <see cref="InputDeviceStateAdaptor"/> instances.
+                /// </summary>
+                /// <param name="keyboardSimulator">The <see cref="KeyboardSimulator"/> instance to use for simulating keyboard input.</param>
+                /// <param name="mouseSimulator">The <see cref="MouseSimulator"/> instance to use for simulating mouse input.</param>
+                /// <param name="inputDeviceStateAdaptor">The <see cref="InputDeviceStateAdaptor"/> instance to use for interpreting the state of input devices.</param>
+                internal InputSimulator(KeyboardSimulator keyboardSimulator,
+                                        MouseSimulator mouseSimulator,
+                                        InputDeviceStateAdaptor inputDeviceStateAdaptor)
+                {
+                    _keyboardSimulator = keyboardSimulator;
+                    _mouseSimulator = mouseSimulator;
+                    _inputDeviceState = inputDeviceStateAdaptor;
+                }
+        */
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InputSimulator"/> class using the default <see cref="KeyboardSimulator"/>

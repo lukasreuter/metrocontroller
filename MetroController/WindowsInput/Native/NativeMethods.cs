@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
-namespace WindowsInput.Native {
+namespace MetroController.WindowsInput.Native {
 
     /// <summary>
     /// References all of the Native Windows API methods for the WindowsInput functionality.
@@ -43,6 +44,7 @@ namespace WindowsInput.Native {
         ///
         /// These left- and right-distinguishing constants are only available when you call the GetKeyboardState, SetKeyboardState, GetAsyncKeyState, GetKeyState, and MapVirtualKey functions.
         /// </remarks>
+        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern short GetAsyncKeyState(int virtualKeyCode);
 
@@ -88,13 +90,14 @@ namespace WindowsInput.Native {
         /// This function does not reset the keyboard's current state. Any keys that are already pressed when the function is called might interfere with the events that this function generates. To avoid this problem, check the keyboard's state with the GetAsyncKeyState function and correct as necessary.
         /// </remarks>
         [DllImport("user32.dll", SetLastError = true)]
-        internal static extern uint SendInput(uint numberOfInputs, INPUT[] inputs, int sizeOfInputStructure);
+        internal static extern uint SendInput(uint numberOfInputs, Input[] inputs, int sizeOfInputStructure);
 
         /// <summary>
         /// The GetMessageExtraInfo function retrieves the extra message information for the current thread. Extra message information is an application- or driver-defined value associated with the current thread's message queue.
         /// </summary>
         /// <returns></returns>
         /// <remarks>To set a thread's extra message information, use the SetMessageExtraInfo function. </remarks>
+        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DllImport("user32.dll")]
         internal static extern IntPtr GetMessageExtraInfo();
     }

@@ -1,4 +1,4 @@
-﻿namespace WindowsInput.Native {
+﻿namespace MetroController.WindowsInput.Native {
 
     /// <summary>
     /// The list of VirtualKeyCodes (see: http://msdn.microsoft.com/en-us/library/dd375731(VS.85).aspx)

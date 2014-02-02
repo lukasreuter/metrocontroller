@@ -1,54 +1,54 @@
-﻿using System;
+﻿using MetroController.WindowsInput.Native;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using WindowsInput.Native;
 
-namespace WindowsInput {
+namespace MetroController.WindowsInput {
 
     /// <summary>
-    /// A helper class for building a list of <see cref="INPUT"/> messages ready to be sent to the native Windows API.
+    /// A helper class for building a list of <see cref="Input"/> messages ready to be sent to the native Windows API.
     /// </summary>
-    internal class InputBuilder : IEnumerable<INPUT> {
+    internal class InputBuilder : IEnumerable<Input> {
 
         /// <summary>
-        /// The public list of <see cref="INPUT"/> messages being built by this instance.
+        /// The public list of <see cref="Input"/> messages being built by this instance.
         /// </summary>
-        private readonly List<INPUT> _inputList;
+        private readonly List<Input> _inputList;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InputBuilder"/> class.
         /// </summary>
         internal InputBuilder()
         {
-            _inputList = new List<INPUT>();
+            _inputList = new List<Input>();
         }
 
         /// <summary>
-        /// Returns the list of <see cref="INPUT"/> messages as a <see cref="System.Array"/> of <see cref="INPUT"/> messages.
+        /// Returns the list of <see cref="Input"/> messages as a <see cref="System.Array"/> of <see cref="Input"/> messages.
         /// </summary>
-        /// <returns>The <see cref="System.Array"/> of <see cref="INPUT"/> messages.</returns>
-        internal INPUT[] ToArray()
+        /// <returns>The <see cref="System.Array"/> of <see cref="Input"/> messages.</returns>
+        internal Input[] ToArray()
         {
             return _inputList.ToArray();
         }
 
         /// <summary>
-        /// Returns an enumerator that iterates through the list of <see cref="INPUT"/> messages.
+        /// Returns an enumerator that iterates through the list of <see cref="Input"/> messages.
         /// </summary>
         /// <returns>
-        /// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the list of <see cref="INPUT"/> messages.
+        /// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the list of <see cref="Input"/> messages.
         /// </returns>
         /// <filterpriority>1</filterpriority>
-        public IEnumerator<INPUT> GetEnumerator()
+        public IEnumerator<Input> GetEnumerator()
         {
             return _inputList.GetEnumerator();
         }
 
         /// <summary>
-        /// Returns an enumerator that iterates through the list of <see cref="INPUT"/> messages.
+        /// Returns an enumerator that iterates through the list of <see cref="Input"/> messages.
         /// </summary>
         /// <returns>
-        /// An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the list of <see cref="INPUT"/> messages.
+        /// An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the list of <see cref="Input"/> messages.
         /// </returns>
         /// <filterpriority>2</filterpriority>
         IEnumerator IEnumerable.GetEnumerator()
@@ -57,10 +57,11 @@ namespace WindowsInput {
         }
 
         /// <summary>
-        /// Gets the <see cref="INPUT"/> at the specified position.
+        /// Gets the <see cref="Input"/> at the specified position.
         /// </summary>
-        /// <value>The <see cref="INPUT"/> message at the specified position.</value>
-        internal INPUT this[int position] { get { return _inputList[position]; } }
+        /// <value>The <see cref="Input"/> message at the specified position.</value>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        internal Input this[int position] { get { return _inputList[position]; } }
 
         /// <summary>
         /// Determines if the <see cref="VirtualKeyCode"/> is an ExtendedKey
@@ -74,44 +75,40 @@ namespace WindowsInput {
         /// </remarks>
         internal static bool IsExtendedKey(VirtualKeyCode keyCode)
         {
-            if (keyCode == VirtualKeyCode.MENU ||
-                keyCode == VirtualKeyCode.LMENU ||
-                keyCode == VirtualKeyCode.RMENU ||
-                keyCode == VirtualKeyCode.CONTROL ||
-                keyCode == VirtualKeyCode.RCONTROL ||
-                keyCode == VirtualKeyCode.INSERT ||
-                keyCode == VirtualKeyCode.DELETE ||
-                keyCode == VirtualKeyCode.HOME ||
-                keyCode == VirtualKeyCode.END ||
-                keyCode == VirtualKeyCode.PRIOR ||
-                keyCode == VirtualKeyCode.NEXT ||
-                keyCode == VirtualKeyCode.RIGHT ||
-                keyCode == VirtualKeyCode.UP ||
-                keyCode == VirtualKeyCode.LEFT ||
-                keyCode == VirtualKeyCode.DOWN ||
-                keyCode == VirtualKeyCode.NUMLOCK ||
-                keyCode == VirtualKeyCode.CANCEL ||
-                keyCode == VirtualKeyCode.SNAPSHOT ||
-                keyCode == VirtualKeyCode.DIVIDE) {
-                return true;
-            } else {
-                return false;
-            }
+            return keyCode == VirtualKeyCode.MENU ||
+                   keyCode == VirtualKeyCode.LMENU ||
+                   keyCode == VirtualKeyCode.RMENU ||
+                   keyCode == VirtualKeyCode.CONTROL ||
+                   keyCode == VirtualKeyCode.RCONTROL ||
+                   keyCode == VirtualKeyCode.INSERT ||
+                   keyCode == VirtualKeyCode.DELETE ||
+                   keyCode == VirtualKeyCode.HOME ||
+                   keyCode == VirtualKeyCode.END ||
+                   keyCode == VirtualKeyCode.PRIOR ||
+                   keyCode == VirtualKeyCode.NEXT ||
+                   keyCode == VirtualKeyCode.RIGHT ||
+                   keyCode == VirtualKeyCode.UP ||
+                   keyCode == VirtualKeyCode.LEFT ||
+                   keyCode == VirtualKeyCode.DOWN ||
+                   keyCode == VirtualKeyCode.NUMLOCK ||
+                   keyCode == VirtualKeyCode.CANCEL ||
+                   keyCode == VirtualKeyCode.SNAPSHOT ||
+                   keyCode == VirtualKeyCode.DIVIDE;
         }
 
         /// <summary>
-        /// Adds a key down to the list of <see cref="INPUT"/> messages.
+        /// Adds a key down to the list of <see cref="Input"/> messages.
         /// </summary>
         /// <param name="keyCode">The <see cref="VirtualKeyCode"/>.</param>
         /// <returns>This <see cref="InputBuilder"/> instance.</returns>
         internal InputBuilder AddKeyDown(VirtualKeyCode keyCode)
         {
             var down =
-                new INPUT {
+                new Input {
                     Type = (uint) InputType.Keyboard,
                     Data = {
                         Keyboard =
-                            new KEYBDINPUT {
+                            new Keybdinput {
                                 KeyCode = (ushort) keyCode,
                                 Scan = 0,
                                 Flags = IsExtendedKey(keyCode) ? (uint) KeyboardFlag.ExtendedKey : 0,
@@ -126,18 +123,18 @@ namespace WindowsInput {
         }
 
         /// <summary>
-        /// Adds a key up to the list of <see cref="INPUT"/> messages.
+        /// Adds a key up to the list of <see cref="Input"/> messages.
         /// </summary>
         /// <param name="keyCode">The <see cref="VirtualKeyCode"/>.</param>
         /// <returns>This <see cref="InputBuilder"/> instance.</returns>
         internal InputBuilder AddKeyUp(VirtualKeyCode keyCode)
         {
             var up =
-                new INPUT {
+                new Input {
                     Type = (uint) InputType.Keyboard,
                     Data = {
                         Keyboard =
-                            new KEYBDINPUT {
+                            new Keybdinput {
                                 KeyCode = (ushort) keyCode,
                                 Scan = 0,
                                 Flags = (uint) (IsExtendedKey(keyCode)
@@ -154,7 +151,7 @@ namespace WindowsInput {
         }
 
         /// <summary>
-        /// Adds a key press to the list of <see cref="INPUT"/> messages which is equivalent to a key down followed by a key up.
+        /// Adds a key press to the list of <see cref="Input"/> messages which is equivalent to a key down followed by a key up.
         /// </summary>
         /// <param name="keyCode">The <see cref="VirtualKeyCode"/>.</param>
         /// <returns>This <see cref="InputBuilder"/> instance.</returns>
@@ -166,19 +163,19 @@ namespace WindowsInput {
         }
 
         /// <summary>
-        /// Adds the character to the list of <see cref="INPUT"/> messages.
+        /// Adds the character to the list of <see cref="Input"/> messages.
         /// </summary>
-        /// <param name="character">The <see cref="System.Char"/> to be added to the list of <see cref="INPUT"/> messages.</param>
+        /// <param name="character">The <see cref="System.Char"/> to be added to the list of <see cref="Input"/> messages.</param>
         /// <returns>This <see cref="InputBuilder"/> instance.</returns>
         internal InputBuilder AddCharacter(char character)
         {
             ushort scanCode = character;
 
-            var down = new INPUT {
+            var down = new Input {
                 Type = (uint) InputType.Keyboard,
                 Data = {
                     Keyboard =
-                        new KEYBDINPUT {
+                        new Keybdinput {
                             KeyCode = 0,
                             Scan = scanCode,
                             Flags = (uint) KeyboardFlag.Unicode,
@@ -188,11 +185,11 @@ namespace WindowsInput {
                 }
             };
 
-            var up = new INPUT {
+            var up = new Input {
                 Type = (uint) InputType.Keyboard,
                 Data = {
                     Keyboard =
-                        new KEYBDINPUT {
+                        new Keybdinput {
                             KeyCode = 0,
                             Scan = scanCode,
                             Flags =
@@ -247,7 +244,7 @@ namespace WindowsInput {
         /// <returns>This <see cref="InputBuilder"/> instance.</returns>
         internal InputBuilder AddRelativeMouseMovement(int x, int y)
         {
-            var movement = new INPUT { Type = (uint) InputType.Mouse };
+            var movement = new Input { Type = (uint) InputType.Mouse };
             movement.Data.Mouse.Flags = (uint) MouseFlag.Move;
             movement.Data.Mouse.X = x;
             movement.Data.Mouse.Y = y;
@@ -265,7 +262,7 @@ namespace WindowsInput {
         /// <returns>This <see cref="InputBuilder"/> instance.</returns>
         internal InputBuilder AddAbsoluteMouseMovement(int absoluteX, int absoluteY)
         {
-            var movement = new INPUT { Type = (uint) InputType.Mouse };
+            var movement = new Input { Type = (uint) InputType.Mouse };
             movement.Data.Mouse.Flags = (uint) (MouseFlag.Move | MouseFlag.Absolute);
             movement.Data.Mouse.X = absoluteX;
             movement.Data.Mouse.Y = absoluteY;
@@ -283,7 +280,7 @@ namespace WindowsInput {
         /// <returns>This <see cref="InputBuilder"/> instance.</returns>
         internal InputBuilder AddAbsoluteMouseMovementOnVirtualDesktop(int absoluteX, int absoluteY)
         {
-            var movement = new INPUT { Type = (uint) InputType.Mouse };
+            var movement = new Input { Type = (uint) InputType.Mouse };
             movement.Data.Mouse.Flags = (uint) (MouseFlag.Move | MouseFlag.Absolute | MouseFlag.VirtualDesk);
             movement.Data.Mouse.X = absoluteX;
             movement.Data.Mouse.Y = absoluteY;
@@ -300,7 +297,7 @@ namespace WindowsInput {
         /// <returns>This <see cref="InputBuilder"/> instance.</returns>
         internal InputBuilder AddMouseButtonDown(MouseButton button)
         {
-            var buttonDown = new INPUT { Type = (uint) InputType.Mouse };
+            var buttonDown = new Input { Type = (uint) InputType.Mouse };
             buttonDown.Data.Mouse.Flags = (uint) ToMouseButtonDownFlag(button);
 
             _inputList.Add(buttonDown);
@@ -315,7 +312,7 @@ namespace WindowsInput {
         /// <returns>This <see cref="InputBuilder"/> instance.</returns>
         internal InputBuilder AddMouseXButtonDown(int xButtonId)
         {
-            var buttonDown = new INPUT { Type = (uint) InputType.Mouse };
+            var buttonDown = new Input { Type = (uint) InputType.Mouse };
             buttonDown.Data.Mouse.Flags = (uint) MouseFlag.XDown;
             buttonDown.Data.Mouse.MouseData = (uint) xButtonId;
             _inputList.Add(buttonDown);
@@ -330,7 +327,7 @@ namespace WindowsInput {
         /// <returns>This <see cref="InputBuilder"/> instance.</returns>
         internal InputBuilder AddMouseButtonUp(MouseButton button)
         {
-            var buttonUp = new INPUT { Type = (uint) InputType.Mouse };
+            var buttonUp = new Input { Type = (uint) InputType.Mouse };
             buttonUp.Data.Mouse.Flags = (uint) ToMouseButtonUpFlag(button);
             _inputList.Add(buttonUp);
 
@@ -344,7 +341,7 @@ namespace WindowsInput {
         /// <returns>This <see cref="InputBuilder"/> instance.</returns>
         internal InputBuilder AddMouseXButtonUp(int xButtonId)
         {
-            var buttonUp = new INPUT { Type = (uint) InputType.Mouse };
+            var buttonUp = new Input { Type = (uint) InputType.Mouse };
             buttonUp.Data.Mouse.Flags = (uint) MouseFlag.XUp;
             buttonUp.Data.Mouse.MouseData = (uint) xButtonId;
             _inputList.Add(buttonUp);
@@ -399,7 +396,7 @@ namespace WindowsInput {
         /// <returns>This <see cref="InputBuilder"/> instance.</returns>
         internal InputBuilder AddMouseVerticalWheelScroll(int scrollAmount)
         {
-            var scroll = new INPUT { Type = (uint) InputType.Mouse };
+            var scroll = new Input { Type = (uint) InputType.Mouse };
             scroll.Data.Mouse.Flags = (uint) MouseFlag.VerticalWheel;
             scroll.Data.Mouse.MouseData = (uint) scrollAmount;
 
@@ -415,7 +412,7 @@ namespace WindowsInput {
         /// <returns>This <see cref="InputBuilder"/> instance.</returns>
         internal InputBuilder AddMouseHorizontalWheelScroll(int scrollAmount)
         {
-            var scroll = new INPUT { Type = (uint) InputType.Mouse };
+            var scroll = new Input { Type = (uint) InputType.Mouse };
             scroll.Data.Mouse.Flags = (uint) MouseFlag.HorizontalWheel;
             scroll.Data.Mouse.MouseData = (uint) scrollAmount;
 

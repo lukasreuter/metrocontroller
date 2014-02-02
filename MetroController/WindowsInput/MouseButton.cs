@@ -1,4 +1,4 @@
-﻿namespace WindowsInput {
+﻿namespace MetroController.WindowsInput {
 
     /// <summary>
     /// The mouse button

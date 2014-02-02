@@ -1,7 +1,7 @@
-﻿using System;
-using WindowsInput.Native;
+﻿using MetroController.WindowsInput.Native;
+using System.Diagnostics.CodeAnalysis;
 
-namespace WindowsInput {
+namespace MetroController.WindowsInput {
 
     /// <summary>
     /// An implementation of InputDeviceStateAdaptor interface for Windows by calling the native <see cref="NativeMethods.GetKeyState"/> and <see cref="NativeMethods.GetAsyncKeyState"/> methods.
@@ -29,6 +29,7 @@ namespace WindowsInput {
         ///
         /// These left- and right-distinguishing constants are available to an application only through the GetKeyboardState, SetKeyboardState, GetAsyncKeyState, GetKeyState, and MapVirtualKey functions.
         /// </remarks>
+        [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
         internal bool IsKeyDown(VirtualKeyCode keyCode)
         {
             var result = NativeMethods.GetKeyState((int) keyCode);
@@ -88,6 +89,8 @@ namespace WindowsInput {
         ///
         /// These left- and right-distinguishing constants are only available when you call the GetKeyboardState, SetKeyboardState, GetAsyncKeyState, GetKeyState, and MapVirtualKey functions.
         /// </remarks>
+        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode"),
+        SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
         internal bool IsHardwareKeyDown(VirtualKeyCode keyCode)
         {
             var result = NativeMethods.GetAsyncKeyState((int) keyCode);
@@ -121,6 +124,7 @@ namespace WindowsInput {
         ///
         /// These left- and right-distinguishing constants are only available when you call the GetKeyboardState, SetKeyboardState, GetAsyncKeyState, GetKeyState, and MapVirtualKey functions.
         /// </remarks>
+        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         internal bool IsHardwareKeyUp(VirtualKeyCode keyCode)
         {
             return !IsHardwareKeyDown(keyCode);
@@ -147,6 +151,8 @@ namespace WindowsInput {
         ///
         /// These left- and right-distinguishing constants are available to an application only through the GetKeyboardState, SetKeyboardState, GetAsyncKeyState, GetKeyState, and MapVirtualKey functions.
         /// </remarks>
+        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode"),
+        SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
         internal bool IsTogglingKeyInEffect(VirtualKeyCode keyCode)
         {
             var result = NativeMethods.GetKeyState((int) keyCode);

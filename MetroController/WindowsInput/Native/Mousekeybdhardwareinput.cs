@@ -24,6 +24,7 @@ namespace MetroController.WindowsInput.Native {
         /// <summary>
         /// The <see cref="Hardwareinput"/> definition.
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         [FieldOffset(0)]
         internal Hardwareinput Hardware;
     }
