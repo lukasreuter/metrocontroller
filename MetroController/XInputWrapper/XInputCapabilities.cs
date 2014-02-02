@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 namespace MetroController.XInputWrapper {
 
@@ -9,20 +8,54 @@ namespace MetroController.XInputWrapper {
 
         /// <summary>Type of the gamepad</summary>
         [MarshalAs(UnmanagedType.I1)]
-        public byte Type;
+        internal byte Type;
 
         /// <summary>Subtype of the gamepad <seealso cref="ControllerSubtypes"/></summary>
         [MarshalAs(UnmanagedType.I1)]
-        public byte SubType;
+        internal byte SubType;
 
-        /// <summary>Misc. capability flags <see cref="XInputConstants.CapabilityFlags"/></summary>
+        /// <summary>Misc. capability flags <see cref="CapabilityFlags"/></summary>
         [MarshalAs(UnmanagedType.I2)]
-        public short Flags;
+        internal short Flags;
 
         /// <summary>Capabilities of the gamepad itself (e.g. how many buttons)</summary>
-        public XInputGamepad Gamepad;
+        internal XInputGamepad Gamepad;
 
         /// <summary>Capabilities of the vibration motors</summary>
-        public XInputVibration Vibration;
+        internal XInputVibration Vibration;
+
+        // override object.Equals
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) {
+                return false;
+            }
+
+            var source = (XInputCapabilities) obj;
+            return ((Type == source.Type) &&
+                    (SubType == source.SubType) &&
+                    (Flags == source.Flags) &&
+                    (Gamepad == source.Gamepad) &&
+                    (Vibration == source.Vibration));
+        }
+
+        // override object.GetHashCode
+        public override int GetHashCode()
+        {
+            // TODO: write your implementation of GetHashCode() here
+            //throw new NotImplementedException();
+            return base.GetHashCode();
+        }
+
+        public static bool operator ==(XInputCapabilities a, XInputCapabilities b)
+        {
+            // If both are null, or both are same instance, return true.
+            return Equals(a, b) || a.Equals(b);
+        }
+
+        public static bool operator !=(XInputCapabilities a, XInputCapabilities b)
+        {
+            return !(a == b);
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Runtime.InteropServices;
 
 namespace MetroController.XInputWrapper {
@@ -14,7 +15,7 @@ namespace MetroController.XInputWrapper {
         /// </summary>
         [MarshalAs(UnmanagedType.I1)]
         [FieldOffset(0)]
-        public byte BatteryType;
+        internal byte BatteryType;
 
         /// <summary>
         /// Battery Level can be 0x00, 0x01, 0x02 or 0x03.
@@ -23,7 +24,7 @@ namespace MetroController.XInputWrapper {
         /// </summary>
         [MarshalAs(UnmanagedType.I1)]
         [FieldOffset(1)]
-        public byte BatteryLevel;
+        internal byte BatteryLevel;
 
         /// <summary>
         /// Prints the Battery type and level
@@ -31,7 +32,38 @@ namespace MetroController.XInputWrapper {
         /// <returns>A string containing BatteryType plus BatteryLevel</returns>
         public override string ToString()
         {
-            return string.Format("{0} {1}", (BatteryTypes) BatteryType, (BatteryLevels) BatteryLevel);
+            return string.Format(CultureInfo.CurrentCulture, "{0} {1}", (BatteryTypes) BatteryType, (BatteryLevels) BatteryLevel);
+        }
+
+        // override object.Equals
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) {
+                return false;
+            }
+
+            var source = (XInputBatteryInformation) obj;
+            return ((BatteryType == source.BatteryType) &&
+                    (BatteryLevel == source.BatteryLevel));
+        }
+
+        // override object.GetHashCode
+        public override int GetHashCode()
+        {
+            // TODO: write your implementation of GetHashCode() here
+            //throw new NotImplementedException();
+            return base.GetHashCode();
+        }
+
+        public static bool operator ==(XInputBatteryInformation a, XInputBatteryInformation b)
+        {
+            // If both are null, or both are same instance, return true.
+            return Equals(a, b) || a.Equals(b);
+        }
+
+        public static bool operator !=(XInputBatteryInformation a, XInputBatteryInformation b)
+        {
+            return !(a == b);
         }
     }
 }
