@@ -106,7 +106,7 @@ namespace MetroController {
                 Application.Current.Shutdown();
             };
             Ni.Visible = false;
-            dbg("Ni setup complete");
+            Tools.Dbg("Ni setup complete");
 #if DEBUG
             Minimize();
 #endif
@@ -116,7 +116,7 @@ namespace MetroController {
 
             ControllersConnected = SetFirstConnectedController();
             if (!ControllersConnected) {
-                dbg("No connected controllers found, idleling and waiting for user to connect one");
+                Tools.Dbg("No connected controllers found, idleling and waiting for user to connect one");
                 //dispatch notification here, then jump to loop where we check cont. for new controllers
                 DispatchNotification("No Controllers detected", "Please connect a wired or wireless Xbox360 Controller.");
                 WaitForNewControllers();
@@ -256,12 +256,12 @@ namespace MetroController {
         /// </summary>
         /// <param name="name">The name of the file in the project</param>
         /// <returns>A generic System.IO.Stream</returns>
-        private Stream GetResource(string name)
+        private static Stream GetResource(string name)
         {
             try {
                 return System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("MetroController.Resources." + name);
             } catch {
-                dbg("An error occurred while loading the Resource: " + name);
+                Tools.Dbg("An error occurred while loading the Resource: " + name);
                 throw;
             }
         }
@@ -273,13 +273,12 @@ namespace MetroController {
         private bool SetFirstConnectedController()
         {
             for (var i = XboxController.FIRST_CONTROLLER_INDEX; i <= XboxController.LAST_CONTROLLER_INDEX; i++) {
-                if (XboxController.RetrieveController(i).UpdateState().IsConnected) {
-                    dbg("Found connected controller: " + (i + 1));
-                    ActiveController = i;
-                    return true;
-                }
+                if (!XboxController.RetrieveController(i).UpdateState().IsConnected) continue;
+                Tools.Dbg("Found connected controller: " + (i + 1));
+                ActiveController = i;
+                return true;
             }
-            dbg("No connected controller found!");
+            Tools.Dbg("No connected controller found!");
             return false;
         }
 
@@ -357,28 +356,13 @@ namespace MetroController {
         private static void MinimizeFootprint()
         {
             int err = EmptyWorkingSet(Process.GetCurrentProcess().Handle);
+            Tools.TestReturnValue(err);
             if (err != 0) {
-                dbg("Emptying the working set was not successful!");
+                Tools.Dbg("Emptying the working set was not successful!");
             }
         }
 
         #endregion Helper Methods
-
-        #region Debugging
-
-        /// <summary>
-        /// A simple method to ouput Debugging string to stdout
-        /// </summary>
-        /// <param name="str">The string that should be printed</param>
-        /// <param name="name">The name of the calling method</param>
-        /// <param name="line">The line number of the calling code</param>
-        [Conditional("DEBUG")]
-        private static void dbg(string str, [CallerMemberName] string name = "", [CallerLineNumber] int line = 0)
-        {
-            Console.WriteLine(str + "; in member: " + name + " #" + line);
-        }
-
-        #endregion Debugging
 
         #region Form callbacks
 
@@ -470,7 +454,7 @@ namespace MetroController {
         /// <summary>Destructor of MainWindow</summary>
         ~MainWindow()
         {
-            dbg("Finalizer called");
+            Tools.Dbg("Finalizer called");
             Dispose(false);
         }
     }
