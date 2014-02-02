@@ -5,7 +5,7 @@ namespace MetroController.XInputWrapper {
 
     /// <summary>Flags for the different button presses/// </summary>
     [Flags]
-    public enum ButtonFlags : int {
+    public enum ButtonFlags {
         XINPUT_GAMEPAD_DPAD_UP = 0x0001,
         XINPUT_GAMEPAD_DPAD_DOWN = 0x0002,
         XINPUT_GAMEPAD_DPAD_LEFT = 0x0004,
@@ -24,8 +24,7 @@ namespace MetroController.XInputWrapper {
     };
 
     /// <summary>Flags for the different subtypes of controllers available</summary>
-    [Flags]
-    public enum ControllerSubtypes : byte {
+    public enum ControllerSubtypes {
         XINPUT_DEVSUBTYPE_UNKNOWN = 0x00,
         XINPUT_DEVSUBTYPE_WHEEL = 0x02,
         XINPUT_DEVSUBTYPE_ARCADE_STICK = 0x03,
@@ -41,8 +40,7 @@ namespace MetroController.XInputWrapper {
 #pragma warning restore 1591
 
     /// <summary>Flags for battery status level</summary>
-    [Flags]
-    public enum BatteryTypes : byte {
+    public enum BatteryTypes {
 
         /// <summary>This device is not connected</summary>
         BATTERY_TYPE_DISCONNECTED = 0x00,
@@ -64,7 +62,7 @@ namespace MetroController.XInputWrapper {
     /// These are only valid for wireless, connected devices, with known battery types
     /// The amount of use time remaining depends on the type of device.
     /// </summary>
-    public enum BatteryLevels : byte {
+    public enum BatteryLevels {
 
         /// <summary>Batteries are empty</summary>
         BATTERY_LEVEL_EMPTY = 0x00,
@@ -80,7 +78,7 @@ namespace MetroController.XInputWrapper {
     };
 
     /// <summary>Types of devices with batteries</summary>
-    public enum BatteryDeviceTypes : byte {
+    public enum BatteryDeviceTypes {
 
         /// <summary>Batteries of the gamepad itself</summary>
         BATTERY_DEVTYPE_GAMEPAD = 0x00,
@@ -89,35 +87,35 @@ namespace MetroController.XInputWrapper {
         BATTERY_DEVTYPE_HEADSET = 0x01,
     };
 
+    /// <summary>Flags for XINPUT_CAPABILITIES</summary>
+    [Flags]
+    public enum CapabilityFlags {
+
+        /// <summary>Support for attaching an headset</summary>
+        XINPUT_CAPS_VOICE_SUPPORTED = 0x0004,
+
+        //For Windows 8 only
+        /// <summary>Unknown</summary>
+        XINPUT_CAPS_FFB_SUPPORTED = 0x0001,
+
+        /// <summary>Wireless connection possible</summary>
+        XINPUT_CAPS_WIRELESS = 0x0002,
+
+        /// <summary>Unknown</summary>
+        XINPUT_CAPS_PMD_SUPPORTED = 0x0008,
+
+        /// <summary>Possesses no navigational controls/// </summary>
+        XINPUT_CAPS_NO_NAVIGATION = 0x0010,
+    };
+
     /// <summary>Misc. constants for the gamepad input</summary>
-    public class XInputConstants {
+    public static class XInputConstants {
 
         /// <summary>Device type for available in XINPUT_CAPABILITIES</summary>
         public const int XINPUT_DEVTYPE_GAMEPAD = 0x01;
 
         /// <summary>Device subtypes available in XINPUT_CAPABILITIES</summary>
         public const int XINPUT_DEVSUBTYPE_GAMEPAD = 0x01;
-
-        /// <summary>Flags for XINPUT_CAPABILITIES</summary>
-        [Flags]
-        public enum CapabilityFlags : int {
-
-            /// <summary>Support for attaching an headset</summary>
-            XINPUT_CAPS_VOICE_SUPPORTED = 0x0004,
-
-            //For Windows 8 only
-            /// <summary>Unknown</summary>
-            XINPUT_CAPS_FFB_SUPPORTED = 0x0001,
-
-            /// <summary>Wireless connection possible</summary>
-            XINPUT_CAPS_WIRELESS = 0x0002,
-
-            /// <summary>Unknown</summary>
-            XINPUT_CAPS_PMD_SUPPORTED = 0x0008,
-
-            /// <summary>Possesses no navigational controls/// </summary>
-            XINPUT_CAPS_NO_NAVIGATION = 0x0010,
-        };
 
         /// <summary>Left thumb stick deadzone</summary>
         public const int XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE = 7849;
