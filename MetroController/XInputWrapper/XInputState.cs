@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 namespace MetroController.XInputWrapper {
 
@@ -8,10 +7,10 @@ namespace MetroController.XInputWrapper {
     public struct XInputState {
 
         /// <summary>The consecutive number of sent packets</summary>
-        public int PacketNumber;
+        internal int PacketNumber;
 
         /// <summary>The <see cref="XInputGamepad"/> structure holding the input information</summary>
-        public XInputGamepad Gamepad;
+        internal XInputGamepad Gamepad;
 
         /// <summary>
         /// Copies an XInputState from a another XInputState struct
@@ -30,10 +29,9 @@ namespace MetroController.XInputWrapper {
         /// <returns>True if both instances are equal</returns>
         public override bool Equals(object obj)
         {
-            if ((obj == null) || (!(obj is XInputState)))
-                return false;
+            if (!(obj is XInputState)) return false;
 
-            XInputState source = (XInputState) obj;
+            var source = (XInputState) obj;
             return ((PacketNumber == source.PacketNumber) &&
                     (Gamepad.Equals(source.Gamepad)));
         }
@@ -47,18 +45,7 @@ namespace MetroController.XInputWrapper {
         public static bool operator ==(XInputState a, XInputState b)
         {
             // If both are null, or both are same instance, return true.
-            if (System.Object.ReferenceEquals(a, b)) {
-                return true;
-            }
-
-            // If one is null, but not both, return false.
-            if (((object) a == null) || ((object) b == null)) {
-                return false;
-            }
-
-            // Return true if the fields match:
-            return ((a.PacketNumber == b.PacketNumber) &&
-                    (a.Gamepad == b.Gamepad));
+            return Equals(a, b) || a.Equals(b);
         }
 
         /// <summary>
@@ -72,13 +59,15 @@ namespace MetroController.XInputWrapper {
             return !(a == b);
         }
 
+        // TODO: Implement this correctly
         /// <summary>
         /// Generates a gamepad unique hashcode
         /// </summary>
         /// <returns>A hashcode</returns>
         public override int GetHashCode()
         {
-            return (base.GetHashCode() + this.Gamepad.GetHashCode());
+            // ReSharper disable once NonReadonlyFieldInGetHashCode
+            return (base.GetHashCode() + Gamepad.GetHashCode());
         }
     }
 }
