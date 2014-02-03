@@ -16,6 +16,7 @@ namespace MetroController {
         /// <param name="name">The name of the calling method</param>
         /// <param name="line">The line number of the calling code</param>
         [Conditional("DEBUG")]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static void Dbg(string str, [CallerMemberName] string name = "", [CallerLineNumber] int line = 0)
         {
             Console.WriteLine(str + Resources.Tools_Dbg___in_member__ + name + Resources.Tools_Dbg___ + line);
@@ -29,6 +30,7 @@ namespace MetroController {
         /// <param name="name">The name of the calling method</param>
         /// <param name="line">The current line number of the calling code</param>
         [Conditional("DEBUG")]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static void TestReturnValue(int value, int expected = 0, [CallerMemberName] string name = "", [CallerLineNumber] int line = 0)
         {
             if (value != expected) {
@@ -44,6 +46,7 @@ namespace MetroController {
         /// <param name="name">The name of the calling method</param>
         /// <param name="line">The current line number of the calling code</param>
         [Conditional("DEBUG")]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static void TestReturnValue(bool value, bool expected = true, [CallerMemberName] string name = "", [CallerLineNumber] int line = 0)
         {
             if (value != expected) {
