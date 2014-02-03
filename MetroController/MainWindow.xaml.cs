@@ -4,6 +4,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
@@ -137,7 +138,7 @@ namespace MetroController {
         private void _selectedController_StateChanged(object sender, XboxControllerStateChangedEventArgs e)
         {
             //Main Window is being displayed so dont simulate keypresses
-            if (!_isHidden) { goto Finish; }
+            if (!_isHidden) goto Finish;
 
             //special controller shortcut Guide+LS+RS
             if (SelectedController.IsGuidePressed && SelectedController.IsLeftShoulderPressed && SelectedController.IsRightShoulderPressed) {
@@ -155,101 +156,128 @@ namespace MetroController {
             //IntPtr bla = FindWindow("ImmersiveLauncher", null);
 
             if (true) { //check here if in metro ui
-                // D-Pad: Cardinal directions or forward/backward during WIN+TAB
-                // D-Pad Down
-                if (SelectedController.IsDPadDownPressed) {
-                    if (Simulator.InputDeviceState.IsKeyDown(RWIN)) {
-                        if (Simulator.InputDeviceState.IsKeyUp(TAB)) {
-                            Simulator.Keyboard.KeyDown(TAB);
-                        }
-                        //EmitKeyPress("{TAB}");
-                    } else {
-                        if (Simulator.InputDeviceState.IsKeyUp(DOWN)) {
-                            Simulator.Keyboard.KeyDown(DOWN);
-                        }
-                        //EmitKeyPress("{DOWN}");
-                    }
-                } else if (Simulator.InputDeviceState.IsKeyDown(RWIN) && Simulator.InputDeviceState.IsKeyDown(TAB)) {
-                    Simulator.Keyboard.KeyUp(TAB);
-                } else if (Simulator.InputDeviceState.IsKeyDown(DOWN)) {
-                    Simulator.Keyboard.KeyUp(DOWN);
-                }
-                // D-Pad Up
-                if (SelectedController.IsDPadUpPressed) {
-                    if (Simulator.InputDeviceState.IsKeyDown(RWIN)) {
-                        if (Simulator.InputDeviceState.IsKeyUp(TAB)) {
-                            Simulator.Keyboard.KeyDown(SHIFT).KeyDown(TAB).KeyUp(SHIFT);
-                        }
-                        //EmitKeyPress("+({TAB})");
-                    } else {
-                        if (Simulator.InputDeviceState.IsKeyUp(UP)) {
-                            Simulator.Keyboard.KeyDown(UP);
-                        }
-                        //EmitKeyPress("{UP}");
-                    }
-                } else if (Simulator.InputDeviceState.IsKeyDown(RWIN) && Simulator.InputDeviceState.IsKeyDown(TAB)) {
-                    Simulator.Keyboard.KeyUp(TAB).KeyUp(SHIFT).Sleep(100);
-                } else if (Simulator.InputDeviceState.IsKeyDown(UP)) {
-                    Simulator.Keyboard.KeyUp(UP).KeyUp(SHIFT);
-                }
-                // D-Pad Left
-                if (SelectedController.IsDPadLeftPressed && Simulator.InputDeviceState.IsKeyUp(LEFT)) {
-                    Simulator.Keyboard.KeyDown(LEFT);
-                } else if (!SelectedController.IsDPadLeftPressed && Simulator.InputDeviceState.IsKeyDown(LEFT)) {
-                    Simulator.Keyboard.KeyUp(LEFT);
-                }
-                // D-Pad Right
-                if (SelectedController.IsDPadRightPressed && Simulator.InputDeviceState.IsKeyUp(RIGHT)) {
-                    Simulator.Keyboard.KeyDown(RIGHT);
-                } else if (!SelectedController.IsDPadRightPressed && Simulator.InputDeviceState.IsKeyDown(RIGHT)) {
-                    Simulator.Keyboard.KeyUp(RIGHT);
-                }
+                DDown(); DUp(); DLeft(); DRight();
 
-                /*if (SelectedController.IsDPadUpPressed) {
-                    if (Simulator.InputDeviceState.IsKeyDown(RWIN)) {
-                        EmitKeyPress("+({TAB})");
-                    } else {
-                        EmitKeyPress("{UP}");
-	                }
-                } else if (SelectedController.IsDPadLeftPressed) {
-                    EmitKeyPress("{LEFT}");
-                } else if (SelectedController.IsDPadRightPressed) {
-                    EmitKeyPress("{RIGHT}");
-                }*/
-
-                // A Button: ENTER
-                if (SelectedController.IsAPressed && Simulator.InputDeviceState.IsKeyUp(RETURN)) {
-                    Simulator.Keyboard.KeyDown(RETURN);
-                } else if (!SelectedController.IsAPressed && Simulator.InputDeviceState.IsKeyDown(RETURN)) {
-                    Simulator.Keyboard.KeyUp(RETURN);
-                }
-
-                // B Button: WIN+TAB
-                if (SelectedController.IsBPressed && Simulator.InputDeviceState.IsKeyUp(RWIN)) {
-                    Simulator.Keyboard.KeyDown(RWIN).KeyPress(TAB).Sleep(100);
-                } else if (!SelectedController.IsBPressed && Simulator.InputDeviceState.IsKeyDown(RWIN)) {
-                    Simulator.Keyboard.KeyUp(RWIN);
-                }
-
-                // Y Button: CTRL+TAB
-                if (SelectedController.IsYPressed) {
-                    EmitKeyPress("^({TAB})");
-                    //INVESTIGATE: For some weird/unknown reason these two lines do not work in the ImmersiveLauncher, they do though work in every thing else
-                    //sim.Keyboard.KeyDown(WindowsInput.Native.VirtualKeyCode.CONTROL).KeyPress(WindowsInput.Native.VirtualKeyCode.TAB).KeyUp(WindowsInput.Native.VirtualKeyCode.CONTROL).Sleep(100);
-                    //sim.Keyboard.ModifiedKeyStroke(WindowsInput.Native.VirtualKeyCode.CONTROL, WindowsInput.Native.VirtualKeyCode.TAB);
-                }
+                AButton(); BButton(); YButton(); XButton();
             }
 
             //Main window is hidden so we dont have to waste resources to update the layout
-            if (_isHidden) {
-                goto Exit;
-            }
+            if (_isHidden) goto Exit;
 
         Finish:
             OnPropertyChanged("SelectedController");
         Exit:
             ;
         }
+
+        #region Button checks
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void DDown()
+        {
+            // D-Pad Down
+            if (SelectedController.IsDPadDownPressed) {
+                if (Simulator.InputDeviceState.IsKeyDown(RWIN)) {
+                    if (Simulator.InputDeviceState.IsKeyUp(TAB)) {
+                        Simulator.Keyboard.KeyDown(TAB);
+                    }
+                    //EmitKeyPress("{TAB}");
+                } else {
+                    if (Simulator.InputDeviceState.IsKeyUp(DOWN)) {
+                        Simulator.Keyboard.KeyDown(DOWN);
+                    }
+                    //EmitKeyPress("{DOWN}");
+                }
+            } else if (Simulator.InputDeviceState.IsKeyDown(RWIN) && Simulator.InputDeviceState.IsKeyDown(TAB)) {
+                Simulator.Keyboard.KeyUp(TAB);
+            } else if (Simulator.InputDeviceState.IsKeyDown(DOWN)) {
+                Simulator.Keyboard.KeyUp(DOWN);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void DUp()
+        {
+            // D-Pad Up
+            if (SelectedController.IsDPadUpPressed) {
+                if (Simulator.InputDeviceState.IsKeyDown(RWIN)) {
+                    if (Simulator.InputDeviceState.IsKeyUp(TAB)) {
+                        Simulator.Keyboard.KeyDown(SHIFT).KeyDown(TAB).KeyUp(SHIFT);
+                    }
+                    //EmitKeyPress("+({TAB})");
+                } else {
+                    if (Simulator.InputDeviceState.IsKeyUp(UP)) {
+                        Simulator.Keyboard.KeyDown(UP);
+                    }
+                    //EmitKeyPress("{UP}");
+                }
+            } else if (Simulator.InputDeviceState.IsKeyDown(RWIN) && Simulator.InputDeviceState.IsKeyDown(TAB)) {
+                Simulator.Keyboard.KeyUp(TAB).KeyUp(SHIFT).Sleep(100);
+            } else if (Simulator.InputDeviceState.IsKeyDown(UP)) {
+                Simulator.Keyboard.KeyUp(UP).KeyUp(SHIFT);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void DLeft()
+        {
+            // D-Pad Left
+            if (SelectedController.IsDPadLeftPressed && Simulator.InputDeviceState.IsKeyUp(LEFT)) {
+                Simulator.Keyboard.KeyDown(LEFT);
+            } else if (!SelectedController.IsDPadLeftPressed && Simulator.InputDeviceState.IsKeyDown(LEFT)) {
+                Simulator.Keyboard.KeyUp(LEFT);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void DRight()
+        {
+            // D-Pad Right
+            if (SelectedController.IsDPadRightPressed && Simulator.InputDeviceState.IsKeyUp(RIGHT)) {
+                Simulator.Keyboard.KeyDown(RIGHT);
+            } else if (!SelectedController.IsDPadRightPressed && Simulator.InputDeviceState.IsKeyDown(RIGHT)) {
+                Simulator.Keyboard.KeyUp(RIGHT);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void AButton()
+        {
+            // A Button: ENTER
+            if (SelectedController.IsAPressed && Simulator.InputDeviceState.IsKeyUp(RETURN)) {
+                Simulator.Keyboard.KeyDown(RETURN);
+            } else if (!SelectedController.IsAPressed && Simulator.InputDeviceState.IsKeyDown(RETURN)) {
+                Simulator.Keyboard.KeyUp(RETURN);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void BButton()
+        {
+            // B Button: WIN+TAB
+            if (SelectedController.IsBPressed && Simulator.InputDeviceState.IsKeyUp(RWIN)) {
+                Simulator.Keyboard.KeyDown(RWIN).KeyPress(TAB).Sleep(100);
+            } else if (!SelectedController.IsBPressed && Simulator.InputDeviceState.IsKeyDown(RWIN)) {
+                Simulator.Keyboard.KeyUp(RWIN);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void YButton()
+        {
+            // Y Button: CTRL+TAB
+            if (SelectedController.IsYPressed) {
+                EmitKeyPress("^({TAB})");
+                //INVESTIGATE: For some weird/unknown reason these two lines do not work in the ImmersiveLauncher, they do though work in every thing else
+                //sim.Keyboard.KeyDown(WindowsInput.Native.VirtualKeyCode.CONTROL).KeyPress(WindowsInput.Native.VirtualKeyCode.TAB).KeyUp(WindowsInput.Native.VirtualKeyCode.CONTROL).Sleep(100);
+                //sim.Keyboard.ModifiedKeyStroke(WindowsInput.Native.VirtualKeyCode.CONTROL, WindowsInput.Native.VirtualKeyCode.TAB);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void XButton() { }
+
+        #endregion Button checks
 
         #region Helper Methods
 
