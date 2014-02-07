@@ -61,31 +61,11 @@ namespace MetroController.Properties {
         }
 
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap IconTransparent {
-            get {
-                object obj = ResourceManager.GetObject("IconTransparent", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
         ///   Looks up a localized string similar to , line #.
         /// </summary>
         internal static string line_number {
             get {
                 return ResourceManager.GetString("line_number", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
-        /// </summary>
-        internal static System.Drawing.Icon MetroController {
-            get {
-                object obj = ResourceManager.GetObject("MetroController", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
             }
         }
 
