@@ -2,10 +2,10 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="MetroController.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="StartMinimized" Type="System.Boolean" Scope="Application">
+    <Setting Name="StartMinimized" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="StartOnBoot" Type="System.Boolean" Scope="Application">
+    <Setting Name="StartOnBoot" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>

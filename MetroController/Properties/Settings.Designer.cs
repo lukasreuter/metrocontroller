@@ -23,21 +23,27 @@ namespace MetroController.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool StartMinimized {
             get {
                 return ((bool)(this["StartMinimized"]));
             }
+            set {
+                this["StartMinimized"] = value;
+            }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool StartOnBoot {
             get {
                 return ((bool)(this["StartOnBoot"]));
+            }
+            set {
+                this["StartOnBoot"] = value;
             }
         }
     }
