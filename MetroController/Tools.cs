@@ -1,6 +1,8 @@
 ﻿using MetroController.Properties;
 using System;
 using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace MetroController {
@@ -55,5 +57,20 @@ namespace MetroController {
         }
 
         #endregion Debugging
+
+        /// <summary>
+        /// Gets the matching Resource from MetroController/Resources/.
+        /// </summary>
+        /// <param name="name">The name of the file in the project</param>
+        /// <returns>A generic System.IO.Stream</returns>
+        internal static Stream GetResource(string name)
+        {
+            try {
+                return Assembly.GetExecutingAssembly().GetManifestResourceStream("MetroController.Resources." + name);
+            } catch {
+                Dbg("An error occurred while loading the Resource: " + name);
+                throw;
+            }
+        }
     }
 }
