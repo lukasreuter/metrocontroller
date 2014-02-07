@@ -8,7 +8,7 @@ namespace MetroController.WindowsInput {
     /// <summary>
     /// A helper class for building a list of <see cref="Input"/> messages ready to be sent to the native Windows API.
     /// </summary>
-    internal class InputBuilder : IEnumerable<Input> {
+    internal sealed class InputBuilder : IEnumerable<Input> {
 
         /// <summary>
         /// The public list of <see cref="Input"/> messages being built by this instance.
@@ -73,7 +73,7 @@ namespace MetroController.WindowsInput {
         ///
         /// See http://msdn.microsoft.com/en-us/library/ms646267(v=vs.85).aspx Section "Extended-Key Flag"
         /// </remarks>
-        internal static bool IsExtendedKey(VirtualKeyCode keyCode)
+        private static bool IsExtendedKey(VirtualKeyCode keyCode)
         {
             return keyCode == VirtualKeyCode.MENU ||
                    keyCode == VirtualKeyCode.LMENU ||
@@ -218,7 +218,7 @@ namespace MetroController.WindowsInput {
         /// </summary>
         /// <param name="characters">The characters to add.</param>
         /// <returns>This <see cref="InputBuilder"/> instance.</returns>
-        internal InputBuilder AddCharacters(IEnumerable<char> characters)
+        private InputBuilder AddCharacters(IEnumerable<char> characters)
         {
             foreach (var character in characters) {
                 AddCharacter(character);

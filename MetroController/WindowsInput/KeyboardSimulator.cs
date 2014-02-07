@@ -10,46 +10,19 @@ namespace MetroController.WindowsInput {
     /// <summary>
     /// Implements the KeyboardSimulator interface by calling the an <see cref="InputMessageDispatcher"/> to simulate Keyboard gestures.
     /// </summary>
-    internal class KeyboardSimulator {
-
+    internal sealed class KeyboardSimulator {
         //
-        private readonly InputSimulator _inputSimulator;
+
+        private static readonly KeyboardSimulator instance = new KeyboardSimulator();
+
+        private readonly InputSimulator _inputSimulator = InputSimulator.Instance;
 
         /// <summary>
         /// The instance of the <see cref="InputMessageDispatcher"/> to use for dispatching <see cref="Input"/> messages.
         /// </summary>
-        private readonly InputMessageDispatcher _messageDispatcher;
+        private readonly InputMessageDispatcher _messageDispatcher = InputMessageDispatcher.Instance;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="KeyboardSimulator"/> class using an instance of a <see cref="InputMessageDispatcher"/> for dispatching <see cref="Input"/> messages.
-        /// </summary>
-        /// <param name="inputSimulator">The <see cref="InputSimulator"/> that owns this instance.</param>
-        internal KeyboardSimulator(InputSimulator inputSimulator)
-        {
-            if (inputSimulator == null) throw new ArgumentNullException("inputSimulator");
-
-            _inputSimulator = inputSimulator;
-            _messageDispatcher = new InputMessageDispatcher();
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="KeyboardSimulator"/> class using the specified <see cref="InputMessageDispatcher"/> for dispatching <see cref="Input"/> messages.
-        /// </summary>
-        /// <param name="inputSimulator">The <see cref="InputSimulator"/> that owns this instance.</param>
-        /// <param name="messageDispatcher">The <see cref="InputMessageDispatcher"/> to use for dispatching <see cref="Input"/> messages.</param>
-        /// <exception cref="InvalidOperationException">If null is passed as the <paramref name="messageDispatcher"/>.</exception>
-        internal KeyboardSimulator(InputSimulator inputSimulator, InputMessageDispatcher messageDispatcher)
-        {
-            if (inputSimulator == null) throw new ArgumentNullException("inputSimulator");
-
-            if (messageDispatcher == null)
-                throw new InvalidOperationException(
-                    string.Format(CultureInfo.CurrentCulture, "The {0} cannot operate with a null {1}. Please provide a valid {1} instance to use for dispatching {2} messages.",
-                    typeof(KeyboardSimulator).Name, typeof(InputMessageDispatcher).Name, typeof(Input).Name));
-
-            _inputSimulator = inputSimulator;
-            _messageDispatcher = messageDispatcher;
-        }
+        internal static KeyboardSimulator Instance { get { return instance; } }
 
         /// <summary>
         /// Gets the <see cref="MouseSimulator"/> instance for simulating Mouse input.
@@ -57,13 +30,20 @@ namespace MetroController.WindowsInput {
         /// <value>The <see cref="MouseSimulator"/> instance.</value>
         internal MouseSimulator Mouse { get { return _inputSimulator.Mouse; } }
 
-        private static void ModifiersDown(InputBuilder builder, IEnumerable<VirtualKeyCode> modifierKeyCodes)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KeyboardSimulator"/> class using an instance of a <see cref="InputMessageDispatcher"/> for dispatching <see cref="Input"/> messages.
+        /// </summary>
+        private KeyboardSimulator()
+        {
+        }
+
+        private void ModifiersDown(InputBuilder builder, IEnumerable<VirtualKeyCode> modifierKeyCodes)
         {
             if (modifierKeyCodes == null) return;
             foreach (var key in modifierKeyCodes) builder.AddKeyDown(key);
         }
 
-        private static void ModifiersUp(InputBuilder builder, IEnumerable<VirtualKeyCode> modifierKeyCodes)
+        private void ModifiersUp(InputBuilder builder, IEnumerable<VirtualKeyCode> modifierKeyCodes)
         {
             if (modifierKeyCodes == null) return;
 
@@ -72,7 +52,7 @@ namespace MetroController.WindowsInput {
             while (stack.Count > 0) builder.AddKeyUp(stack.Pop());
         }
 
-        private static void KeysPress(InputBuilder builder, IEnumerable<VirtualKeyCode> keyCodes)
+        private void KeysPress(InputBuilder builder, IEnumerable<VirtualKeyCode> keyCodes)
         {
             if (keyCodes == null) return;
             foreach (var key in keyCodes) builder.AddKeyPress(key);

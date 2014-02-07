@@ -1,6 +1,5 @@
 ﻿using MetroController.WindowsInput.Native;
 using System;
-using System.Globalization;
 using System.Threading;
 
 namespace MetroController.WindowsInput {
@@ -8,55 +7,31 @@ namespace MetroController.WindowsInput {
     /// <summary>
     /// Implements the MouseSimulator interface by calling the <see cref="InputMessageDispatcher"/> to simulate Mouse gestures.
     /// </summary>
-    internal class MouseSimulator {
+    internal sealed class MouseSimulator {
 
         //
         private const int MOUSE_WHEEL_CLICK_SIZE = 120;
 
-        private readonly InputSimulator _inputSimulator;
+        private readonly InputSimulator _inputSimulator = InputSimulator.Instance;
 
         /// <summary>
         /// The instance of the <see cref="InputMessageDispatcher"/> to use for dispatching <see cref="Input"/> messages.
         /// </summary>
-        private readonly InputMessageDispatcher _messageDispatcher;
+        private readonly InputMessageDispatcher _messageDispatcher = InputMessageDispatcher.Instance;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MouseSimulator"/> class using an instance of a <see cref="InputMessageDispatcher"/> for dispatching <see cref="Input"/> messages.
-        /// </summary>
-        /// <param name="inputSimulator">The <see cref="InputSimulator"/> that owns this instance.</param>
-        internal MouseSimulator(InputSimulator inputSimulator)
-        {
-            if (inputSimulator == null) throw new ArgumentNullException("inputSimulator");
+        private static readonly MouseSimulator instance = new MouseSimulator();
 
-            _inputSimulator = inputSimulator;
-            _messageDispatcher = new InputMessageDispatcher();
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MouseSimulator"/> class using the specified <see cref="InputMessageDispatcher"/> for dispatching <see cref="Input"/> messages.
-        /// </summary>
-        /// <param name="inputSimulator">The <see cref="InputSimulator"/> that owns this instance.</param>
-        /// <param name="messageDispatcher">The <see cref="InputMessageDispatcher"/> to use for dispatching <see cref="Input"/> messages.</param>
-        /// <exception cref="InvalidOperationException">If null is passed as the <paramref name="messageDispatcher"/>.</exception>
-        internal MouseSimulator(InputSimulator inputSimulator, InputMessageDispatcher messageDispatcher)
-        {
-            if (inputSimulator == null)
-                throw new ArgumentNullException("inputSimulator");
-
-            if (messageDispatcher == null)
-                throw new InvalidOperationException(
-                    string.Format(CultureInfo.CurrentCulture, "The {0} cannot operate with a null {1}. Please provide a valid {1} instance to use for dispatching {2} messages.",
-                    typeof(MouseSimulator).Name, typeof(InputMessageDispatcher).Name, typeof(Input).Name));
-
-            _inputSimulator = inputSimulator;
-            _messageDispatcher = messageDispatcher;
-        }
+        internal static MouseSimulator Instance { get { return instance; } }
 
         /// <summary>
         /// Gets the <see cref="KeyboardSimulator"/> instance for simulating Keyboard input.
         /// </summary>
         /// <value>The <see cref="KeyboardSimulator"/> instance.</value>
         internal KeyboardSimulator Keyboard { get { return _inputSimulator.Keyboard; } }
+
+        private MouseSimulator()
+        {
+        }
 
         /// <summary>
         /// Sends the list of <see cref="Input"/> messages using the <see cref="InputMessageDispatcher"/> instance.

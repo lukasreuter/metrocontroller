@@ -7,7 +7,16 @@ namespace MetroController.WindowsInput {
     /// <summary>
     /// Implements the InputMessageDispatcher by calling <see cref="Native.NativeMethods.SendInput"/>.
     /// </summary>
-    internal class InputMessageDispatcher {
+    internal sealed class InputMessageDispatcher {
+
+        //
+        private static readonly InputMessageDispatcher instance = new InputMessageDispatcher();
+
+        internal static InputMessageDispatcher Instance { get { return instance; } }
+
+        private InputMessageDispatcher()
+        {
+        }
 
         /// <summary>
         /// Dispatches the specified list of <see cref="Input"/> messages in their specified order by issuing a single called to <see cref="Native.NativeMethods.SendInput"/>.
