@@ -3,7 +3,6 @@ using MetroController.WindowsInput.Native;
 using MetroController.XInputWrapper;
 using System;
 using System.ComponentModel;
-using System.Configuration;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
@@ -37,6 +36,7 @@ namespace MetroController {
         /// <summary>
         /// Represents the current index of the currently polled controller
         /// </summary>
+        // ReSharper disable once MemberCanBePrivate.Global
         public int ActiveController
         {
             get { return _activeController; }
@@ -101,10 +101,11 @@ namespace MetroController {
             CommandBindings.Add(new CommandBinding(SystemCommands.MinimizeWindowCommand, OnMinimizeWindow, OnCanMinimizeWindow));
 
             //Initialize the System Tray Notification icon
+            // ReSharper disable once UseObjectOrCollectionInitializer
             _ni = new NotifyIcon();
             _ni.Text = TOOL_TIP;
             _ni.Icon = new Icon(Tools.GetResource("TrayIcon.ico"));
-            _ni.DoubleClick += (sender, args) => Maximize();
+            _ni.Click += (sender, args) => Maximize();
             _ni.ContextMenu = new ContextMenu();
             _ni.ContextMenu.Popup += (sender, args) => {
                 XboxController.StopPolling();
@@ -498,7 +499,7 @@ namespace MetroController {
         /// Invokes PropertyChanged through Dispatcher.BeginInvoke
         /// </summary>
         /// <param name="name">The name of the property that has changed</param>
-        public void OnPropertyChanged(string name)
+        private void OnPropertyChanged(string name)
         {
             if (PropertyChanged == null) return;
             Action a = () => PropertyChanged(this, new PropertyChangedEventArgs(name));
