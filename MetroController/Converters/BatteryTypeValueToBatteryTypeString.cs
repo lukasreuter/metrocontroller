@@ -33,7 +33,26 @@ namespace MetroController.Converters {
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            throw new NotImplementedException();
+            var v = (string) value;
+            switch (v) {
+                case "alkaline":
+                    return BatteryTypes.BATTERY_TYPE_ALKALINE;
+
+                case "disconnected":
+                    return BatteryTypes.BATTERY_TYPE_DISCONNECTED;
+
+                case "NiMH":
+                    return BatteryTypes.BATTERY_TYPE_NIMH;
+
+                case "unknown":
+                    return BatteryTypes.BATTERY_TYPE_UNKNOWN;
+
+                case "wired":
+                    return BatteryTypes.BATTERY_TYPE_WIRED;
+
+                default:
+                    return 0;
+            }
         }
     }
 }
