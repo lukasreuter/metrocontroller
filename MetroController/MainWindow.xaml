@@ -1,7 +1,6 @@
 ﻿<Window x:Class="MetroController.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:converters="clr-namespace:MetroController.Converters"
         Title="MetroController" Icon="MetroController.ico"
         ResizeMode="CanMinimize" WindowStyle="None"
         AllowsTransparency="True" BorderThickness="3"
@@ -9,8 +8,7 @@
         Style="{DynamicResource MyWindowStyle}">
 
     <Window.Resources>
-        <converters:BatteryTypeValueToBatteryTypeString x:Key="BatteryTypeValueToBatteryTypeString" />
-        <BooleanToVisibilityConverter x:Key="bool2VisibilityConverter" />
+        <BooleanToVisibilityConverter x:Key="Bool2VisibilityConverter" />
 
         <Color x:Key="WindowBackgroundColor">#FF2D2D30</Color>
         <Color x:Key="HighlightColor">#FF3F3F41</Color>
@@ -94,7 +92,7 @@
                                             </StackPanel>
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="0">
                                                 <Image Name="Logo" Source="Resources/IconTransparent.png" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" Height="18" Width="18" />
-                                                <TextBlock x:Name="WindowTitleTextBlock" Grid.Row="0" Text="{TemplateBinding Title}" HorizontalAlignment="Left" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"  Margin="8,-1,0,0"  FontSize="16"  Foreground="{TemplateBinding Foreground}" FontWeight="SemiBold" />
+                                                <TextBlock x:Name="WindowTitleTextBlock" Text="{TemplateBinding Title}" HorizontalAlignment="Left" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"  Margin="8,-1,0,0"  FontSize="16"  Foreground="{TemplateBinding Foreground}" FontWeight="SemiBold" />
                                             </StackPanel>
                                             <Grid Grid.Row="2">
                                                 <Path x:Name="ResizeGrip" Visibility="Collapsed" Width="12" Height="12" Margin="1" HorizontalAlignment="Right" Stroke="{StaticResource BlueColorBrush}" StrokeThickness="1" Stretch="None" Data="F1 M1,10 L3,10 M5,10 L7,10 M9,10 L11,10 M2,9 L2,11 M6,9 L6,11 M10,9 L10,11 M5,6 L7,6 M9,6 L11,6 M6,5 L6,7 M10,5 L10,7 M9,2 L11,2 M10,1 L10,3" />
@@ -102,7 +100,7 @@
                                         </Grid>
                                     </AdornerDecorator>
                                 </Border>
-                                <Border BorderBrush="{StaticResource BlueColorBrush}" BorderThickness="1" Visibility="{Binding IsActive, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Converter={StaticResource bool2VisibilityConverter}}" />
+                                <Border BorderBrush="{StaticResource BlueColorBrush}" BorderThickness="1" Visibility="{Binding IsActive, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Converter={StaticResource Bool2VisibilityConverter}}" />
                             </Grid>
                         </Border>
                     </ControlTemplate>
@@ -129,12 +127,7 @@
 
             <StackPanel Orientation="Horizontal" Margin="5,0,2,0">
                 <TextBlock Margin="5">Controller Index:</TextBlock>
-                <ComboBox Width="35" SelectionChanged="SelectedControllerChanged" Height="25">
-                    <ComboBoxItem IsSelected="True">0</ComboBoxItem>
-                    <ComboBoxItem>1</ComboBoxItem>
-                    <ComboBoxItem>2</ComboBoxItem>
-                    <ComboBoxItem>3</ComboBoxItem>
-                </ComboBox>
+                <TextBlock TextWrapping="Wrap" Text="{Binding ActiveController, Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </StackPanel>
 
             <Grid  Height="300" Width="350" Grid.Row="1">
@@ -142,6 +135,7 @@
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="*" />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" MinHeight="200" />
@@ -167,34 +161,34 @@
                         <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
 
-                    <CheckBox x:Name="CheckboxAButton" Grid.Row="0" IsChecked="{Binding SelectedController.IsAPressed, Mode=OneWay}" />
+                    <CheckBox x:Name="CheckboxAButton" Grid.Row="0" IsChecked="{Binding SelectedController.IsAPressed, Mode=OneWay}" IsEnabled="False" />
                     <TextBlock Text="A Button" Grid.Row="0" Grid.Column="1" />
-                    <CheckBox x:Name="CheckboxBButton"  Grid.Row="1" IsChecked="{Binding SelectedController.IsBPressed, Mode=OneWay}" />
+                    <CheckBox x:Name="CheckboxBButton"  Grid.Row="1" Grid.Column="0" IsChecked="{Binding SelectedController.IsBPressed, Mode=OneWay}" IsEnabled="False" />
                     <TextBlock Text="B Button" Grid.Row="1" Grid.Column="1" />
-                    <CheckBox x:Name="CheckboxXButton"  Grid.Row="2"  IsChecked="{Binding SelectedController.IsXPressed, Mode=OneWay}" />
+                    <CheckBox x:Name="CheckboxXButton"  Grid.Row="2" Grid.Column="0" IsChecked="{Binding SelectedController.IsXPressed, Mode=OneWay}" IsEnabled="False" />
                     <TextBlock Text="X Button" Grid.Row="2" Grid.Column="1" />
-                    <CheckBox x:Name="CheckboxYButton"  Grid.Row="3"  IsChecked="{Binding SelectedController.IsYPressed, Mode=OneWay}" />
+                    <CheckBox x:Name="CheckboxYButton"  Grid.Row="3" Grid.Column="0" IsChecked="{Binding SelectedController.IsYPressed, Mode=OneWay}" IsEnabled="False" />
                     <TextBlock Text="Y Button" Grid.Row="3" Grid.Column="1" />
-                    <CheckBox x:Name="CheckboxLeftShoulderButton"  Grid.Row="4"  IsChecked="{Binding SelectedController.IsLeftShoulderPressed, Mode=OneWay}" />
+                    <CheckBox x:Name="CheckboxLeftShoulderButton"  Grid.Row="4" Grid.Column="0" IsChecked="{Binding SelectedController.IsLeftShoulderPressed, Mode=OneWay}" IsEnabled="False" />
                     <TextBlock Text="Left Shoulder Button" Grid.Row="4" Grid.Column="1" />
-                    <CheckBox x:Name="CheckboxRightShoulderButton"  Grid.Row="5"  IsChecked="{Binding SelectedController.IsRightShoulderPressed, Mode=OneWay}" />
+                    <CheckBox x:Name="CheckboxRightShoulderButton"  Grid.Row="5" Grid.Column="0" IsChecked="{Binding SelectedController.IsRightShoulderPressed, Mode=OneWay}" IsEnabled="False" />
                     <TextBlock Text="Right Shoulder Button" Grid.Row="5" Grid.Column="1" />
-                    <CheckBox x:Name="CheckboxLeftStickButton"  Grid.Row="6"  IsChecked="{Binding SelectedController.IsLeftStickPressed, Mode=OneWay}" />
+                    <CheckBox x:Name="CheckboxLeftStickButton"  Grid.Row="6" Grid.Column="0" IsChecked="{Binding SelectedController.IsLeftStickPressed, Mode=OneWay}" IsEnabled="False" />
                     <TextBlock Text="Left Stick Button" Grid.Row="6" Grid.Column="1" />
-                    <CheckBox x:Name="CheckboxRightStickButton"  Grid.Row="7"   IsChecked="{Binding SelectedController.IsRightStickPressed, Mode=OneWay}" />
+                    <CheckBox x:Name="CheckboxRightStickButton"  Grid.Row="7" Grid.Column="0" IsChecked="{Binding SelectedController.IsRightStickPressed, Mode=OneWay}" IsEnabled="False" />
                     <TextBlock Text="Right Stick Button" Grid.Row="7" Grid.Column="1" />
-                    <CheckBox x:Name="CheckboxGuideButton"  Grid.Row="8"   IsChecked="{Binding SelectedController.IsGuidePressed, Mode=OneWay}" />
+                    <CheckBox x:Name="CheckboxGuideButton"  Grid.Row="8" Grid.Column="0" IsChecked="{Binding SelectedController.IsGuidePressed, Mode=OneWay}" IsEnabled="False" />
                     <TextBlock Text="Guide Button" Grid.Row="8" Grid.Column="1" />
 
                     <Grid Width="50" Height="50" Grid.Row="8" Grid.Column="1" Margin="19,18,49,-15" RenderTransformOrigin="1.262,0.055" VerticalAlignment="Top">
-                        <CheckBox x:Name="CheckboxDPadUpButton"  HorizontalAlignment="Center" VerticalAlignment="Top"  IsChecked="{Binding SelectedController.IsDPadUpPressed, Mode=OneWay}" />
-                        <CheckBox x:Name="CheckboxDPadDownButton"   HorizontalAlignment="Center" VerticalAlignment="Bottom"  IsChecked="{Binding SelectedController.IsDPadDownPressed, Mode=OneWay}" />
-                        <CheckBox x:Name="CheckboxDPadLeftButton"  HorizontalAlignment="Left" VerticalAlignment="Center"  IsChecked="{Binding SelectedController.IsDPadLeftPressed, Mode=OneWay}" />
-                        <CheckBox x:Name="CheckboxDPadRightButton"  HorizontalAlignment="Right" VerticalAlignment="Center"  IsChecked="{Binding SelectedController.IsDPadRightPressed, Mode=OneWay}" />
+                        <CheckBox x:Name="CheckboxDPadUpButton"  HorizontalAlignment="Center" VerticalAlignment="Top"  IsChecked="{Binding SelectedController.IsDPadUpPressed, Mode=OneWay}" IsEnabled="False" />
+                        <CheckBox x:Name="CheckboxDPadDownButton"   HorizontalAlignment="Center" VerticalAlignment="Bottom"  IsChecked="{Binding SelectedController.IsDPadDownPressed, Mode=OneWay}" IsEnabled="False" />
+                        <CheckBox x:Name="CheckboxDPadLeftButton"  HorizontalAlignment="Left" VerticalAlignment="Center"  IsChecked="{Binding SelectedController.IsDPadLeftPressed, Mode=OneWay}" IsEnabled="False" />
+                        <CheckBox x:Name="CheckboxDPadRightButton"  HorizontalAlignment="Right" VerticalAlignment="Center"  IsChecked="{Binding SelectedController.IsDPadRightPressed, Mode=OneWay}" IsEnabled="False" />
                     </Grid>
                 </Grid>
 
-                <Grid Grid.Column="1" MinWidth="200">
+                <Grid Grid.Row="0" Grid.Column="1" MinWidth="200">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
@@ -224,7 +218,7 @@
                     <ProgressBar Grid.Row="11"  Minimum="0" Maximum="255" Value="{Binding SelectedController.RightTrigger, Mode=OneWay}" />
                 </Grid>
 
-                <Grid Grid.Row="2" Grid.ColumnSpan="4">
+                <Grid Grid.Row="2" Grid.ColumnSpan="4" Grid.Column="0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="auto" />
@@ -237,21 +231,21 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Grid.Row="1">Vibration Motors</TextBlock>
-                    <TextBlock Grid.Column="1">Left Motor</TextBlock>
-                    <TextBlock Grid.Column="2">Right Motor</TextBlock>
+                    <TextBlock Grid.Row="0" Grid.Column="1">Left Motor</TextBlock>
+                    <TextBlock Grid.Row="0" Grid.Column="2">Right Motor</TextBlock>
                     <Button Style="{StaticResource WindowButtonStyle}" BorderBrush="Transparent" Grid.Column="3" Grid.Row="1" Content="Send" Click="SendVibration_Click" />
                     <Slider Margin="2" Grid.Column="1"  Grid.Row="1" VerticalAlignment="Center" Minimum="0" Maximum="1"  x:Name="LeftMotorSpeed" />
                     <Slider Margin="2" Grid.Column="2"  Grid.Row="1" VerticalAlignment="Center" Minimum="0" Maximum="1" x:Name="RightMotorSpeed" />
                 </Grid>
 
-                <Grid Grid.Row="3" Grid.ColumnSpan="4">
+                <Grid Grid.Row="3" Grid.ColumnSpan="4" Grid.Column="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Text="Battery Info:" />
-                    <TextBlock  Grid.Column="1" Text="{Binding SelectedController.BatteryInformationGamepad}" />
+                    <TextBlock Grid.Column="1" Text="{Binding SelectedController.BatteryInformationGamepad}" />
                 </Grid>
             </Grid>
         </Grid>
