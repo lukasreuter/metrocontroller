@@ -109,7 +109,6 @@
     </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="WindowsInput\InputBuilder.cs" />
-    <Compile Include="WindowsInput\InputSimulator.cs" />
     <Compile Include="WindowsInput\KeyboardSimulator.cs" />
     <Compile Include="WindowsInput\MouseButton.cs" />
     <Compile Include="WindowsInput\MouseSimulator.cs" />
