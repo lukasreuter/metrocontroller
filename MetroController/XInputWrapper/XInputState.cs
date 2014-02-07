@@ -59,7 +59,6 @@ namespace MetroController.XInputWrapper {
             return !(a == b);
         }
 
-        // TODO: Implement this correctly
         /// <summary>
         /// Generates a gamepad unique hashcode
         /// </summary>

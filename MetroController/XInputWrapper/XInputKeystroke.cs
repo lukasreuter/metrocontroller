@@ -55,9 +55,9 @@ namespace MetroController.XInputWrapper {
         // override object.GetHashCode
         public override int GetHashCode()
         {
-            // TODO: write your implementation of GetHashCode() here
-            //throw new NotImplementedException();
-            return base.GetHashCode();
+            // ReSharper disable NonReadonlyFieldInGetHashCode
+            return (base.GetHashCode() + UserIndex + HidCode);
+            // ReSharper restore NonReadonlyFieldInGetHashCode
         }
 
         public static bool operator ==(XInputKeystroke a, XInputKeystroke b)

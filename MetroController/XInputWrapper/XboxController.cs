@@ -41,12 +41,12 @@ namespace MetroController.XInputWrapper {
         public bool IsConnected { get; private set; }
 
         /// <summary>General Information about the controller battery (type and charge level)</summary>
-        internal XInputBatteryInformation BatteryInformationGamepad { get; set; }
+        public XInputBatteryInformation BatteryInformationGamepad { get; set; }
 
         /// <summary>General information about the controller-connected Headset battery (type and charge level)</summary>
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         // ReSharper disable once UnusedAutoPropertyAccessor.Global
-        internal XInputBatteryInformation BatteryInformationHeadset { get; set; }
+        public XInputBatteryInformation BatteryInformationHeadset { get; set; }
 
         /// <summary>Maximum number of controllers that are supported</summary>
         private const int MAX_CONTROLLER_COUNT = 4;
@@ -266,6 +266,7 @@ namespace MetroController.XInputWrapper {
             if (_gamepadStateCurrent.PacketNumber != _gamepadStatePrev.PacketNumber) {
                 OnStateChanged();
             }
+            //TODO: call onstatechanged if controller disconnects or if dpad or stick is pressed continously
             _gamepadStatePrev.Copy(_gamepadStateCurrent);
 
             if (!_stopMotorTimerActive || (DateTime.Now < _stopMotorTime)) return this;

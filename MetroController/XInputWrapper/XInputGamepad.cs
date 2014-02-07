@@ -56,11 +56,12 @@ namespace MetroController.XInputWrapper {
         /// Checks if a certain button exists on the gamepad
         /// </summary>
         /// <param name="buttonFlags">The specific flag to test for <see cref="ButtonFlags"/></param>
+        /// <param name="controllerIndex">The index of the controller that should be tested</param>
         /// <returns>True if the specified button exists</returns>
-        public bool IsButtonPresent(int buttonFlags)
+        public bool IsButtonPresent(int buttonFlags, int controllerIndex = 0)
         {
-            //TODO: check the capability of the controller and return the result based on that
-            return IsButtonPressed(buttonFlags);
+            var cap = XboxController.RetrieveController(controllerIndex).GetCapabilities();
+            return (cap.Gamepad.wButtons & buttonFlags) == buttonFlags;
         }
 
         /// <summary>
