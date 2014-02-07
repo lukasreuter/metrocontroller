@@ -87,8 +87,6 @@ namespace MetroController {
 
         private readonly NotifyIcon _ni;
 
-        private readonly InputSimulator _sim = InputSimulator.Instance;
-
         //Methods--------------------------------------------------------------
 
         /// <summary>
@@ -149,11 +147,11 @@ namespace MetroController {
             if (IdlePolling) goto Exit;
 
             //call metro themed startmenu
-            if (SelectedController.IsGuidePressed && _sim.InputDeviceState.IsKeyUp(LWIN)) {
-                _sim.Keyboard.KeyDown(LWIN);
-            } else if (!SelectedController.IsGuidePressed && _sim.InputDeviceState.IsKeyDown(LWIN)) {
+            if (SelectedController.IsGuidePressed && InputDeviceStateAdaptor.IsKeyUp(LWIN)) {
+                KeyboardSimulator.Instance.KeyDown(LWIN);
+            } else if (!SelectedController.IsGuidePressed && InputDeviceStateAdaptor.IsKeyDown(LWIN)) {
                 //Play sound here
-                _sim.Keyboard.KeyUp(LWIN);
+                KeyboardSimulator.Instance.KeyUp(LWIN);
                 goto Finish;
             }
 
@@ -204,19 +202,19 @@ namespace MetroController {
         {
             // D-Pad Down
             if (SelectedController.IsDPadDownPressed) {
-                if (_sim.InputDeviceState.IsKeyDown(RWIN)) {
-                    if (_sim.InputDeviceState.IsKeyUp(TAB)) {
-                        _sim.Keyboard.KeyDown(TAB);
+                if (InputDeviceStateAdaptor.IsKeyDown(RWIN)) {
+                    if (InputDeviceStateAdaptor.IsKeyUp(TAB)) {
+                        KeyboardSimulator.Instance.KeyDown(TAB);
                     }
                 } else {
-                    if (_sim.InputDeviceState.IsKeyUp(DOWN)) {
-                        _sim.Keyboard.KeyDown(DOWN);
+                    if (InputDeviceStateAdaptor.IsKeyUp(DOWN)) {
+                        KeyboardSimulator.Instance.KeyDown(DOWN);
                     }
                 }
-            } else if (_sim.InputDeviceState.IsKeyDown(RWIN) && _sim.InputDeviceState.IsKeyDown(TAB)) {
-                _sim.Keyboard.KeyUp(TAB);
-            } else if (_sim.InputDeviceState.IsKeyDown(DOWN)) {
-                _sim.Keyboard.KeyUp(DOWN);
+            } else if (InputDeviceStateAdaptor.IsKeyDown(RWIN) && InputDeviceStateAdaptor.IsKeyDown(TAB)) {
+                KeyboardSimulator.Instance.KeyUp(TAB);
+            } else if (InputDeviceStateAdaptor.IsKeyDown(DOWN)) {
+                KeyboardSimulator.Instance.KeyUp(DOWN);
             }
         }
 
@@ -225,19 +223,19 @@ namespace MetroController {
         {
             // D-Pad Up
             if (SelectedController.IsDPadUpPressed) {
-                if (_sim.InputDeviceState.IsKeyDown(RWIN)) {
-                    if (_sim.InputDeviceState.IsKeyUp(TAB)) {
-                        _sim.Keyboard.KeyDown(SHIFT).KeyDown(TAB).KeyUp(SHIFT);
+                if (InputDeviceStateAdaptor.IsKeyDown(RWIN)) {
+                    if (InputDeviceStateAdaptor.IsKeyUp(TAB)) {
+                        KeyboardSimulator.Instance.KeyDown(SHIFT).KeyDown(TAB).KeyUp(SHIFT);
                     }
                 } else {
-                    if (_sim.InputDeviceState.IsKeyUp(UP)) {
-                        _sim.Keyboard.KeyDown(UP);
+                    if (InputDeviceStateAdaptor.IsKeyUp(UP)) {
+                        KeyboardSimulator.Instance.KeyDown(UP);
                     }
                 }
-            } else if (_sim.InputDeviceState.IsKeyDown(RWIN) && _sim.InputDeviceState.IsKeyDown(TAB)) {
-                _sim.Keyboard.KeyUp(TAB).KeyUp(SHIFT).Sleep(100);
-            } else if (_sim.InputDeviceState.IsKeyDown(UP)) {
-                _sim.Keyboard.KeyUp(UP).KeyUp(SHIFT);
+            } else if (InputDeviceStateAdaptor.IsKeyDown(RWIN) && InputDeviceStateAdaptor.IsKeyDown(TAB)) {
+                KeyboardSimulator.Instance.KeyUp(TAB).KeyUp(SHIFT).Sleep(100);
+            } else if (InputDeviceStateAdaptor.IsKeyDown(UP)) {
+                KeyboardSimulator.Instance.KeyUp(UP).KeyUp(SHIFT);
             }
         }
 
@@ -245,10 +243,10 @@ namespace MetroController {
         private void DLeft()
         {
             // D-Pad Left
-            if (SelectedController.IsDPadLeftPressed && _sim.InputDeviceState.IsKeyUp(LEFT)) {
-                _sim.Keyboard.KeyDown(LEFT);
-            } else if (!SelectedController.IsDPadLeftPressed && _sim.InputDeviceState.IsKeyDown(LEFT)) {
-                _sim.Keyboard.KeyUp(LEFT);
+            if (SelectedController.IsDPadLeftPressed && InputDeviceStateAdaptor.IsKeyUp(LEFT)) {
+                KeyboardSimulator.Instance.KeyDown(LEFT);
+            } else if (!SelectedController.IsDPadLeftPressed && InputDeviceStateAdaptor.IsKeyDown(LEFT)) {
+                KeyboardSimulator.Instance.KeyUp(LEFT);
             }
         }
 
@@ -256,10 +254,10 @@ namespace MetroController {
         private void DRight()
         {
             // D-Pad Right
-            if (SelectedController.IsDPadRightPressed && _sim.InputDeviceState.IsKeyUp(RIGHT)) {
-                _sim.Keyboard.KeyDown(RIGHT);
-            } else if (!SelectedController.IsDPadRightPressed && _sim.InputDeviceState.IsKeyDown(RIGHT)) {
-                _sim.Keyboard.KeyUp(RIGHT);
+            if (SelectedController.IsDPadRightPressed && InputDeviceStateAdaptor.IsKeyUp(RIGHT)) {
+                KeyboardSimulator.Instance.KeyDown(RIGHT);
+            } else if (!SelectedController.IsDPadRightPressed && InputDeviceStateAdaptor.IsKeyDown(RIGHT)) {
+                KeyboardSimulator.Instance.KeyUp(RIGHT);
             }
         }
 
@@ -267,10 +265,10 @@ namespace MetroController {
         private void AButton()
         {
             // A Button: ENTER
-            if (SelectedController.IsAPressed && _sim.InputDeviceState.IsKeyUp(RETURN)) {
-                _sim.Keyboard.KeyDown(RETURN);
-            } else if (!SelectedController.IsAPressed && _sim.InputDeviceState.IsKeyDown(RETURN)) {
-                _sim.Keyboard.KeyUp(RETURN);
+            if (SelectedController.IsAPressed && InputDeviceStateAdaptor.IsKeyUp(RETURN)) {
+                KeyboardSimulator.Instance.KeyDown(RETURN);
+            } else if (!SelectedController.IsAPressed && InputDeviceStateAdaptor.IsKeyDown(RETURN)) {
+                KeyboardSimulator.Instance.KeyUp(RETURN);
             }
         }
 
@@ -278,10 +276,10 @@ namespace MetroController {
         private void BButton()
         {
             // B Button: WIN+TAB (Switch between apps)
-            if (SelectedController.IsBPressed && _sim.InputDeviceState.IsKeyUp(RWIN)) {
-                _sim.Keyboard.KeyDown(RWIN).KeyPress(TAB).Sleep(100);
-            } else if (!SelectedController.IsBPressed && _sim.InputDeviceState.IsKeyDown(RWIN)) {
-                _sim.Keyboard.KeyUp(RWIN);
+            if (SelectedController.IsBPressed && InputDeviceStateAdaptor.IsKeyUp(RWIN)) {
+                KeyboardSimulator.Instance.KeyDown(RWIN).KeyPress(TAB).Sleep(100);
+            } else if (!SelectedController.IsBPressed && InputDeviceStateAdaptor.IsKeyDown(RWIN)) {
+                KeyboardSimulator.Instance.KeyUp(RWIN);
             }
         }
 
@@ -301,30 +299,30 @@ namespace MetroController {
         private void XButton()
         {
             // X Button: Context menu button
-            if (SelectedController.IsXPressed && _sim.InputDeviceState.IsKeyUp(MENU)) {
-                _sim.Keyboard.KeyDown(MENU);
-            } else if (!SelectedController.IsXPressed && _sim.InputDeviceState.IsKeyDown(MENU)) {
-                _sim.Keyboard.KeyUp(MENU);
+            if (SelectedController.IsXPressed && InputDeviceStateAdaptor.IsKeyUp(MENU)) {
+                KeyboardSimulator.Instance.KeyDown(MENU);
+            } else if (!SelectedController.IsXPressed && InputDeviceStateAdaptor.IsKeyDown(MENU)) {
+                KeyboardSimulator.Instance.KeyUp(MENU);
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void LeftShoulderButton()
         {
-            if (SelectedController.IsLeftShoulderPressed && _sim.InputDeviceState.IsKeyUp(VirtualKeyCode.LBUTTON)) {
-                _sim.Mouse.LeftButtonDown();
-            } else if (!SelectedController.IsLeftShoulderPressed && _sim.InputDeviceState.IsKeyDown(VirtualKeyCode.LBUTTON)) {
-                _sim.Mouse.LeftButtonUp();
+            if (SelectedController.IsLeftShoulderPressed && InputDeviceStateAdaptor.IsKeyUp(VirtualKeyCode.LBUTTON)) {
+                MouseSimulator.LeftButtonDown();
+            } else if (!SelectedController.IsLeftShoulderPressed && InputDeviceStateAdaptor.IsKeyDown(VirtualKeyCode.LBUTTON)) {
+                MouseSimulator.LeftButtonUp();
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void RightShoulderButton()
         {
-            if (SelectedController.IsRightShoulderPressed && _sim.InputDeviceState.IsKeyUp(VirtualKeyCode.RBUTTON)) {
-                _sim.Mouse.RightButtonDown();
-            } else if (!SelectedController.IsRightShoulderPressed && _sim.InputDeviceState.IsKeyDown(VirtualKeyCode.RBUTTON)) {
-                _sim.Mouse.RightButtonUp();
+            if (SelectedController.IsRightShoulderPressed && InputDeviceStateAdaptor.IsKeyUp(VirtualKeyCode.RBUTTON)) {
+                MouseSimulator.RightButtonDown();
+            } else if (!SelectedController.IsRightShoulderPressed && InputDeviceStateAdaptor.IsKeyDown(VirtualKeyCode.RBUTTON)) {
+                MouseSimulator.RightButtonUp();
             }
         }
 
@@ -344,7 +342,7 @@ namespace MetroController {
                 y = 10;
             }
             if (x != 0 || y != 0) {
-                _sim.Mouse.MoveMouseBy(x, y);
+                MouseSimulator.MoveMouseBy(x, y);
             }
         }
 
@@ -352,8 +350,8 @@ namespace MetroController {
         private void StartButton()
         {
             // Start Button: WIN+C (Charmbar)
-            if (SelectedController.IsStartPressed && _sim.InputDeviceState.IsKeyUp(C_KEY) && _sim.InputDeviceState.IsKeyUp(LWIN)) {
-                _sim.Keyboard.KeyDown(LWIN).KeyPress(C_KEY).KeyUp(LWIN).Sleep(100);
+            if (SelectedController.IsStartPressed && InputDeviceStateAdaptor.IsKeyUp(C_KEY) && InputDeviceStateAdaptor.IsKeyUp(LWIN)) {
+                KeyboardSimulator.Instance.KeyDown(LWIN).KeyPress(C_KEY).KeyUp(LWIN).Sleep(100);
             }
         }
 
