@@ -47,9 +47,8 @@ This project uses the MIT License
  - make the layout prettier
  - Wireless: query batteryinfo only every odd/x cycles of updating when polling is started, to save some performance (battery info arent changing that often)
  - Add mouse controls
- - write a new Tostring method for XInputState
- - write more comments/add summaries for private methods/fields
  - use XInputCapabilties for the correct result of IsButtonPresent
  - make left and right during RWIN+TAB snap the currently highlighted/seleted window to the left/right
- - make dpad inputs repeated presses (e.g. when holding left on the keyboard your cursor moves until keyup, but on the controler it currently does not)
+ - make dpad inputs repeated presses (e.g. when holding left on the keyboard your cursor moves until keyup, but on the controler it currently does not) (does not work because we only get the callback that the input changed once so there is no continous input)
  - make the toast notification work
+ - make it autostart with windows
