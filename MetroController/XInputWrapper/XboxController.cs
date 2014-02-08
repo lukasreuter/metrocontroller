@@ -90,7 +90,7 @@ namespace MetroController.XInputWrapper {
         /// <summary>
         /// Called from UpdateState when a controller has differing packetnumbers
         /// </summary>
-        protected void OnStateChanged()
+        private void OnStateChanged()
         {
             if (StateChanged != null) {
                 StateChanged(this, new XboxControllerStateChangedEventArgs { CurrentInputState = _gamepadStateCurrent, PreviousInputState = _gamepadStatePrev });
@@ -281,7 +281,7 @@ namespace MetroController.XInputWrapper {
         /// <summary>
         /// Updates the state of the controller and headset battery
         /// </summary>
-        public void UpdateBatteryState()
+        private void UpdateBatteryState()
         {
             var headset = new XInputBatteryInformation();
             var gamepad = new XInputBatteryInformation();
