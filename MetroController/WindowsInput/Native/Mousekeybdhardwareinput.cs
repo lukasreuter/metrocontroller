@@ -18,6 +18,7 @@ namespace MetroController.WindowsInput.Native {
         /// <summary>
         /// The <see cref="Keybdinput"/> definition.
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         [FieldOffset(0)]
         internal Keybdinput Keyboard;
 
