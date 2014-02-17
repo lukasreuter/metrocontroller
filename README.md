@@ -2,10 +2,10 @@
 
 ## Introduction
 
-When i first tried out Windows 8.1 i was a little bit dissapointed that it didn't support the Xbox360 controller for PC to navigating the new "Metro UI".
-This little programm tries to remedy that and provides an easy way to control your PC with a XInput capable controller.
-While it is not intended to be used to input text, the most likely scenario would be an gameing rig or an multimedia inhouse box.
-Ps. Yes i am well aware that Steam Big Picture mode does alot of things this app does, but it does not provide an way to interface with the metro apps of windows.
+When i first tried out Windows 8.1 i was a little bit disappointed that it didn't support the Xbox360 controller for PC to navigating the new "Metro UI".
+This little program tries to remedy that and provides an easy way to control your PC with a XInput capable controller.
+While it is not intended to be used to input text, the most likely scenario would be a gaming rig or a in-house multimedia/streaming box.
+Ps. Yes i am well aware that Steam Big Picture mode does a lot of things this app does, but it does not provide a convenient way to interface with the metro apps of windows.
 
 
 ## Checking out the Source
@@ -40,15 +40,14 @@ J2i.Net.XInputWrapper.dll (1.0.0.0) - XInput Wrapper by Joel Ivory Johnson (http
 This project uses the MIT License
 
 
-## Todo:
+## To-do:
  - Need to find a better way to check if metro apps are running
- - Need to detect if fullscreen apps are running and disable the polling
+ - Need to detect if full-screen apps are running and disable the polling
  - Make buttons/shortcuts customizable
  - make the layout prettier
- - Wireless: query batteryinfo only every odd/x cycles of updating when polling is started, to save some performance (battery info arent changing that often)
+ - Wireless: query battery info only every odd/x cycles of updating when polling is started, to save some performance (battery info aren't changing that often)
  - Add mouse controls
- - use XInputCapabilties for the correct result of IsButtonPresent
- - make left and right during RWIN+TAB snap the currently highlighted/seleted window to the left/right
- - make dpad inputs repeated presses (e.g. when holding left on the keyboard your cursor moves until keyup, but on the controler it currently does not) (does not work because we only get the callback that the input changed once so there is no continous input)
+ - make left and right during RWIN+TAB snap the currently highlighted/selected window to the left/right
+ - make dpad inputs repeated presses (e.g. when holding left on the keyboard your cursor moves until key-up, but on the controller it currently does not) (does not work because we only get the callback that the input changed once so there is no continuous input)
  - make the toast notification work
  - make it autostart with windows
