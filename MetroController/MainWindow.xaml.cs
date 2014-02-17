@@ -64,8 +64,6 @@ namespace MetroController {
 
         private const string APP_ID = "org.XInput.MetroController";
 
-        private const string TOOL_TIP = "MetroController";
-
         #region Virtual Key Codes Constants
 
         private const VirtualKeyCode RWIN = VirtualKeyCode.RWIN;
@@ -103,7 +101,7 @@ namespace MetroController {
             //Initialize the System Tray Notification icon
             // ReSharper disable once UseObjectOrCollectionInitializer
             _ni = new NotifyIcon();
-            _ni.Text = TOOL_TIP;
+            _ni.Text = Properties.Resources.MainWindow_Tooltip;
             _ni.Icon = new Icon(Tools.GetResource("TrayIcon.ico"));
             _ni.Click += (sender, args) => Maximize();
             _ni.ContextMenu = new ContextMenu();

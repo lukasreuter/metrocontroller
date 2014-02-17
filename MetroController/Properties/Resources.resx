@@ -129,4 +129,7 @@
   <data name="Tools_Dbg___" xml:space="preserve">
     <value> #</value>
   </data>
+  <data name="MainWindow_Tooltip" xml:space="preserve">
+    <value>MetroController</value>
+  </data>
 </root>
