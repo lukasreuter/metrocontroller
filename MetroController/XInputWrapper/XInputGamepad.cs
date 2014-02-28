@@ -58,8 +58,11 @@ namespace MetroController.XInputWrapper {
         /// <param name="buttonFlags">The specific flag to test for <see cref="ButtonFlags"/></param>
         /// <param name="controllerIndex">The index of the controller that should be tested</param>
         /// <returns>True if the specified button exists</returns>
+        // ReSharper disable once UnusedMember.Global
         public bool IsButtonPresent(int buttonFlags, int controllerIndex = 0)
         {
+            if (IsButtonPressed(buttonFlags)) return true;
+
             var cap = XboxController.RetrieveController(controllerIndex).GetCapabilities();
             return (cap.Gamepad.wButtons & buttonFlags) == buttonFlags;
         }
