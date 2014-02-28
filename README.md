@@ -10,12 +10,15 @@ Ps. Yes i am well aware that Steam Big Picture mode does a lot of things this ap
 
 ## Checking out the Source
 
+``` sh
 git clone https://luxxuor@bitbucket.org/luxxuor/metrocontroller.git
+```
 
 or
 
+``` sh
 git clone https://github.com/Luxxuor/metrocontroller.git
-
+```
 
 ## Building
 
@@ -28,16 +31,16 @@ You will find the the output in "{pathtotheclonedfolder}/MetroController/bin/Rel
 
 This project integrates the source code of the following libraries:
 
-WindowsInput.dll (0.2.0.0) - Windows Input Simulator by Micheal Noonan (https://inputsimulator.codeplex.com/
-																		https://github.com/michaelnoonan/inputsimulator)
+*WindowsInput.dll* (0.2.0.0) - Windows Input Simulator by Micheal Noonan ([Project on Codeplex](https://inputsimulator.codeplex.com/)
+																		  [Source on Github](https://github.com/michaelnoonan/inputsimulator))
 
-J2i.Net.XInputWrapper.dll (1.0.0.0) - XInput Wrapper by Joel Ivory Johnson (http://www.j2i.net/blogEngine/post/2012/11/11/Using-XInput-to-access-an-Xbox-360-Controller-in-Managed-Code.aspx
-																			https://twitter.com/j2inet)
+*J2i.Net.XInputWrapper.dll* (1.0.0.0) - XInput Wrapper by Joel Ivory Johnson ([Source](http://www.j2i.net/blogEngine/post/2012/11/11/Using-XInput-to-access-an-Xbox-360-Controller-in-Managed-Code.aspx)
+																			  [Twitter](https://twitter.com/j2inet))
 
 
 ## Licenses
 
-This project uses the MIT License
+This project uses the MIT License. See the the `LICENSE` file for further information.
 
 
 ## To-do:
