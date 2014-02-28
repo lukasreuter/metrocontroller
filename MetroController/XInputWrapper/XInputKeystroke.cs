@@ -11,33 +11,32 @@ namespace MetroController.XInputWrapper {
         [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         [MarshalAs(UnmanagedType.I2)]
         [FieldOffset(0)]
-        internal short VirtualKey;
+        private readonly short VirtualKey;
 
         /// <summary>The virtualkey code in unicode representation</summary>
         [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         [MarshalAs(UnmanagedType.I2)]
         [FieldOffset(2)]
-        internal char Unicode;
+        private readonly char Unicode;
 
         /// <summary>Misc input flags</summary>
         [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         [MarshalAs(UnmanagedType.I2)]
         [FieldOffset(4)]
-        internal short Flags;
+        private readonly short Flags;
 
         /// <summary>The index of the gamepad</summary>
         [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         [MarshalAs(UnmanagedType.I2)]
         [FieldOffset(5)]
-        internal byte UserIndex;
+        private readonly byte UserIndex;
 
         /// <summary>Human Identifier Device code of the gamepad</summary>
         [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         [MarshalAs(UnmanagedType.I1)]
         [FieldOffset(6)]
-        internal byte HidCode;
+        private readonly byte HidCode;
 
-        // override object.Equals
         public override bool Equals(object obj)
         {
             if (obj == null || GetType() != obj.GetType()) {
@@ -52,12 +51,9 @@ namespace MetroController.XInputWrapper {
                     (HidCode == source.HidCode));
         }
 
-        // override object.GetHashCode
         public override int GetHashCode()
         {
-            // ReSharper disable NonReadonlyFieldInGetHashCode
             return (base.GetHashCode() + UserIndex + HidCode);
-            // ReSharper restore NonReadonlyFieldInGetHashCode
         }
 
         public static bool operator ==(XInputKeystroke a, XInputKeystroke b)
