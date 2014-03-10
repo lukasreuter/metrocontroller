@@ -46,6 +46,7 @@ namespace MetroController.XInputWrapper {
         /// <summary>General information about the controller-connected Headset battery (type and charge level)</summary>
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         // ReSharper disable once UnusedAutoPropertyAccessor.Global
+        // ReSharper disable once MemberCanBePrivate.Global
         public XInputBatteryInformation BatteryInformationHeadset { get; set; }
 
         /// <summary>Maximum number of controllers that are supported</summary>
@@ -267,6 +268,7 @@ namespace MetroController.XInputWrapper {
                 OnStateChanged();
             }
             //TODO: call onstatechanged if controller disconnects or if dpad or stick is pressed continously
+            //(idea: add an bool wakelock to this class and when activated we check if sticks are not in neutral pos and call onstatechanged)
             _gamepadStatePrev.Copy(_gamepadStateCurrent);
 
             if (!_stopMotorTimerActive || (DateTime.Now < _stopMotorTime)) return this;

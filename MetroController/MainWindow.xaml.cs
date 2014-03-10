@@ -81,6 +81,7 @@ namespace MetroController {
         #endregion Virtual Key Codes Constants
 
         // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
+        // ReSharper disable once FieldCanBeMadeReadOnly.Local
         private bool _controllersConnected;
 
         private readonly NotifyIcon _ni;
