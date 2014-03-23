@@ -211,7 +211,7 @@ namespace MetroController.WindowsInput {
         {
             var scroll = new Input { Type = (uint) InputType.Mouse };
             scroll.Data.Mouse.Flags = (uint) MouseFlag.VerticalWheel;
-            scroll.Data.Mouse.MouseData = (uint) scrollAmount;
+            scroll.Data.Mouse.MouseData = scrollAmount;
 
             _inputList.Add(scroll);
 
