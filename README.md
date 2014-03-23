@@ -13,6 +13,7 @@ Ps. Yes i am well aware that Steam Big Picture mode does a lot of things this ap
 Double Left Mouse Click on the Trayicon opens the diagnostics panel, right clicking it closes the program.
 
 Controller Layout:
+
  - *A Button:* simulates Enter press
  - *B Button:* Tapping switches to last used app, holding shows appchooser (simulates WIN+TAB press)
  - *X Button:* Shows context menu
