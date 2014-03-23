@@ -123,6 +123,9 @@ namespace MetroController.XInputWrapper {
         /// <summary>Right thumb stick deadzone</summary>
         public const int XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE = 8689;
 
+        /// <summary>The maximum value that the gamepad sticks can return/// </summary>
+        public const int XINPUT_GAMEPAD_MAX_INPUT = 32767;
+
         /// <summary>left and right trigger pressure treshold</summary>
         public const int XINPUT_GAMEPAD_TRIGGER_THRESHOLD = 30;
 
