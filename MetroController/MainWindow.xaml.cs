@@ -167,6 +167,8 @@ namespace MetroController {
                 RightStick();
 
                 StartButton();
+
+                LeftTrigger(); RightTrigger();
             }
 
             //Main window is hidden so we dont have to waste resources to update the layout
@@ -178,6 +180,8 @@ namespace MetroController {
             // ReSharper disable once RedundantJumpStatement
             return;
         }
+
+
 
         #region Button checks
 
@@ -329,20 +333,32 @@ namespace MetroController {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void RightStick()
         {
-            var x = 0;
-            var y = 0;
+            var deltaX = 0;
+            var deltaY = 0;
+
+            var xfactor = (float) Math.Abs(Math.Abs(SelectedController.RightThumbStick.X) - XInputConstants.XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE)
+                                / (XInputConstants.XINPUT_GAMEPAD_MAX_INPUT - XInputConstants.XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE);
+
+            var yfactor = (float) Math.Abs(Math.Abs(SelectedController.RightThumbStick.Y) - XInputConstants.XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE)
+                                / (XInputConstants.XINPUT_GAMEPAD_MAX_INPUT - XInputConstants.XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE);
+
             if (SelectedController.RightThumbStick.X > XInputConstants.XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) {
-                x = 10;
+                //deltaX = 10;
+                deltaX = (int) (Screen.PrimaryScreen.Bounds.Width * xfactor * 0.015);
             } else if (SelectedController.RightThumbStick.X < (XInputConstants.XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE * -1)) {
-                x = -10;
+                //deltaX = -10;
+                deltaX = (int) -(Screen.PrimaryScreen.Bounds.Width * xfactor * 0.015);
             }
+
             if (SelectedController.RightThumbStick.Y > XInputConstants.XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) {
-                y = -10;
+                //deltaY = -10;
+                deltaY = (int) -(Screen.PrimaryScreen.Bounds.Height * yfactor * 0.015);
             } else if (SelectedController.RightThumbStick.Y < (XInputConstants.XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE * -1)) {
-                y = 10;
+                //deltaY = 10;
+                deltaY = (int) (Screen.PrimaryScreen.Bounds.Height * yfactor * 0.015);
             }
-            if (x != 0 || y != 0) {
-                MouseSimulator.MoveMouseBy(x, y);
+            if (deltaX != 0 || deltaY != 0) {
+                MouseSimulator.MoveMouseBy(deltaX, deltaY);
             }
         }
 
@@ -354,6 +370,23 @@ namespace MetroController {
                 KeyboardSimulator.Instance.KeyDown(LWIN).KeyPress(C_KEY).KeyUp(LWIN).Sleep(100);
             }
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void LeftTrigger()
+        {
+            if (SelectedController.LeftTrigger > XInputConstants.XINPUT_GAMEPAD_TRIGGER_THRESHOLD) {
+                MouseSimulator.VerticalScroll(+1);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void RightTrigger()
+        {
+            if (SelectedController.RightTrigger > XInputConstants.XINPUT_GAMEPAD_TRIGGER_THRESHOLD) {
+                MouseSimulator.VerticalScroll(-1);
+            }
+        }
+
 
         #endregion Button checks
 
