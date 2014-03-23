@@ -41,16 +41,3 @@ This project integrates the source code of the following libraries:
 ## Licenses
 
 This project uses the MIT License. See the the `LICENSE` file for further information.
-
-
-## To-do:
- - Need to find a better way to check if metro apps are running
- - Need to detect if full-screen apps are running and disable the polling
- - Make buttons/shortcuts customizable
- - make the layout prettier
- - Wireless: query battery info only every odd/x cycles of updating when polling is started, to save some performance (battery info aren't changing that often)
- - Add mouse controls
- - make left and right during RWIN+TAB snap the currently highlighted/selected window to the left/right
- - make dpad inputs repeated presses (e.g. when holding left on the keyboard your cursor moves until key-up, but on the controller it currently does not) (does not work because we only get the callback that the input changed once so there is no continuous input)
- - make the toast notification work
- - make it autostart with windows
